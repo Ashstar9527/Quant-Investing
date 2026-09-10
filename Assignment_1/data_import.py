@@ -81,6 +81,8 @@ if missing_symbols:
     print(f"\n*** DROPPED — no data returned at all: {missing_symbols} ***")
 
 prices.index = pd.to_datetime(prices.index)
+prices.index = prices.index + pd.offsets.MonthEnd(0) # adjust the labeling to the end of the month
+print(prices.index[:3])
 print(f"Raw panel shape: {prices.shape}")
 
 # ---------------------------------------------------------------
