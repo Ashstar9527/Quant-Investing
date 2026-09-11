@@ -22,7 +22,6 @@ from openpyxl.formatting.rule import ColorScaleRule
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Font, Alignment, PatternFill
 
-# ---- EDIT THIS to the path of your file on your own machine ----
 SRC = "portfolio.xlsx"
 OUT = "portfolio.xlsx"  # overwrite in place
 
