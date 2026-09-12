@@ -1,5 +1,5 @@
 # Question (d)
-We test the null hypothesis \(H_0: \mu = 0\) for each equal-weighted portfolio. Since the population variance is unknown and estimated using the sample standard deviation, the test statistic follows a Student's t-distribution with \(T-1 = 199\) degrees of freedom.
+We test the null hypothesis for each equal-weighted portfolio. Since the population variance is unknown and estimated using the sample standard deviation, the test statistic follows a Student's t-distribution with \(T-1 = 199\) degrees of freedom.
 
 | Portfolio | Mean Monthly Return | t-statistic | p-value | Conclusion |
 |---|---:|---:|---:|---|
