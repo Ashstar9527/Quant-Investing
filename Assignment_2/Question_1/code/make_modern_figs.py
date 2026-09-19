@@ -161,4 +161,10 @@ for tag, src in [("d", "multivariate normal draws"),
     fig.savefig(f"{OUT}/q1{tag}_{'normal_clouds' if tag=='d' else 'bootstrap_clouds'}.png")
     plt.close(fig)
 
+# ChatGPT's own chart is reproduced in the report, so it must be visible to
+# template2 as well; it is not regenerated, only copied.
+import shutil
+shutil.copyfile(dl.ROOT / "ai_integration" / "chatgpt_simulation_chart.png",
+                dl.MODERN_FIGS / "chatgpt_simulation_chart.png")
+
 print(f"wrote {len(os.listdir(OUT))} figures to {dl.MODERN_FIGS.relative_to(dl.ROOT)}/")

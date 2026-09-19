@@ -1,231 +1,231 @@
 #!/usr/bin/env python3
-"""Monte Carlo resampling study for MVP and tangency portfolios.
+"""Parametric Monte Carlo estimation-error experiment for 10 industry portfolios.
 
-For each repetition, this script:
-1. draws T observations from N(mu_hat, Sigma_hat),
-2. estimates MVP and tangency weights from the simulated sample,
-3. applies those weights to the original industry-return matrix, and
-4. records the realized mean and standard deviation on the original data.
+Run:
+  pip install numpy pandas matplotlib openpyxl
+  python industry_portfolio_monte_carlo.py Problem_Set2_2026-1.xlsx --output results
 
-Example
--------
-python industry_portfolio_monte_carlo.py industry_returns.xlsx --reps 1000
+Defaults: 1,000 replications; seed 2026; T equals the original sample length.
+Returns in the supplied workbook are percentages; internal calculations use decimals.
+Short sales are allowed, weights sum to one, and there is no leverage cap.
+The historical mean risk-free rate is held fixed in all replications.
+This is a plug-in parametric experiment, NOT an out-of-sample backtest.
 """
-
-from __future__ import annotations
-
+from pathlib import Path
 import argparse
 import base64
-import io
-from pathlib import Path
-
-import matplotlib.pyplot as plt
+import html
+import json
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 
-def load_industry_returns(path: Path, sheet_name: str = "Industry_returns"):
-    """Locate the header row and return monthly decimal returns and RF series."""
-    preview = pd.read_excel(path, sheet_name=sheet_name, header=None, nrows=60)
-    header_candidates = preview.index[
-        preview.apply(lambda r: r.astype(str).str.strip().eq("Risk-free rate").any(), axis=1)
-    ]
-    if header_candidates.empty:
-        raise ValueError("Could not find a header row containing 'Risk-free rate'.")
-    header_row = int(header_candidates[0])
-
-    raw = pd.read_excel(path, sheet_name=sheet_name, header=header_row)
-    raw = raw.rename(columns={raw.columns[0]: "Date"})
-    raw.columns = [str(c).strip() for c in raw.columns]
-    raw["Date"] = pd.to_numeric(raw["Date"], errors="coerce")
-    raw = raw.dropna(subset=["Date"]).copy()
-    raw["Date"] = raw["Date"].astype(int)
-
-    rf_col = "Risk-free rate"
-    industry_cols = [c for c in raw.columns if c not in {"Date", rf_col}]
-    numeric = raw[industry_cols + [rf_col]].apply(pd.to_numeric, errors="coerce")
-    valid = numeric.notna().all(axis=1)
-    numeric = numeric.loc[valid]
-    dates = raw.loc[valid, "Date"]
-
-    # The workbook stores returns as percentages (e.g., 1.44 means 1.44%).
-    returns = numeric[industry_cols].to_numpy(dtype=float) / 100.0
-    rf = numeric[rf_col].to_numpy(dtype=float) / 100.0
-    return returns, rf, industry_cols, dates
+def load_data(path):
+    raw = pd.read_excel(path, sheet_name='Industry_returns', header=None)
+    headers = raw.index[raw.apply(lambda r: r.astype(str).str.strip().eq('NoDur').any(), axis=1)]
+    if len(headers) != 1:
+        raise ValueError('Cannot uniquely identify industry header row.')
+    h = int(headers[0])
+    names = [str(x).strip() for x in raw.iloc[h, 1:11]]
+    data = raw.iloc[h+1:, :12].copy()
+    data.columns = ['Date'] + names + ['RF']
+    data = data.dropna(how='all').apply(pd.to_numeric, errors='raise')
+    if data.isna().any().any() or data.iloc[:, 1:].isin([-99.99, -999]).any().any():
+        raise ValueError('Missing returns found; choose a documented cleaning policy first.')
+    dates = pd.to_datetime(data.Date.astype(int).astype(str), format='%Y%m')
+    expected = pd.date_range(dates.iloc[0], periods=len(dates), freq='MS')
+    if not np.array_equal(dates.to_numpy(), expected.to_numpy()):
+        raise ValueError('Dates must be unique, chronological and consecutive monthly observations.')
+    return data[names].to_numpy(float)/100, data.RF.to_numpy(float)/100, names, dates
 
 
-def normalized_solution(cov: np.ndarray, vector: np.ndarray) -> np.ndarray:
-    """Compute Sigma^{-1} vector and normalize weights to sum to one."""
-    try:
-        raw = np.linalg.solve(cov, vector)
-    except np.linalg.LinAlgError:
-        raw = np.linalg.pinv(cov) @ vector
-    denom = float(raw.sum())
-    if abs(denom) < 1e-12:
-        raise np.linalg.LinAlgError("Portfolio normalization denominator is near zero.")
-    return raw / denom
+def portfolio_weights(mu, cov, rf):
+    """Use linear solves rather than explicitly inverting covariance matrices."""
+    one = np.ones(len(mu))
+    a = np.linalg.solve(cov, one)
+    b = np.linalg.solve(cov, mu-rf)
+    denominator = b.sum()
+    if abs(denominator) < 1e-12:
+        raise ValueError('Tangency normalization is nearly zero; no draw is silently discarded.')
+    return {'MVP': a/a.sum(), 'Tangency': b/denominator}, denominator
 
 
-def portfolio_weights(sample: np.ndarray, rf_mean: float):
-    mu = sample.mean(axis=0)
-    cov = np.cov(sample, rowvar=False, ddof=1)
-    ones = np.ones(sample.shape[1])
-    mvp = normalized_solution(cov, ones)
-    tangency = normalized_solution(cov, mu - rf_mean * ones)
-    return mvp, tangency
-
-
-def evaluate(actual_returns: np.ndarray, weights: np.ndarray):
-    portfolio_returns = actual_returns @ weights
-    return portfolio_returns.mean(), portfolio_returns.std(ddof=1)
-
-
-def run_simulation(returns: np.ndarray, rf: np.ndarray, reps: int, seed: int):
+def run(path, out, repetitions=1000, seed=2026):
+    if repetitions < 2:
+        raise ValueError('At least two replications are required.')
+    out = Path(out)
+    out.mkdir(parents=True, exist_ok=True)
+    R, rf_series, names, dates = load_data(path)
+    T, N = R.shape
+    mu, cov, rf = R.mean(axis=0), np.cov(R, rowvar=False, ddof=1), rf_series.mean()
+    np.linalg.cholesky(cov)  # Fail explicitly for a non-positive-definite input.
+    reference, reference_denominator = portfolio_weights(mu, cov, rf)
+    if reference_denominator <= 0:
+        raise ValueError('No positive-premium fully invested tangency benchmark under this convention.')
+    baseline = {}
+    for name, w in reference.items():
+        p = R @ w
+        baseline[name] = {'mean': p.mean(), 'volatility': p.std(ddof=1)}
     rng = np.random.default_rng(seed)
-    t_obs, n_assets = returns.shape
-    mu_hat = returns.mean(axis=0)
-    cov_hat = np.cov(returns, rowvar=False, ddof=1)
-    rf_mean = float(rf.mean())
+    records, weight_records = [], []
+    for iteration in range(1, repetitions+1):
+        # 1. Draw T entire monthly return vectors from fitted multivariate normal.
+        simulated = rng.multivariate_normal(mu, cov, size=T, check_valid='raise')
+        # 2. Re-estimate BOTH mean and covariance using this simulated sample.
+        sim_mu = simulated.mean(axis=0)
+        sim_cov = np.cov(simulated, rowvar=False, ddof=1)
+        estimated, denom = portfolio_weights(sim_mu, sim_cov, rf)
+        for name, w in estimated.items():
+            assert np.isclose(w.sum(), 1, atol=1e-10)
+            # 3. Crucially evaluate simulated-data weights on ORIGINAL raw returns.
+            actual_portfolio_returns = R @ w
+            mean = actual_portfolio_returns.mean()
+            std = actual_portfolio_returns.std(ddof=1)
+            # Cross-check direct evaluation against the original sample moments.
+            assert np.isclose(mean, w @ mu)
+            assert np.isclose(std**2, w @ cov @ w)
+            # 4. Retain every draw; no trimming or winsorizing extreme portfolios.
+            records.append(dict(iteration=iteration, portfolio=name,
+                mean=mean, volatility=std, sharpe=(mean-rf)/std,
+                mean_error=mean-baseline[name]['mean'],
+                volatility_error=std-baseline[name]['volatility'],
+                weight_mse=np.mean((w-reference[name])**2),
+                gross_exposure=np.abs(w).sum(),
+                nonpositive_tangency_denominator=(name=='Tangency' and denom<=0)))
+            weight_records.append(dict(iteration=iteration, portfolio=name, **dict(zip(names,w))))
+    results = pd.DataFrame(records)
+    weights = pd.DataFrame(weight_records)
+    summary = []
+    for name, g in results.groupby('portfolio', sort=False):
+        summary.append(dict(portfolio=name,
+            reference_mean_pct=100*baseline[name]['mean'],
+            reference_volatility_pct=100*baseline[name]['volatility'],
+            average_mean_pct=100*g['mean'].mean(),
+            average_volatility_pct=100*g.volatility.mean(),
+            sd_of_mean_pp=100*g['mean'].std(ddof=1),
+            sd_of_volatility_pp=100*g.volatility.std(ddof=1),
+            mean_bias_pp=100*g.mean_error.mean(),
+            volatility_bias_pp=100*g.volatility_error.mean(),
+            mean_rmse_pp=100*np.sqrt(np.mean(g.mean_error**2)),
+            volatility_rmse_pp=100*np.sqrt(np.mean(g.volatility_error**2)),
+            weight_rmse_pp=100*np.sqrt(g.weight_mse.mean()),
+            mean_p025_pct=100*g['mean'].quantile(.025),
+            mean_p975_pct=100*g['mean'].quantile(.975),
+            volatility_p025_pct=100*g.volatility.quantile(.025),
+            volatility_p975_pct=100*g.volatility.quantile(.975),
+            max_gross_exposure=g.gross_exposure.max()))
+    summary = pd.DataFrame(summary).set_index('portfolio')
+    results.to_csv(out/'simulation_results.csv', index=False)
+    weights.to_csv(out/'simulated_weights.csv', index=False)
+    summary.to_csv(out/'summary.csv')
+    pd.DataFrame(reference, index=names).to_csv(out/'reference_weights.csv')
+    pd.DataFrame(cov, index=names, columns=names).to_csv(out/'estimated_covariance.csv')
+    pd.DataFrame({'mean':mu,'std':R.std(axis=0,ddof=1)},index=names).to_csv(out/'industry_statistics.csv')
+    metadata = dict(input_file=Path(path).name, observations=T, industries=N,
+        start=str(dates.iloc[0].date()), end=str(dates.iloc[-1].date()),
+        repetitions=repetitions, seed=seed, monthly_rf=rf,
+        covariance_condition_number=float(np.linalg.cond(cov)),
+        nonpositive_tangency_draws=int(results.nonpositive_tangency_denominator.sum()),
+        units='CSV returns in decimals; summary returns in percent and errors in percentage points')
+    (out/'metadata.json').write_text(json.dumps(metadata, indent=2))
+    make_report(out, results, summary, reference, metadata)
+    print(summary.round(6).to_string())
+    print(json.dumps(metadata, indent=2))
+    return results, summary
 
-    records, mvp_weights, tangency_weights = [], [], []
-    for repetition in range(1, reps + 1):
-        simulated = rng.multivariate_normal(mu_hat, cov_hat, size=t_obs)
-        w_mvp, w_tan = portfolio_weights(simulated, rf_mean)
-        mvp_mean, mvp_sd = evaluate(returns, w_mvp)
-        tan_mean, tan_sd = evaluate(returns, w_tan)
-        records.extend([
-            {"Repetition": repetition, "Portfolio": "MVP", "Mean": mvp_mean, "StdDev": mvp_sd},
-            {"Repetition": repetition, "Portfolio": "Tangency", "Mean": tan_mean, "StdDev": tan_sd},
-        ])
-        mvp_weights.append(w_mvp)
-        tangency_weights.append(w_tan)
 
-    return (
-        pd.DataFrame(records),
-        np.asarray(mvp_weights),
-        np.asarray(tangency_weights),
-        mu_hat,
-        cov_hat,
-        rf_mean,
-    )
-
-
-def create_figure(results: pd.DataFrame, output_path: Path):
-    colors = {"MVP": "#276FBF", "Tangency": "#D1495B"}
-    fig, axes = plt.subplots(1, 3, figsize=(15.5, 4.7), constrained_layout=True)
-    fig.patch.set_facecolor("#F7F9FC")
-    for ax in axes:
-        ax.set_facecolor("white")
-        ax.grid(alpha=0.18)
-
-    for name, group in results.groupby("Portfolio"):
-        axes[0].scatter(group["StdDev"] * 100, group["Mean"] * 100,
-                        s=16, alpha=0.42, color=colors[name], label=name, edgecolors="none")
-        axes[1].hist(group["Mean"] * 100, bins=35, alpha=0.58,
-                     color=colors[name], label=name, density=True)
-        axes[2].hist(group["StdDev"] * 100, bins=35, alpha=0.58,
-                     color=colors[name], label=name, density=True)
-
-    axes[0].set(title="Evaluation on the original return history",
-                xlabel="Monthly standard deviation (%)", ylabel="Monthly mean return (%)")
-    axes[1].set(title="Distribution of realized means", xlabel="Monthly mean return (%)", ylabel="Density")
-    axes[2].set(title="Distribution of realized risk", xlabel="Monthly standard deviation (%)", ylabel="Density")
-    for ax in axes:
-        ax.legend(frameon=False)
-    reps = results["Repetition"].nunique()
-    fig.suptitle(f"Monte Carlo Portfolio Resampling — {reps:,} Replications", fontsize=16, fontweight="bold")
-    fig.savefig(output_path, dpi=180, facecolor=fig.get_facecolor())
+def make_report(out, results, summary, reference, meta):
+    colors = {'MVP':'#087e8b', 'Tangency':'#d16b35'}
+    plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,
+        'axes.spines.top':False,'axes.spines.right':False,'axes.titleweight':'bold'})
+    fig, ax = plt.subplots(2, 2, figsize=(13, 9), layout='constrained')
+    for name, g in results.groupby('portfolio', sort=False):
+        c = colors[name]
+        ax[0,0].scatter(100*g.volatility,100*g['mean'],s=10,alpha=.3,color=c,label=name)
+        ax[0,0].scatter(summary.loc[name,'reference_volatility_pct'],
+            summary.loc[name,'reference_mean_pct'],marker='*',s=230,color=c,edgecolors='black',zorder=5)
+        ax[0,1].hist(100*g.mean_error,bins=np.linspace(100*results.mean_error.min(),100*results.mean_error.max(),55),histtype='step',linewidth=2,color=c,label=name)
+        ax[1,0].hist(100*g.volatility_error,bins=np.linspace(100*results.volatility_error.min(),100*results.volatility_error.max(),65),histtype='step',linewidth=2,color=c,label=name)
+    ax[0,0].set(title='Original-data performance of simulated weights',xlabel='Monthly volatility (%)',ylabel='Monthly mean return (%)')
+    ax[0,0].legend(title='Stars: full-data benchmarks')
+    ax[0,1].set(title='Mean-return estimation error',xlabel='Deviation from own benchmark (pp)',ylabel='Replications')
+    ax[1,0].set(title='Volatility estimation error',xlabel='Deviation from own benchmark (pp)',ylabel='Replications')
+    for a in [ax[0,1],ax[1,0]]:
+        a.axvline(0,color='#263346',linestyle='--',linewidth=1)
+        a.legend()
+    x = np.arange(2)
+    for j,name in enumerate(['MVP','Tangency']):
+        ax[1,1].bar(x+(j-.5)*.34,summary.loc[name,['mean_rmse_pp','volatility_rmse_pp']].to_numpy(float),
+            width=.34,color=colors[name],label=name)
+    ax[1,1].set(xticks=x,xticklabels=['Mean return','Volatility'],ylabel='RMSE (percentage points)',title='Error relative to each portfolio’s benchmark')
+    ax[1,1].legend()
+    for a in ax.flat:
+        a.grid(alpha=.15)
+        a.set_axisbelow(True)
+    fig.savefig(out/'simulation_analysis.png',dpi=170)
     plt.close(fig)
+    img=base64.b64encode((out/'simulation_analysis.png').read_bytes()).decode()
+    rows=[('Benchmark mean return (%)','reference_mean_pct'),('Average evaluated mean return (%)','average_mean_pct'),
+        ('Benchmark volatility (%)','reference_volatility_pct'),('Average evaluated volatility (%)','average_volatility_pct'),
+        ('Across-draw SD of mean (pp)','sd_of_mean_pp'),('Across-draw SD of volatility (pp)','sd_of_volatility_pp'),
+        ('Mean-return bias (pp)','mean_bias_pp'),('Volatility bias (pp)','volatility_bias_pp'),
+        ('Mean-return RMSE (pp)','mean_rmse_pp'),('Volatility RMSE (pp)','volatility_rmse_pp'),
+        ('Weight RMSE (pp of allocation)','weight_rmse_pp')]
+    table=''.join(f'<tr><td>{label}</td><td>{summary.loc["MVP",key]:.4f}</td><td>{summary.loc["Tangency",key]:.4f}</td></tr>' for label,key in rows)
+    intervals=''.join(f'<tr><td>{name}</td><td>{s.mean_p025_pct:.4f}–{s.mean_p975_pct:.4f}%</td><td>{s.volatility_p025_pct:.4f}–{s.volatility_p975_pct:.4f}%</td></tr>' for name,s in summary.iterrows())
+    winner_mean=summary.mean_rmse_pp.idxmin()
+    winner_vol=summary.volatility_rmse_pp.idxmin()
+    conclusion=f'{winner_mean} has the smaller mean-return RMSE; {winner_vol} has the smaller volatility RMSE.'
+    body=f'''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio estimation error | Monte Carlo report</title><style>
+    body{{margin:0;background:#eef2f6;color:#203047;font:16px/1.6 system-ui,sans-serif}}
+    main{{max-width:1080px;margin:35px auto;background:white;padding:44px;border-radius:16px}}
+    h1{{font-size:36px;line-height:1.2;margin:10px 0}} h2{{margin-top:32px;font-size:23px}}
+    .eyebrow{{color:#087e8b;font-weight:700;letter-spacing:2px;font-size:12px}}
+    .callout{{background:#e9f5f5;border-left:5px solid #087e8b;padding:18px 24px;margin:24px 0}}
+    table{{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:14px}}
+    td,th{{padding:10px 12px;border-bottom:1px solid #dfe5eb;text-align:right}}td:first-child,th:first-child{{text-align:left}}
+    th{{background:#203047;color:white}}tr:nth-child(even){{background:#f4f7fa}}
+    img{{width:100%;height:auto}}code{{background:#eef2f6;padding:3px 5px}}.small{{font-size:13px;color:#586779}}
+    @media(max-width:700px){{main{{padding:20px;margin:0}}h1{{font-size:28px}}}}
+    @media print{{main{{margin:0;padding:10px}}body{{background:white}}table,img{{break-inside:avoid}}}}
+    </style><main><div class="eyebrow">PORTFOLIO RESEARCH / PARAMETRIC MONTE CARLO</div>
+    <h1>How sensitive are optimal portfolios<br>to estimation error?</h1>
+    <p>{meta['repetitions']:,} replications · {meta['observations']:,} monthly observations per draw · {meta['industries']} industries<br>
+    {meta['start']} through {meta['end']} · Seed {meta['seed']}</p>
+    <div class="callout"><strong>{conclusion}</strong><br>The comparison measures deviations from each portfolio’s own full-data benchmark, not simply which portfolio has lower risk.</div>
+    <h2>Results at a glance</h2><p>All return and volatility figures are monthly. Each replication’s portfolio mean and volatility are calculated from the <strong>original industry return matrix</strong>, using weights estimated from simulated data.</p>
+    <table><tr><th>Metric</th><th>MVP</th><th>Tangency</th></tr>{table}</table>
+    <p class="small">“Average evaluated volatility” averages 1,000 within-portfolio time-series standard deviations. “Across-draw SD” measures dispersion across replications. They are different quantities. pp = percentage points.</p>
+    <h2>The distribution of outcomes</h2><img alt="Scatter plot of evaluated portfolio performance, two estimation-error histograms and an RMSE comparison" src="data:image/png;base64,{img}">
+    <table><tr><th>Portfolio</th><th>Central 95%: mean return</th><th>Central 95%: volatility</th></tr>{intervals}</table>
+    <p class="small">Empirical 2.5th–97.5th percentiles across draws; these are simulation ranges, not confidence intervals for future realized returns.</p>
+    <h2>Method and assumptions</h2><ol>
+    <li>Read the average value-weighted monthly industry returns in <strong>{html.escape(meta['input_file'])}</strong>, sheet Industry_returns. Divide percentage values by 100. Use all {meta['observations']:,} rows; no missing values or return observations are removed.</li>
+    <li>Estimate μ̂ and Σ̂ from raw industry returns, with sample covariance divisor T−1. Hold the risk-free rate fixed at its historical monthly average, <strong>{100*meta['monthly_rf']:.4f}%</strong>. The risk-free series is not an eleventh risky asset.</li>
+    <li>Draw T independent vectors from N(μ̂, Σ̂), re-estimate μ̂<sub>b</sub> and Σ̂<sub>b</sub>, and compute fully invested weights with unrestricted short selling:<br>
+    <code>w_MVP = Σ_b⁻¹1 / (1′Σ_b⁻¹1)</code><br>
+    <code>w_TAN = Σ_b⁻¹(μ_b − r_f 1) / [1′Σ_b⁻¹(μ_b − r_f 1)]</code>.</li>
+    <li>Apply both weight vectors to original returns: <code>r_p,b = R_actual @ w_b</code>. Record their arithmetic mean and sample standard deviation; repeat {meta['repetitions']:,} times.</li>
+    <li>Calculate each benchmark from the original μ̂ and Σ̂. For a performance metric θ, <code>RMSE = sqrt(mean((θ_b − θ_reference)²))</code>. Weight RMSE also averages squared deviations across industries. Bias is the average signed error.</li></ol>
+    <h2>Economic interpretation</h2><p>The MVP uses covariance estimates only. The tangency portfolio also uses expected excess returns, whose estimates are noisy because monthly return variation is large relative to the mean. Optimization can interpret sampling noise as an attractive expected-return opportunity and increase long and short positions. Applying those positions to original returns exposes the resulting instability.</p>
+    <p>Both portfolios are sensitive to covariance error. Tangency weights add sensitivity to mean estimates and to the normalization denominator. MVP volatility is also locally flat around its minimum: small feasible weight changes produce only a second-order increase in variance. These mechanisms explain why MVP performance is generally more stable here.</p>
+    <h2>Interpretation limits and diagnostics</h2><p>The original sample moments act as the population parameters for this experiment; they are not known true population values. Evaluation reuses the calibration dataset, so this is not a chronological out-of-sample test. The normal, independent-draw model omits fat tails, volatility clustering and regime changes. The risk-free rate is treated as known and constant, and transaction costs are excluded.</p>
+    <p>No draw is trimmed or winsorized. Nonpositive tangency-normalization denominators: <strong>{meta['nonpositive_tangency_draws']}</strong>. Such draws, if present, are retained and flagged: the normalized stationary portfolio then does not represent the positive-Sharpe tangency optimum. A nearly zero denominator stops execution explicitly. Original covariance condition number: {meta['covariance_condition_number']:.2f}.</p>
+    <h2>Full-data benchmark weights</h2>{(pd.DataFrame(reference)*100).to_html(float_format=lambda x:f'{x:.2f}%',border=0)}
+    <h2>Reproduce the analysis</h2><p><code>python industry_portfolio_monte_carlo.py Problem_Set2_2026-1.xlsx --output results</code></p>
+    <p class="small">Requires numpy, pandas, matplotlib and openpyxl. The script writes this self-contained report, a chart, all simulation results and weights, summary statistics, benchmark weights, input moments and metadata. CSV results use decimal returns unless column labels specify percent or pp.</p></main></html>'''
+    (out/'portfolio_simulation_report.html').write_text(body,encoding='utf-8')
 
 
-def summary_table(results: pd.DataFrame) -> pd.DataFrame:
-    rows = []
-    for name, group in results.groupby("Portfolio", sort=False):
-        rows.append({
-            "Portfolio": name,
-            "Average monthly mean": group["Mean"].mean(),
-            "SD of monthly mean": group["Mean"].std(ddof=1),
-            "Average monthly std dev": group["StdDev"].mean(),
-            "SD of monthly std dev": group["StdDev"].std(ddof=1),
-            "5th pct mean": group["Mean"].quantile(0.05),
-            "95th pct mean": group["Mean"].quantile(0.95),
-            "5th pct std dev": group["StdDev"].quantile(0.05),
-            "95th pct std dev": group["StdDev"].quantile(0.95),
-        })
-    return pd.DataFrame(rows)
-
-
-def create_html_report(summary: pd.DataFrame, weights: pd.DataFrame, chart_path: Path,
-                       output_path: Path, t_obs: int, date_min: int, date_max: int,
-                       rf_mean: float, reps: int, seed: int):
-    encoded = base64.b64encode(chart_path.read_bytes()).decode("ascii")
-    pct_cols = [c for c in summary.columns if c != "Portfolio"]
-    display_summary = summary.copy()
-    for c in pct_cols:
-        display_summary[c] = display_summary[c].map(lambda x: f"{x:.4%}")
-    display_weights = weights.copy()
-    for c in display_weights.columns[1:]:
-        display_weights[c] = display_weights[c].map(lambda x: f"{x:.2%}")
-
-    css = """
-    body{font-family:Inter,Arial,sans-serif;background:#f4f7fb;color:#192432;margin:0;padding:36px}
-    .page{max-width:1180px;margin:auto;background:white;padding:38px 44px;border-radius:16px;box-shadow:0 8px 30px #21324a18}
-    h1{margin:0;color:#17365d;font-size:30px}.sub{color:#607086;margin:8px 0 26px}
-    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0 28px}
-    .card{background:#eef4fb;border-left:4px solid #276fbf;border-radius:8px;padding:14px}.card b{display:block;font-size:20px;color:#17365d}
-    h2{color:#17365d;margin-top:30px;border-bottom:2px solid #dce6f2;padding-bottom:7px}
-    table{border-collapse:collapse;width:100%;font-size:13px}th{background:#17365d;color:white;text-align:right;padding:10px}th:first-child,td:first-child{text-align:left}
-    td{padding:9px;border-bottom:1px solid #e2e8f0;text-align:right}tr:nth-child(even){background:#f8fafc}
-    img{width:100%;border:1px solid #e1e7ef;border-radius:10px}.note{font-size:13px;color:#566579;line-height:1.55}
-    """
-    html = f"""<!doctype html><html><head><meta charset='utf-8'><title>Portfolio Monte Carlo Report</title><style>{css}</style></head>
-    <body><main class='page'><h1>Portfolio Monte Carlo Resampling Report</h1>
-    <p class='sub'>MVP and tangency weights estimated from simulated samples, then evaluated on the original industry-return history.</p>
-    <section class='cards'><div class='card'><b>{t_obs:,}</b>monthly observations</div><div class='card'><b>{reps:,}</b>replications</div>
-    <div class='card'><b>{date_min}–{date_max}</b>sample period</div><div class='card'><b>{rf_mean:.3%}</b>average monthly risk-free rate</div></section>
-    <h2>Results</h2>{display_summary.to_html(index=False, border=0)}
-    <h2>Visualization</h2><img src='data:image/png;base64,{encoded}' alt='Monte Carlo results chart'>
-    <h2>Average simulated-sample portfolio weights</h2>{display_weights.to_html(index=False, border=0)}
-    <h2>Methodology</h2><p class='note'>Parameters are estimated from the full actual sample. Each repetition draws T multivariate-normal industry returns using the estimated mean vector and covariance matrix. Unconstrained MVP and tangency weights are computed from the simulated sample and normalized to sum to one. The tangency portfolio uses the full-sample average monthly risk-free rate. Each weight vector is then applied to the original—not simulated—industry-return matrix. Reported means and standard deviations are monthly and use sample standard deviation (ddof=1). Random seed: {seed}.</p>
-    </main></body></html>"""
-    output_path.write_text(html, encoding="utf-8")
-
-
-def main():
+if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("input_file", type=Path)
-    parser.add_argument("--sheet", default="Industry_returns")
-    parser.add_argument("--reps", type=int, default=1000)
-    parser.add_argument("--seed", type=int, default=8052026)
-    parser.add_argument("--output-dir", type=Path, default=Path("portfolio_simulation_output"))
+    parser.add_argument('workbook', nargs='?', default='Problem_Set2_2026-1.xlsx')
+    parser.add_argument('--output', default='results')
+    parser.add_argument('--repetitions', type=int, default=1000)
+    parser.add_argument('--seed', type=int, default=2026)
     args = parser.parse_args()
-    args.output_dir.mkdir(parents=True, exist_ok=True)
-
-    returns, rf, industries, dates = load_industry_returns(args.input_file, args.sheet)
-    results, mvp_w, tan_w, _, _, rf_mean = run_simulation(returns, rf, args.reps, args.seed)
-
-    results_path = args.output_dir / "simulation_results.csv"
-    summary_path = args.output_dir / "summary_statistics.csv"
-    weights_path = args.output_dir / "average_weights.csv"
-    chart_path = args.output_dir / "portfolio_simulation_visualization.png"
-    report_path = args.output_dir / "portfolio_simulation_report.html"
-
-    summary = summary_table(results)
-    weights = pd.DataFrame({"Industry": industries,
-                            "Average MVP weight": mvp_w.mean(axis=0),
-                            "Average Tangency weight": tan_w.mean(axis=0),
-                            "MVP weight SD": mvp_w.std(axis=0, ddof=1),
-                            "Tangency weight SD": tan_w.std(axis=0, ddof=1)})
-    results.to_csv(results_path, index=False)
-    summary.to_csv(summary_path, index=False)
-    weights.to_csv(weights_path, index=False)
-    create_figure(results, chart_path)
-    create_html_report(summary, weights, chart_path, report_path, len(returns),
-                       int(dates.min()), int(dates.max()), rf_mean, args.reps, args.seed)
-
-    print(summary.to_string(index=False, float_format=lambda x: f"{x:.6%}"))
-    print(f"\nReport: {report_path.resolve()}")
-
-
-if __name__ == "__main__":
-    main()
+    run(args.workbook,args.output,args.repetitions,args.seed)

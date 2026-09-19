@@ -125,25 +125,15 @@ average pairwise correlation of 0.696.
 
 \end{itemize}
 
-\paragraph{Shape of the frontier.} Minimizing $w'\Sigma w$ subject to
-$w'\mu = m$ and $w'\mathbf{1} = 1$ gives first-order conditions that are
-linear in $w$, so the optimal weights are an affine function of the target
-mean,
-\begin{equation}
-w(m) = \frac{c - bm}{d}\,\Sigma^{-1}\mathbf{1}
-     + \frac{am - b}{d}\,\Sigma^{-1}\mu ,
-\end{equation}
-with $a = \mathbf{1}'\Sigma^{-1}\mathbf{1}$, $b = \mathbf{1}'\Sigma^{-1}\mu$,
-$c = \mu'\Sigma^{-1}\mu$ and $d = ac - b^2$. Substituting back into the
-objective gives
-\begin{equation}
-\sigma^2(m) = \frac{a m^2 - 2bm + c}{d},
-\label{eq:frontier}
-\end{equation}
-a quadratic in $m$, and therefore a parabola in mean--variance space and a
-hyperbola in the mean--standard deviation space of Figure~\ref{fig:q1a}. Here
-$a = 0.0680$ and $d = 0.000528$, both positive, so the parabola opens toward
-higher risk. Three things follow.
+\paragraph{Shape of the frontier.} We minimize portfolio variance, which is
+quadratic in the weights, subject to two linear constraints. The optimal
+weights then come out as an affine function of the target mean, so every
+frontier portfolio is a fixed combination of two underlying portfolios. This
+is the two-fund separation result. Substituting that affine function back into
+the quadratic objective gives a quadratic again, so variance is quadratic in
+the target mean. The minimum-variance set is therefore a parabola in
+mean--variance space, and a hyperbola in the mean--standard deviation space of
+Figure~\ref{fig:q1a}. Two things follow.
 
 \begin{itemize}
 \setlength{\itemsep}{6pt}\setlength{\parskip}{0pt}
@@ -156,17 +146,13 @@ modest: the MVP is only about a sixth less volatile than the least volatile
 industry, where part (c) shows it would be less than half as volatile if the
 industries were uncorrelated.
 
-\item \textbf{The vertex is the MVP.} Minimizing the quadratic gives
-$m = b/a = 0.8672$ and $\sigma^2 = 1/a = 14.70$, matching the minimum variance
-portfolio in Table~\ref{tab:q1a} exactly.
-
 \item \textbf{Dominance makes only the upper branch efficient.} Because
-$\sigma^2(m)$ is quadratic, every variance above $1/a$ is attained by two
-portfolios, one on each side of the vertex. They carry identical risk but the
-lower one returns less, so it is dominated. Since investors prefer a higher
-expected return at the same risk, no one would ever hold it: the lower branch
-is feasible but never optimal, which is why it is dashed in
-Figure~\ref{fig:q1a}.
+variance is quadratic in the target mean, every variance above the minimum is
+attained by two portfolios, one on each side of the minimum variance
+portfolio. They carry identical risk but the lower one returns less, so it is
+dominated. Since investors prefer a higher expected return at the same risk,
+no one would hold it: the lower branch is feasible but never optimal, which is
+why it is dashed in Figure~\ref{fig:q1a}.
 
 \end{itemize}
 
@@ -487,8 +473,11 @@ on paper to about three per cent once estimation error is taken into account.
 \end{itemize}
 
 \paragraph{AI Integration --- Simulation code generation.}
+\begin{itemize}
+\setlength{\itemsep}{6pt}\setlength{\parskip}{0pt}
 
-\textit{Prompt:} We gave ChatGPT the spreadsheet and the following prompt.
+\item \textbf{Prompt.} We gave ChatGPT the spreadsheet and the following
+prompt.
 
 \begin{quote}
 \small
@@ -504,40 +493,73 @@ matrix. \\
 times.
 
 The output would be a python file, and resulted mean and st report with a good
-visualization and formatting.
+visualization and formatting. At the end, tell me: which portfolio has
+smaller estimation error, and what is the economic explanation?
 \end{quote}
 
-\textit{What we had to fix or adjust:} ChatGPT's code was sound and its figure
-was not. Its chart omits the portfolios built from the actual data, which the
-question asks to be shown alongside the simulated clouds, and it draws one
-combined scatter rather than the two separate mean--standard deviation plots
-the question specifies. A single extreme draw also stretches its horizontal
-axis far beyond the rest of the points, compressing everything of interest
-into the left third of the panel. The code we wrote for part (d), which
-produces Figure~\ref{fig:q1d}, uses two panels on shared axes, marks the
-actual-data portfolios, adds the efficient frontier and fixes the axis limits
-from percentiles so that a single draw cannot rescale the plot.
+\item \textbf{What we had to fix or adjust.} The data output is sound. But
+because we didn't specify a format for the chart, its figure does not match
+what the question asks for. It marks the actual-data portfolios, but draws one
+combined scatter instead of the two separate mean--standard deviation plots
+the question specifies, and it shows no efficient frontier. Extreme draws also
+stretch the axes, most visibly on the volatility-error histogram, where the
+scale runs past five percentage points while almost every draw sits below two.
+Our own code for part (d), producing Figure~\ref{fig:q1d}, uses two
+shared-axis panels, marks the actual-data portfolios, adds the efficient
+frontier, and clips the axis limits by percentile so one outlier draw cannot
+rescale the plot.
 
-Three smaller differences from our own implementation. ChatGPT worked in
-decimals while the spreadsheet is in percent, so its output is not directly
-comparable to our other tables. It did not filter the Ken French missing-data
-codes, which is harmless here because we checked that this file contains none.
-And it re-factorized the covariance matrix on every one of the 1{,}000 draws
-rather than reusing a Cholesky factor, which is correct but slower.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{chatgpt_simulation_chart.png}
+\caption{The chart produced by ChatGPT's script, reproduced from its own HTML
+report. Stars mark the full-data benchmark portfolios.}
+\label{fig:llm_chart}
+\end{figure}
 
-\textit{Did the LLM apply the simulated weights to the actual returns?} Yes.
-Its evaluation function multiplies the actual return matrix by the simulated
-weights, and its methodology note says so explicitly. We tested this rather
-than taking it on trust. Jorion shows that every simulated portfolio must be
-suboptimal once measured against the original mean vector and covariance
-matrix, so we checked whether any simulated portfolio beat the true optimum.
-None did, for either the MVP or the tangency portfolio. Code that evaluated
-the weights on the simulated sample would fail this test constantly. Its
-per-industry weight dispersion also matches our own implementation.
+A small data analysis difference: it re-factorizes the covariance matrix on
+every draw rather than reusing a single Cholesky factor, which is correct but
+slower.
 
-\textit{Did the LLM correctly predict which portfolio has smaller estimation
-error, and does its economic explanation hold up?}
-\todo{evaluate the LLM's prediction and reasoning}
+\item \textbf{Did the LLM correctly apply the simulated weights to the actual
+returns?} Yes. Jorion's logic implies that no simulated portfolio should ever
+beat the true optimum once judged against the original mean and covariance,
+and none did for either portfolio in this test. If weights were evaluated on
+the simulated sample, it would have failed this test constantly; the LLM got
+the key distinction right here.
+
+\item \textbf{Does the LLM correctly predict which portfolio has smaller
+estimation error, and does its economic explanation hold up?}
+\begin{itemize}
+\item \textbf{Prediction.} Correct. ChatGPT's own generated report reproduces
+the same asymmetry we found (Table~\ref{tab:llm_output}): the MVP has the
+smaller estimation error in both mean and volatility, matching our own
+Table~\ref{tab:q1de} and Figure~\ref{fig:q1d}.
+
+\begin{table}[H]
+\centering
+\caption{Estimation-error metrics as reported in ChatGPT's own generated
+output, \texttt{portfolio\_simulation\_report.html}.}
+\begin{tabular}{lrr}
+\toprule
+Metric & MVP & Tangency \\
+\midrule
+Mean-return RMSE (pp) & 0.0095 & 0.0817 \\
+Volatility RMSE (pp) & 0.0160 & 0.8827 \\
+Weight RMSE (pp of allocation) & 4.0318 & 28.2099 \\
+\bottomrule
+\end{tabular}
+\label{tab:llm_output}
+\end{table}
+
+\item \textbf{Explanation.} Also correct. It attributes the gap to the MVP
+depending only on the covariance matrix while the tangency portfolio
+additionally depends on the noisy mean vector. It also separately notes that
+MVP volatility sits at a variance minimum, so weight errors cost only a
+second-order amount.
+\end{itemize}
+
+\end{itemize}
 
 \subsection{Question 1(e): Empirical Row Bootstrap Simulation}
 

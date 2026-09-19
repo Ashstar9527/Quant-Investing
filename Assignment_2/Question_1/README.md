@@ -4,12 +4,14 @@ Mean-variance efficient portfolios for 10 U.S. industry portfolios, 1926–2026.
 
 ```
 Question_1/
-├── report.tex / report.pdf     the deliverable
+├── Question1_final.pdf         ← THE FILE TO SUBMIT (template2 formatting)
+├── report.tex                  the source; edit content here
+├── report.pdf                  plain-format build of the same content
 ├── figs/                       figures used by report.tex
 ├── tables/                     csv output from every script
 ├── code/                       all analysis code
 ├── ai_integration/             ChatGPT's output, evidence for 1(d)
-└── layout_variants/            alternative formats, not for submission
+└── layout_variants/            the formatting machinery
 ```
 
 The spreadsheet `Problem_Set2_2026-1.xlsx` stays one level up, since Question 2
@@ -54,23 +56,51 @@ python3 code/verify_report_numbers.py
 It is a drift alarm rather than a proof: it confirms a number still appears
 somewhere in the report, so a short string can pass by coincidence.
 
+## Which file to submit
+
+`Question1_final.pdf`. It is template2's build, republished at the top level by
+`make_templates.py`.
+
+**Edit content in `report.tex`, never in the templates.** The variants are
+generated from it, so an edit made in a template is lost on the next rebuild.
+After changing the report:
+
+```bash
+python3 code/verify_report_numbers.py   # numbers still match the scripts
+python3 code/make_templates.py          # rebuilds both variants and the final PDF
+```
+
 ## layout_variants/
 
-Same content as `report.tex`, different formatting. Not for submission unless
-one is chosen to replace the report.
+Same content as `report.tex`, different formatting.
 
 | file | pages | what changed |
 |---|---|---|
 | `report.tex` | 11 | baseline |
 | `template1.tex` | 10 | formatting only — tighter float spacing (the one lever that matters), `\small` tables, small captions, microtype |
-| `template2.tex` | 9 | template1 plus navy accent, small-caps headings, running header, designed title, and restyled figures from `figs_modern/` |
+| `template2.tex` | 10 | **the submission format**: template1 plus navy accent, small-caps headings, running header, designed title, and restyled figures from `figs_modern/` |
+
+`template2_preamble.tex` holds template2's preamble; `make_templates.py`
+splices it onto the current body of `report.tex`. LaTeX is run twice
+automatically, since a single pass leaves `Table ??` in the output.
 
 ## ai_integration/
 
-ChatGPT's response to the 1(d) prompt, kept as evidence for the write-up. Its
-code is correct — it applies the simulated weights to the actual returns, and
-passes the Jorion suboptimality test with no violations in 1,000 draws. Its
-figure is what falls short of the question's requirements.
+ChatGPT's response to the 1(d) prompt, kept as evidence for the write-up.
+
+Its code is correct. It applies the simulated weights to the actual returns and
+asserts that the resulting moments equal the actual-data moments at those
+weights, so the key distinction cannot silently break. It passes the Jorion
+suboptimality check with no violations in 1,000 draws, and its full-data
+benchmark portfolios match ours to six decimal places.
+
+It reports error as RMSE against each portfolio's own benchmark where the
+report uses the standard deviation across simulations; the two reconcile as
+RMSE squared equals bias squared plus variance. The gap matters only for the
+tangency portfolio, whose simulated volatility sits systematically above its
+benchmark. The figures quoted in Table 8 of the report are the ones in its own
+HTML, produced in its environment, so they differ slightly from a local re-run
+of the same seed.
 
 ## Note for whoever does Question 3
 

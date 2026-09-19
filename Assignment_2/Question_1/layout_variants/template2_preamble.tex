@@ -1,0 +1,80 @@
+\documentclass[11pt]{article}
+
+% ---------------------------------------------------------------------------
+% template2: a typographic treatment of the same report.
+%
+% Latin Modern throughout, so text and the 78 inline maths expressions match.
+% (Times and Palatino were tried first; this TeX Live install has no Helvetica
+% or Palatino metrics, and mathptmx breaks on \Sigma^{-1}.)  The modern feel
+% comes from the layout, one navy accent, and restyled figures rather than
+% from an exotic typeface.
+%
+% Figures are read from figs_modern/, produced by make_modern_figs.py in a
+% matching Computer Modern style, so report.tex and figs/ are untouched.
+% ---------------------------------------------------------------------------
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[font=small,labelfont=bf,skip=5pt]{caption}
+
+\definecolor{psink}{RGB}{23,54,93}
+\definecolor{psaccent}{RGB}{192,80,77}
+\definecolor{psrule}{RGB}{200,209,222}
+
+\usepackage[colorlinks=true,allcolors=psink]{hyperref}
+
+\graphicspath{{figs_modern/}}
+\emergencystretch=3em
+
+% spacing: padding around floats is the single biggest lever on length
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{10pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+% headings: navy, small caps for sections, bold below that
+% (titlesec is not installed, so the sectioning commands are redefined here)
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{0pt}%
+  {-2.6ex \@plus -1ex \@minus -.2ex}{1.3ex \@plus .2ex}%
+  {\normalfont\scshape\large\color{psink}}}   % lmr has no bold small caps
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}%
+  {-2.2ex \@plus -1ex \@minus -.2ex}{1.0ex \@plus .2ex}%
+  {\normalfont\bfseries\normalsize\color{psink}}}
+\renewcommand\paragraph{\@startsection{paragraph}{4}{0pt}%
+  {1.7ex \@plus 1ex \@minus .2ex}{-0.9em}%
+  {\normalfont\bfseries\normalsize\color{psink}}}
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\scshape\color{psink} MGT 595 \textemdash\ Problem Set 2}
+\fancyhead[R]{\footnotesize\color{psink}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{%
+  \color{psrule}\leaders\hrule height \headrulewidth\hfill}}
+
+\newcommand{\todo}[1]{\textcolor{psaccent}{\textbf{[TO WRITE: #1]}}}
+
+\begin{document}
+
+\thispagestyle{empty}
+\begin{flushleft}
+{\bfseries\LARGE\color{psink} Quantitative Investing}\\[3pt]
+{\scshape\Large\color{psink} Problem Set 2}\\[10pt]
+{\color{psrule}\rule{\textwidth}{1.2pt}}\\[5pt]
+{\small Ashley Wen\,(xw564)\quad\textbar\quad Emily Wu\,(esw63)%
+\quad\textbar\quad Grace Gu\,(xg325)\hfill \today}
+\end{flushleft}
+
+\vspace{1.4em}
+
