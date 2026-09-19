@@ -1,0 +1,4 @@
+Error source (SD of realized portfolio SD),Normal (d),Bootstrap (e)
+mu only,0.5563,0.6688
+Sigma only,0.0734,0.1334
+both,0.5701,0.7174

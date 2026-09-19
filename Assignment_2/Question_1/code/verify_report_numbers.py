@@ -4,10 +4,13 @@ Guards against transcription errors: regenerates the machine-produced table
 rows and confirms each one appears verbatim in report.tex.
 """
 import re, subprocess, sys
+from pathlib import Path
 
-gen = subprocess.run([sys.executable, "make_tables_tex.py"],
+import data_load as dl
+
+gen = subprocess.run([sys.executable, str(dl.HERE / "make_tables_tex.py")],
                      capture_output=True, text=True, check=True).stdout
-tex = open("report.tex").read()
+tex = dl.REPORT.read_text()
 tex_rows = {re.sub(r"\s+", " ", l).strip()
             for l in tex.splitlines() if l.rstrip().endswith(r"\\")}
 

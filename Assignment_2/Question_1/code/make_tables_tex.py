@@ -42,7 +42,11 @@ emit("T1 industry stats and portfolio weights",
      [[names[i], n(mu[i]), n(sd[i]), n(w_mvp[i]), n(w_tan[i])] for i in range(10)]
      + [[r"\textit{Portfolio mean} (\%/mo)", "", "", n(m_mvp), n(m_tan)],
         [r"\textit{Portfolio std.\ dev.} (\%/mo)", "", "", n(s_mvp), n(s_tan)],
-        [r"\textit{Sharpe ratio} (monthly)", "", "", n(sr_mvp), n(sr_tan)]])
+        [r"\textit{Sharpe ratio} (monthly)", "", "", n(sr_mvp), n(sr_tan)],
+        [r"\textit{Gross leverage} $\sum_i |w_i|$", "", "",
+         n(np.abs(w_mvp).sum(), 2), n(np.abs(w_tan).sum(), 2)],
+        [r"\textit{Cross-sectional SD of weights}", "", "",
+         n(w_mvp.std(ddof=1)), n(w_tan.std(ddof=1))]])
 
 # ---- T2: reliability of the means -------------------------------------
 emit("T2 mean reliability",
@@ -71,12 +75,17 @@ print(f"% L1 {np.abs(w_p-w_tan).sum():.4f} Linf {np.abs(w_p-w_tan).max():.4f} "
 Sd_, Se_ = np.diag(np.diag(Sigma)), np.eye(10)
 CASES = [("Full sample", Sigma), ("Diagonal", Sd_), ("Identity", Se_)]
 rows = []
+base_true = {}
 for lab, S in CASES:
     for p in ("MVP", "Tangency"):
         w = dl.mvp_weights(S) if p == "MVP" else dl.tangency_weights(mu, S, rf)
         m, s, sr = dl.port_stats(w, mu, S, rf)
         _, s2, sr2 = dl.port_stats(w, mu, Sigma, rf)
-        rows.append([f"{lab} --- {p}", n(m), n(s), n(sr), n(s2), n(sr2)])
+        if lab == "Full sample":
+            base_true[p] = sr2
+        loss = 100 * (sr2 / base_true[p] - 1)
+        rows.append([f"{lab} --- {p}", n(m), n(s), n(sr), n(s2), n(sr2),
+                     n(loss, 1) + r"\%"])
 emit("T4 covariance assumptions", rows)
 for lab, S in CASES:
     w = dl.mvp_weights(S)
@@ -119,67 +128,32 @@ for l in res:
 
 
 # ---- figures quoted in the body text ----------------------------------
-# verify_report_numbers.py checks that each of these strings still appears in
-# report.tex, so prose numbers cannot drift when a script changes.
-prose("t-stat range vs zero, low", f"{(mu/se).min():.2f}")
-prose("t-stat range vs zero, high", f"{(mu/se).max():.2f}")
-
-tstats = []
-for i in range(10):
-    for j in range(i + 1, 10):
-        dij = R[:, i] - R[:, j]
-        tstats.append((abs(dij.mean() / (dij.std(ddof=1) / np.sqrt(T))), names[i], names[j]))
-n_sig = sum(t > 1.96 for t, _, _ in tstats)
-prose("pairwise tests significant", str(n_sig))
-prose("pairwise tests total", str(len(tstats)))
-prose("largest pairwise t", f"{max(tstats)[0]:.2f}")
-
-half = T // 2
-rho = stats.spearmanr(R[:half].mean(0), R[half:].mean(0)).correlation
-prose("split-half rank correlation", f"{rho:.3f}")
-
-prose("weight shift L1", f"{np.abs(w_p - w_tan).sum():.2f}")
-prose("weight shift max", f"{np.abs(w_p - w_tan).max():.3f}")
-prose("weight cosine similarity",
-      f"{(w_tan @ w_p) / np.linalg.norm(w_tan) / np.linalg.norm(w_p):.4f}")
-prose("tangency Sharpe baseline", f"{sr_tan:.4f}")
-prose("tangency Sharpe perturbed", f"{sr_p:.4f}")
-prose("tangency Sharpe change", f"{100*(sr_p/sr_tan-1):.1f}")
-
-
-# Q1(c) figures quoted in the body text
-prose("relative SE of a mean", f"{100*(se/mu).mean():.1f}")
-# The report rounds this range to "five to seven times" in prose, so the
-# endpoints are reported for reference rather than verified verbatim.
-print(f"% sigma/mu ratio ranges {(sd/mu).min():.1f} to {(sd/mu).max():.1f}")
-half = T // 2
+# Levels belong in the tables; the discussion only quotes figures a reader
+# would otherwise have to compute.  verify_report_numbers.py checks that each
+# of these strings still appears in report.tex, so they cannot drift.
 iu = np.triu_indices(10, 1)
+half = T // 2
+
+# Q1(a): the average pairwise correlation, which no table carries.
+prose("average pairwise correlation", f"{np.corrcoef(R, rowvar=False)[iu].mean():.3f}")
+
+# Q1(b): the count of pairwise tests of equal mean returns.
+prose("pairwise tests total", str(10 * 9 // 2))
+
+# Q1(c): the split-half correlation levels and the effective number of
+# independent assets, neither of which appears in a table.
 prose("avg correlation, first half",
       f"{np.corrcoef(R[:half], rowvar=False)[iu].mean():.3f}")
 prose("avg correlation, second half",
       f"{np.corrcoef(R[half:], rowvar=False)[iu].mean():.3f}")
 hm_var = 10 / np.sum(1 / np.diag(Sigma))
-base_sr = {}
-for lab, S in CASES:
-    a_, b_, c_, d_ = dl.frontier_abcd(mu, S)
-    m_mvp = b_ / a_
-    r2 = dl.frontier_sd(np.array([m_mvp + 0.2]), mu, S)[0] / np.sqrt(1 / a_)
-    prose(f"shape ratio +0.2, {lab}", f"{r2:.2f}")
-    wm = dl.mvp_weights(S)
-    wt = dl.tangency_weights(mu, S, rf)
-    sa = dl.port_stats(wm, mu, Sigma, rf)[2]
-    sb = dl.port_stats(wt, mu, Sigma, rf)[2]
-    if lab == "Full sample":
-        base_sr = {"MVP": sa, "Tangency": sb}
-        prose("effective independent assets, real Sigma", f"{hm_var*a_:.2f}")
-        prose("tangency premium, real Sigma", f"{100*(sb/sa-1):.1f}")
-    else:
-        prose(f"MVP Sharpe loss, {lab}", f"{abs(100*(sa/base_sr['MVP']-1)):.1f}")
-        prose(f"Tangency Sharpe loss, {lab}", f"{abs(100*(sb/base_sr['Tangency']-1)):.1f}")
-a_full = dl.frontier_abcd(mu, Sigma)[0]
-a_diag = dl.frontier_abcd(mu, np.diag(np.diag(Sigma)))[0]
-prose("MVP variance, real Sigma", f"{1/a_full:.2f}")
-prose("correlation cost factor", f"{(1/a_full)/(1/a_diag):.1f}")
+prose("effective independent assets, real Sigma",
+      f"{hm_var * dl.frontier_abcd(mu, Sigma)[0]:.2f}")
+
+# Printed for reference, rounded in the prose rather than quoted verbatim.
+print(f"% sigma/mu ratio ranges {(sd/mu).min():.1f} to {(sd/mu).max():.1f}")
+print(f"% relative SE: mean {100*(se/mu).mean():.1f}% vs volatility "
+      f"{100/np.sqrt(2*T):.1f}%")
 
 print("\n%%%%% PROSE (numbers quoted in the body text)")
 for lab, val in PROSE:

@@ -52,9 +52,9 @@ ports = pd.DataFrame(rows).T.round(4)
 
 corr = pd.DataFrame(np.corrcoef(R, rowvar=False), index=names, columns=names)
 
-stats.to_csv("tables/q1a_summary_stats.csv")
-ports.to_csv("tables/q1a_portfolios.csv")
-corr.round(3).to_csv("tables/q1a_correlations.csv")
+stats.to_csv(str(dl.TABLES / "q1a_summary_stats.csv"))
+ports.to_csv(str(dl.TABLES / "q1a_portfolios.csv"))
+corr.round(3).to_csv(str(dl.TABLES / "q1a_correlations.csv"))
 
 # --- frontier plot -----------------------------------------------------------
 m_mvp, s_mvp, _ = dl.port_stats(w_mvp, mu, Sigma, rf)
@@ -99,7 +99,7 @@ ax.set_ylim(0.2, 1.4)
 ax.grid(alpha=0.3)
 ax.legend(loc="lower right", fontsize=8)
 fig.tight_layout()
-fig.savefig("figs/q1a_frontier.png", dpi=200)
+fig.savefig(str(dl.FIGS / "q1a_frontier.png"), dpi=200)
 
 # --- console output ----------------------------------------------------------
 pd.set_option("display.width", 200)

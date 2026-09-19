@@ -3,6 +3,8 @@
 import subprocess
 import sys
 
+import data_load as dl
+
 SCRIPTS = ["q1a_frontier.py",
            "q1b_mean_reliability.py",
            "q1c_cov_reliability.py",
@@ -10,6 +12,6 @@ SCRIPTS = ["q1a_frontier.py",
 
 for s in SCRIPTS:
     print(f"\n{'#' * 78}\n### {s}\n{'#' * 78}")
-    if subprocess.run([sys.executable, s]).returncode != 0:
+    if subprocess.run([sys.executable, str(dl.HERE / s)]).returncode != 0:
         sys.exit(f"{s} failed")
 print("\nAll Question 1 scripts completed.")

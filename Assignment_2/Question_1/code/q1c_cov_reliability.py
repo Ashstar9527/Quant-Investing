@@ -111,7 +111,7 @@ for label, S in CASES:
     row["Cosine(w_tan, w_mvp)"] = (wm @ wt) / np.linalg.norm(wm) / np.linalg.norm(wt)
     shape[label] = row
 shape = pd.DataFrame(shape).T.round(4)
-shape.to_csv("tables/q1c_shape.csv")
+shape.to_csv(str(dl.TABLES / "q1c_shape.csv"))
 
 # Is Sigma stable over time?  Split the century and compare correlation levels.
 half = len(R) // 2
@@ -124,10 +124,10 @@ se_mu = R.std(axis=0, ddof=1) / np.sqrt(len(R))
 rel_mu = float((se_mu / mu).mean())
 rel_sd = 1 / np.sqrt(2 * len(R))
 
-wtab.to_csv("tables/q1c_weights.csv")
-atab.to_csv("tables/q1c_assumed.csv")
-rtab.to_csv("tables/q1c_realized.csv")
-dtab.to_csv("tables/q1c_variance_decomp.csv")
+wtab.to_csv(str(dl.TABLES / "q1c_weights.csv"))
+atab.to_csv(str(dl.TABLES / "q1c_assumed.csv"))
+rtab.to_csv(str(dl.TABLES / "q1c_realized.csv"))
+dtab.to_csv(str(dl.TABLES / "q1c_variance_decomp.csv"))
 
 # --- plot 1: each frontier drawn in its own (assumed) risk units -------------
 fig, axes = plt.subplots(1, 3, figsize=(14, 4.6))
@@ -152,7 +152,7 @@ for ax in axes:
 fig.suptitle("Q1(c): Frontiers under three covariance assumptions "
              "(each drawn in its own risk units - the x-axes are NOT comparable)",
              fontsize=11)
-fig.tight_layout(); fig.savefig("figs/q1c_frontiers_assumed.png", dpi=200)
+fig.tight_layout(); fig.savefig(str(dl.FIGS / "q1c_frontiers_assumed.png"), dpi=200)
 
 # --- plot 2: all weight sets evaluated with the TRUE Sigma -------------------
 fig, ax = plt.subplots(figsize=(8, 6))
@@ -176,7 +176,7 @@ ax.set_title("Q1(c): Where the mis-specified-Sigma portfolios actually land\n"
              "weights from the assumed Sigma, risk measured with the real one")
 ax.set_xlim(0, 7); ax.set_ylim(0.6, 1.3)
 ax.grid(alpha=0.3); ax.legend(fontsize=8, loc="lower right")
-fig.tight_layout(); fig.savefig("figs/q1c_frontiers_realized.png", dpi=200)
+fig.tight_layout(); fig.savefig(str(dl.FIGS / "q1c_frontiers_realized.png"), dpi=200)
 
 # --- console output ----------------------------------------------------------
 pd.set_option("display.width", 220)

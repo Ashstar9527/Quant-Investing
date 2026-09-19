@@ -80,8 +80,8 @@ split = pd.DataFrame({
     "Rank, second half": stats.rankdata(-m2).astype(int),
 }, index=names).sort_values("Rank, first half").round(3)
 
-pairs.round(4).to_csv("tables/q1b_pairwise_tests.csv", index=False)
-split.to_csv("tables/q1b_split_half.csv")
+pairs.round(4).to_csv(str(dl.TABLES / "q1b_pairwise_tests.csv"), index=False)
+split.to_csv(str(dl.TABLES / "q1b_split_half.csv"))
 
 # --- 2. perturb every mean upward by one standard error ----------------------
 mu_pert = mu + se
@@ -112,9 +112,9 @@ l1 = np.abs(w_tan_p - w_tan).sum()
 linf = np.abs(w_tan_p - w_tan).max()
 cosang = (w_tan @ w_tan_p) / np.linalg.norm(w_tan) / np.linalg.norm(w_tan_p)
 
-rel.to_csv("tables/q1b_mean_reliability.csv")
-shift.to_csv("tables/q1b_weight_shift.csv")
-pshift.to_csv("tables/q1b_portfolio_shift.csv")
+rel.to_csv(str(dl.TABLES / "q1b_mean_reliability.csv"))
+shift.to_csv(str(dl.TABLES / "q1b_weight_shift.csv"))
+pshift.to_csv(str(dl.TABLES / "q1b_portfolio_shift.csv"))
 
 # --- 3. plots ----------------------------------------------------------------
 m_grid = np.linspace(0.4, 1.6, 400)
@@ -140,7 +140,7 @@ ax.set_title("Q1(b): Effect of a one-standard-error increase in every mean\n"
              "stars mark the tangency portfolio under each set of means")
 ax.set_xlim(0, 9); ax.set_ylim(0.2, 1.5)
 ax.grid(alpha=0.3); ax.legend(loc="lower right", fontsize=8)
-fig.tight_layout(); fig.savefig("figs/q1b_frontier_shift.png", dpi=200)
+fig.tight_layout(); fig.savefig(str(dl.FIGS / "q1b_frontier_shift.png"), dpi=200)
 
 fig, ax = plt.subplots(figsize=(9, 4.5))
 x = np.arange(10); wdt = 0.38
@@ -151,7 +151,7 @@ ax.set_xticks(x); ax.set_xticklabels(names, rotation=45, ha="right")
 ax.set_ylabel("Tangency portfolio weight")
 ax.set_title("Q1(b): Tangency weights before and after a one-SE increase in means")
 ax.grid(axis="y", alpha=0.3); ax.legend()
-fig.tight_layout(); fig.savefig("figs/q1b_weight_shift.png", dpi=200)
+fig.tight_layout(); fig.savefig(str(dl.FIGS / "q1b_weight_shift.png"), dpi=200)
 
 # --- console output ----------------------------------------------------------
 pd.set_option("display.width", 200)

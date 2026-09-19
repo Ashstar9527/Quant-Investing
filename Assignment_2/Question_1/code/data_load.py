@@ -10,18 +10,38 @@ Conventions used everywhere in this problem set:
   * The risk-free rate is the sample mean of the monthly risk-free column.
 """
 
+from pathlib import Path
+
 import numpy as np
 import openpyxl
 
-XLSX = "Problem_Set2_2026-1.xlsx"
+# Paths are resolved from this file's location, so the scripts run correctly
+# from any working directory.
+HERE = Path(__file__).resolve().parent          # Question_1/code
+ROOT = HERE.parent                              # Question_1
+FIGS = ROOT / "figs"
+TABLES = ROOT / "tables"
+MODERN_FIGS = ROOT / "layout_variants" / "figs_modern"
+REPORT = ROOT / "report.tex"
+
+
+def _find_workbook(name="Problem_Set2_2026-1.xlsx"):
+    """The spreadsheet is shared with Question 2, so it sits above this folder."""
+    for d in (ROOT.parent, ROOT, HERE):
+        if (d / name).exists():
+            return d / name
+    raise FileNotFoundError(f"{name} not found near {ROOT}")
+
+
+XLSX = _find_workbook()
 SHEET = "Industry_returns"
 HEADER_ROW = 21          # 1-indexed row holding the industry names
 MONTHS_PER_YEAR = 12
 
 
-def load(path=XLSX):
+def load(path=None):
     """Return a dict with dates, names, returns matrix, rf series and moments."""
-    wb = openpyxl.load_workbook(path, data_only=True)
+    wb = openpyxl.load_workbook(path or XLSX, data_only=True)
     rows = list(wb[SHEET].values)
 
     names = [str(x).strip() for x in rows[HEADER_ROW - 1][1:11]]

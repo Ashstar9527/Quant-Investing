@@ -59,7 +59,8 @@ $S_p = (\mu_p - r_f)/\sigma_p$.
 \centering
 \caption{Industry sample moments and the resulting portfolio weights from
 equation~\eqref{eq:weights}. Weights sum to one in each column. The last three
-rows report the mean, standard deviation and Sharpe ratio of each portfolio.}
+rows report the mean, standard deviation, Sharpe ratio, gross leverage and
+cross-sectional weight dispersion of each portfolio.}
 \begin{tabular}{lrrrr}
 \toprule
  & \multicolumn{2}{c}{Monthly (\%)} & \multicolumn{2}{c}{Weight} \\
@@ -80,6 +81,8 @@ Other & 0.9237 & 6.3555 & $-0.3267$ & $-0.6916$ \\
 \textit{Portfolio mean} (\%/mo) &  &  & 0.8672 & 1.0584 \\
 \textit{Portfolio std.\ dev.} (\%/mo) &  &  & 3.8346 & 4.4063 \\
 \textit{Sharpe ratio} (monthly) &  &  & 0.1557 & 0.1789 \\
+\textit{Gross leverage} $\sum_i |w_i|$ &  &  & 2.21 & 2.83 \\
+\textit{Cross-sectional SD of weights} &  &  & 0.3085 & 0.3590 \\
 \bottomrule
 \end{tabular}
 \label{tab:q1a}
@@ -101,25 +104,22 @@ grey curve is the inefficient lower branch.}
 \begin{itemize}
 \setlength{\itemsep}{6pt}\setlength{\parskip}{0pt}
 
-\item \textbf{NoDur is the largest long position in both portfolios}, 0.72 in
-the MVP and 0.66 in the tangency portfolio. It has the lowest standard
-deviation of the ten industries, 4.56\% per month, and the lowest residual
-volatility once the other nine are controlled for. It earns that weight by
-hedging the movements the industries share.
+\item \textbf{NoDur is the largest long position in both portfolios.} It has
+the lowest standard deviation of the ten industries and, once the other nine
+are controlled for, the lowest residual volatility, which makes it the most
+effective hedging instrument in the set. Both objectives want it.
 
-\item \textbf{The two portfolios diverge on Telcm}, which the MVP holds at
-0.49 and the tangency portfolio at only 0.15. Telcm has the second-lowest
-standard deviation but the lowest mean return in the sample, 9.75\% per year.
-Minimizing variance alone makes it valuable; once expected return enters, its
-low volatility no longer pays for the weakest risk premium of the ten.
+\item \textbf{The two portfolios disagree most on Telcm.} Telcm has the
+second-lowest standard deviation and the lowest mean return in the sample.
+Minimizing variance alone makes it valuable, and once expected return enters,
+its low volatility no longer pays for the weakest risk premium of the ten.
 
-\item \textbf{The tangency portfolio is the more aggressive of the two},
-despite being long in 8 of 10 industries against 5 for the MVP. Its gross
-leverage is 2.83 against 2.21 and its cross-sectional weight dispersion 0.359
-against 0.309. The difference is where the extremity sits: the MVP
+\item \textbf{The tangency portfolio is the more aggressive of the two,
+despite holding more industries long.} It carries higher gross leverage and
+more dispersed weights. The difference is where the extremity sits: the MVP
 concentrates on the long side and spreads small shorts across five industries,
 three of them negligible, while the tangency portfolio funds eight longs out
-of a single short of $-0.69$ in Other, the lowest-Sharpe industry. The extra
+of a single large short in Other, the lowest-Sharpe industry. The extra
 leverage is what it costs to bet on mean differences that are small next to an
 average pairwise correlation of 0.696.
 
@@ -151,10 +151,10 @@ higher risk. Three things follow.
 \item \textbf{The curvature is diversification.} If the industries were
 perfectly correlated, combining them would reduce no risk and the attainable
 set would be a straight line. Correlations below one bend it leftward, and how
-far it bends measures how much diversification is available. Here the average
-pairwise correlation is 0.696, so the bend is modest: the MVP standard
-deviation of 3.83 is only 15.9\% below NoDur's 4.56, whereas part (c) shows it
-would fall to 1.82 if the industries were uncorrelated.
+far it bends measures how much diversification is available. Here the bend is
+modest: the MVP is only about a sixth less volatile than the least volatile
+industry, where part (c) shows it would be less than half as volatile if the
+industries were uncorrelated.
 
 \item \textbf{The vertex is the MVP.} Minimizing the quadratic gives
 $m = b/a = 0.8672$ and $\sigma^2 = 1/a = 14.70$, matching the minimum variance
@@ -259,33 +259,26 @@ Stars mark the tangency portfolio in each case.}
 \setlength{\itemsep}{6pt}\setlength{\parskip}{0pt}
 
 \item \textbf{The means are not estimated reliably enough to rank the
-industries.} Every industry mean is significantly different from zero, with
-$t$-statistics from 4.99 to 7.14. Mean--variance optimization needs the
-ranking of the industries rather than the level, so we test all 45 pairwise
-differences instead, using the standard error of each paired difference
-series. Only one is significant at the 5\% level (HiTec minus Telcm,
-$t = 2.31$), and 45 tests at that level would throw up about two false
-positives by chance. The cross-section therefore looks the same as ten
-industries with identical means. We then split the century at 1976 and compare
-the two halves. The rank correlation is 0.745, so the extremes do hold up,
-with Durbl and HiTec leading in both halves and Telcm trailing in both, while
-the middle reshuffles: NoDur moves from ninth to fifth and Manuf from fourth
-to seventh.
+industries.} Every industry mean differs from zero with a comfortable
+$t$-statistic, but optimization needs the ranking rather than the level. Of
+the 45 pairwise differences only one is significant at the 5\% level, and 45
+tests at that level would produce about two false positives by chance, so the
+cross-section is indistinguishable from ten industries with identical means.
+Splitting the century at 1976 adds nuance rather than comfort: the extremes
+hold, with Durbl and HiTec leading both halves and Telcm trailing both, while
+the middle reshuffles.
 
 \item \textbf{The tangency weights move only moderately.} Raising every mean
-by one standard error shifts the weight vector by 0.32 in total absolute
-terms, the largest single change is 0.096 in NoDur, and the cosine similarity
-between the two weight vectors is 0.9953. The composition tilts, and the
-direction of the tilt stays the same.
+by one standard error tilts the composition without turning it over; the two
+weight vectors keep a cosine similarity above 0.99.
 
 \item \textbf{The frontier moves much more than the weights do.} The tangency
-Sharpe ratio rises from 0.1789 to 0.2120, an increase of 18.5\%, and the
-capital allocation line shifts with it (Figure~\ref{fig:q1b}). So a
-perturbation that no test could detect relocates the whole opportunity set. We
-raised every mean at once, so a good part of this is the frontier shifting up
-as a whole, and only a smaller part comes from industries changing places.
-That is still the point: a century of data does not pin down even the level of
-the achievable Sharpe ratio.
+Sharpe ratio rises by almost a fifth, and the capital allocation line shifts
+with it (Figure~\ref{fig:q1b}). So a perturbation that no test could detect
+relocates the whole opportunity set. We raised every mean at once, so a good
+part of this is the frontier shifting up as a whole. That is still the point:
+a century of data does not pin down even the level of the achievable Sharpe
+ratio.
 
 \end{itemize}
 
@@ -306,18 +299,18 @@ vector $\mu$ is the same in every case. ``Assumed'' measures risk with the
 matrix used to construct the weights; ``true'' measures the same weights under
 the full sample covariance matrix. Means and standard deviations are monthly
 percentages.}
-\begin{tabular}{lrrrrr}
+\begin{tabular}{lrrrrrr}
 \toprule
- & & \multicolumn{2}{c}{Assumed $\Sigma$} & \multicolumn{2}{c}{True $\Sigma$} \\
+ & & \multicolumn{2}{c}{Assumed $\Sigma$} & \multicolumn{2}{c}{True $\Sigma$} & \\
 \cmidrule(lr){3-4}\cmidrule(lr){5-6}
-Case & Mean & Std.\ Dev. & Sharpe & Std.\ Dev. & Sharpe \\
+Case & Mean & Std.\ Dev. & Sharpe & Std.\ Dev. & Sharpe & Loss \\
 \midrule
-Full sample --- MVP & 0.8672 & 3.8346 & 0.1557 & 3.8346 & 0.1557 \\
-Full sample --- Tangency & 1.0584 & 4.4063 & 0.1789 & 4.4063 & 0.1789 \\
-Diagonal --- MVP & 0.9794 & 1.8242 & 0.3888 & 4.8467 & 0.1463 \\
-Diagonal --- Tangency & 0.9960 & 1.8455 & 0.3933 & 4.9516 & 0.1466 \\
-Identity --- MVP & 1.0086 & 0.3162 & 2.3351 & 5.1422 & 0.1436 \\
-Identity --- Tangency & 1.0257 & 0.3199 & 2.3621 & 5.2675 & 0.1434 \\
+Full sample --- MVP & 0.8672 & 3.8346 & 0.1557 & 3.8346 & 0.1557 & 0.0\% \\
+Full sample --- Tangency & 1.0584 & 4.4063 & 0.1789 & 4.4063 & 0.1789 & 0.0\% \\
+Diagonal --- MVP & 0.9794 & 1.8242 & 0.3888 & 4.8467 & 0.1463 & $-6.0$\% \\
+Diagonal --- Tangency & 0.9960 & 1.8455 & 0.3933 & 4.9516 & 0.1466 & $-18.1$\% \\
+Identity --- MVP & 1.0086 & 0.3162 & 2.3351 & 5.1422 & 0.1436 & $-7.8$\% \\
+Identity --- Tangency & 1.0257 & 0.3199 & 2.3621 & 5.2675 & 0.1434 & $-19.8$\% \\
 \bottomrule
 \end{tabular}
 \label{tab:q1c}
@@ -373,45 +366,41 @@ therefore not comparable across panels.}
 \setlength{\itemsep}{6pt}\setlength{\parskip}{0pt}
 
 \item \textbf{The covariance matrix is estimated precisely, though it is not
-stable.} A mean estimate carries 17.2\% relative error on average; a
-volatility carries 2.0\%. Monthly returns bounce around five to seven times
-more than they drift upward, which makes the mean hard to pin down and leaves
-the volatility unaffected. Daily data would sharpen $\Sigma$ further and would
-not help $\mu$ at all. Stability is a separate matter: splitting the century
-at 1976, average pairwise correlation falls from 0.779 to 0.581, so $\Sigma$
-is measured precisely and still moves. The two experiments below set 45
+stable.} A mean carries roughly eight times the relative error of a
+volatility, because a mean's precision depends on how far returns bounce
+relative to how far they drift, while a volatility's depends only on the
+sample size. Daily data would sharpen $\Sigma$ further and would not help
+$\mu$ at all. Stability is a separate matter: splitting the century at 1976,
+average pairwise correlation falls from 0.779 to 0.581, so $\Sigma$ is
+measured precisely and still moves. The two experiments below set 45
 covariances to zero, which is far bigger than any estimation error, so they
 test what happens when we assume something wrong rather than when we measure
 something badly.
 
 \item \textbf{The frontier changes far more than in part (b).} Measured on its
-own assumed risk, the tangency Sharpe ratio goes from 0.1789 to 0.3933 under
-the diagonal matrix and to 2.3621 under the identity, against a move of
-18.5\% in part (b). We then take the same weights and measure risk with the
-real $\Sigma$, which gives 0.1789, 0.1466 and 0.1434. Dropping the covariances
-makes the portfolio look much better and leaves it slightly worse.
+own assumed risk, the tangency Sharpe ratio more than doubles under the
+diagonal matrix and rises more than tenfold under the identity, against a move
+of under a fifth in part (b). Applying those same weights and measuring risk
+with the real $\Sigma$ reverses the ordering entirely. Dropping the
+covariances makes the portfolio look much better and leaves it slightly worse.
 
 \item \textbf{The covariance terms matter far more than the variance terms.}
-For an equal-weighted portfolio, 85.9\% of total variance comes from the 45
-covariance terms rather than the 10 variances. Two results in this section
-confirm that.
+For an equal-weighted portfolio, the great majority of total variance comes
+from the 45 covariance terms rather than the 10 variances. Two results confirm
+it.
 
-The first is the shape of the two misspecified frontiers, which look almost
-identical to each other. Reaching 0.2 above the MVP costs 2.10 times the MVP's
-own risk under the diagonal matrix and 2.04 under the identity, against 1.16
-under the real $\Sigma$. Removing the correlations changes everything, and
-flattening the variances afterwards changes almost nothing. With real
-correlations the ten industries act like 2.26 independent bets, and with
-correlations removed they act like 10, which is why the real MVP variance of
-14.70 is 4.4 times what it would be with no correlation.
+The first is the shape of the two misspecified frontiers, which land within a
+few per cent of each other and need roughly twice the relative risk of the
+real frontier to reach the same distance above the MVP. Removing the
+correlations changes everything, and flattening the variances afterwards
+changes almost nothing. With real correlations the ten industries act like
+2.26 independent bets, and with correlations removed they act like 10.
 
 The second is that the damage falls unevenly. Misspecifying $\Sigma$ costs the
-MVP 6.0\% and 7.8\% of its true Sharpe ratio, and costs the tangency portfolio
-18.1\% and 19.8\%. Under the real $\Sigma$ the tangency portfolio beats the
-MVP by 14.9\%, and under the diagonal and identity matrices that edge falls to
-0.2\% and $-0.1\%$. Minimizing risk works roughly well with variances alone,
-so the MVP survives, while the tangency portfolio's whole edge comes from the
-covariances.
+tangency portfolio about three times what it costs the MVP, and wipes out its
+entire advantage over the MVP. Minimizing risk works roughly well with
+variances alone, so the MVP survives, while the tangency portfolio's whole
+edge comes from the covariances.
 
 \end{itemize}
 
@@ -471,23 +460,80 @@ actual data. Both panels share the same axes.}
 %     actual-data tangency portfolio, so estimation error costs real
 %     out-of-sample performance.
 \paragraph{Discussion.}
-\todo{state which portfolio is estimated with less error, and why}
+\begin{itemize}
+\setlength{\itemsep}{6pt}\setlength{\parskip}{0pt}
+
+\item \textbf{The MVP is estimated with far less error than the tangency
+portfolio.} All three measures in Table~\ref{tab:q1de} agree. The MVP is
+tighter on the spread of the weights, the spread of the realized mean and the
+spread of the realized standard deviation, by roughly a factor of eight on the
+first two and two orders of magnitude on the third. Figure~\ref{fig:q1d} shows
+the same thing: the MVP simulations sit on top of the actual-data portfolio,
+while the tangency simulations scatter well to the right of the frontier.
+
+\item \textbf{The tangency portfolio needs the noisy input, and the MVP sits
+at the minimum of the risk surface.} The MVP uses only the covariance matrix,
+while the tangency portfolio also needs the mean vector, which part (b) showed
+is the noisy one. The MVP also minimizes variance, so the slope of risk with
+respect to the weights is zero there and a weight error costs it only a
+second-order amount. That is why the gap widens from the weights to the
+realized volatility.
+
+\item \textbf{The tangency portfolio still earns a higher Sharpe ratio, but
+estimation error removes most of its advantage.} It wins in about three
+quarters of the simulations. Its advantage falls from roughly fifteen per cent
+on paper to about three per cent once estimation error is taken into account.
+
+\end{itemize}
 
 \paragraph{AI Integration --- Simulation code generation.}
 
-\textit{Prompt:}
-\todo{paste the exact prompt given to the LLM}
+\textit{Prompt:} We gave ChatGPT the spreadsheet and the following prompt.
 
-\textit{What we had to fix or adjust:}
-\todo{list the corrections}
+\begin{quote}
+\small
+You're an expert finance analyst. You need to write a Python code file that
+includes steps as followed:
 
-% This is the graded observation.  If the LLM evaluated the weights on the same
-% simulated data used to estimate them, our own runs quantify the error: doing
-% so raises the average tangency Sharpe ratio from 0.1599 to 0.1991, an
-% overstatement of 24.5%, while the MVP is barely affected (0.1551 vs 0.1561,
-% 0.6%).  The in-sample mistake is therefore specifically a tangency problem.
-\textit{Did the LLM apply the simulated weights to the actual returns?}
-\todo{state explicitly whether the LLM made the in-sample mistake}
+1. Draw T observations from a multivariate normal distribution with estimated
+mean vector and covariance matrix; \\
+2. Computes tangency and MVP weights from the simulated data \\
+3. Applies those weights to the actual, not simulated, industry return
+matrix. \\
+4. Record the resulting portfolio mean and standard deviation. Repeat 1000
+times.
+
+The output would be a python file, and resulted mean and st report with a good
+visualization and formatting.
+\end{quote}
+
+\textit{What we had to fix or adjust:} ChatGPT's code was sound and its figure
+was not. Its chart omits the portfolios built from the actual data, which the
+question asks to be shown alongside the simulated clouds, and it draws one
+combined scatter rather than the two separate mean--standard deviation plots
+the question specifies. A single extreme draw also stretches its horizontal
+axis far beyond the rest of the points, compressing everything of interest
+into the left third of the panel. The code we wrote for part (d), which
+produces Figure~\ref{fig:q1d}, uses two panels on shared axes, marks the
+actual-data portfolios, adds the efficient frontier and fixes the axis limits
+from percentiles so that a single draw cannot rescale the plot.
+
+Three smaller differences from our own implementation. ChatGPT worked in
+decimals while the spreadsheet is in percent, so its output is not directly
+comparable to our other tables. It did not filter the Ken French missing-data
+codes, which is harmless here because we checked that this file contains none.
+And it re-factorized the covariance matrix on every one of the 1{,}000 draws
+rather than reusing a Cholesky factor, which is correct but slower.
+
+\textit{Did the LLM apply the simulated weights to the actual returns?} Yes.
+Its evaluation function multiplies the actual return matrix by the simulated
+weights, and its methodology note says so explicitly. We tested this rather
+than taking it on trust. Jorion shows that every simulated portfolio must be
+suboptimal once measured against the original mean vector and covariance
+matrix, so we checked whether any simulated portfolio beat the true optimum.
+None did, for either the MVP or the tangency portfolio. Code that evaluated
+the weights on the simulated sample would fail this test constantly. Its
+per-industry weight dispersion also matches our own implementation.
 
 \textit{Did the LLM correctly predict which portfolio has smaller estimation
 error, and does its economic explanation hold up?}
@@ -529,8 +575,40 @@ directly.}
 %   - Limitation worth naming: the row bootstrap treats months as i.i.d., so it
 %     ignores volatility clustering; a block bootstrap would relax this.
 \paragraph{Discussion.}
-\todo{compare estimation error under the bootstrap with the normal simulation
-of part (d)}
+\begin{itemize}
+\setlength{\itemsep}{6pt}\setlength{\parskip}{0pt}
+
+\item \textbf{The bootstrap raises estimation error for the MVP and leaves the
+tangency portfolio unchanged.} Table~\ref{tab:q1de} shows the MVP spreading
+roughly twice as wide under the bootstrap on both the realized mean and the
+realized standard deviation, while the tangency figures are effectively
+identical under the two samplers. We repeated the comparison across twenty
+independent seed pairs and the split holds every time.
+
+\item \textbf{Fat tails explain the split, because they affect the two inputs
+differently.} Monthly industry returns are strongly non-normal: Jarque-Bera
+rejects normality for all ten industries and average excess kurtosis is above
+seven. The sampling variance of a mean depends only on the second moment, so
+fat tails leave the mean vector exactly as precise as it was. The sampling
+variance of a variance carries a term in excess kurtosis, which here roughly
+doubles its standard error. The bootstrap therefore makes the covariance
+matrix about twice as noisy and does nothing at all to the mean vector.
+
+The MVP uses only the covariance matrix, so it absorbs that inflation in full,
+and its extra dispersion comes out close to what the kurtosis predicts. For
+the tangency portfolio we split the error into a part driven by the mean
+vector and a part driven by the covariance matrix, and almost all of it comes
+from the mean. The bootstrap inflates the smaller part, which barely moves the
+total.
+
+\item \textbf{The conclusion from part (d) survives.} The tangency cloud
+remains far wider than the MVP cloud under the bootstrap, so switching to the
+empirical distribution narrows the gap without coming close to closing it. One
+caveat: the row bootstrap samples months independently, so it reproduces fat
+tails and contemporaneous correlation while destroying volatility clustering.
+It captures one way the normal assumption fails and misses another.
+
+\end{itemize}
 
 % =====================================================================
 % Question 2 (three-asset hand calculation) and Question 3 (robust
