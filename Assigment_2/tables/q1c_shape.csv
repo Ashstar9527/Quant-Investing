@@ -1,0 +1,4 @@
+,MVP sd,MVP mean,sd(+0.1)/sd_mvp,sd(+0.2)/sd_mvp,Effective indep. assets,MVP true Sharpe loss %,Tangency true Sharpe loss %,Tangency premium over MVP %,"Cosine(w_tan, w_mvp)"
+Full sample Sigma,3.8346,0.8672,1.0429,1.162,2.2631,0.0,0.0,14.9072,0.8197
+Diagonal (cov = 0),1.8242,0.9794,1.3596,2.0961,10.0,-6.0102,-18.0617,0.1737,0.9889
+Identity,0.3162,1.0086,1.3377,2.0389,10.0,-7.7649,-19.8201,-0.1112,0.9886

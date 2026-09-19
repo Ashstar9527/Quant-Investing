@@ -1,0 +1,7 @@
+,Mean (%/mo),SD under assumed Sigma,Sharpe (assumed)
+Full sample Sigma - MVP,0.8672,3.8346,0.1557
+Full sample Sigma - Tangency,1.0584,4.4063,0.1789
+Diagonal (cov = 0) - MVP,0.9794,1.8242,0.3888
+Diagonal (cov = 0) - Tangency,0.996,1.8455,0.3933
+Identity - MVP,1.0086,0.3162,2.3351
+Identity - Tangency,1.0257,0.3199,2.3621

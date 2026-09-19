@@ -1,0 +1,4 @@
+,Mean (%/mo),SD (%/mo),Mean (%/yr),SD (%/yr),Sharpe (monthly),Sharpe (ann.),Sum of weights,Max weight,Min weight,Gross leverage (sum |w|)
+MVP,0.8672,3.8346,10.406,13.2835,0.1557,0.5393,1.0,0.7188,-0.3267,2.2143
+Tangency,1.0584,4.4063,12.7012,15.2637,0.1789,0.6197,1.0,0.6645,-0.6916,2.8316
+Equal weighted,1.0086,5.1422,12.103,17.8132,0.1436,0.4975,1.0,0.1,0.1,1.0

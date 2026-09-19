@@ -1,0 +1,5 @@
+,Mean of sim. portfolio mean,SD of sim. portfolio mean,Mean of sim. portfolio SD,SD of sim. portfolio SD,Mean Sharpe (on actual data),SD of Sharpe,Actual-data Sharpe,Avg cross-sim SD of weights,Max cross-sim SD of weights,Avg |w - w_actual|,In-sample mean Sharpe
+Normal (d) - MVP,0.8671,0.0096,3.8489,0.0066,0.1551,0.0025,0.1557,0.0381,0.056,0.0304,0.1561
+Normal (d) - Tangency,1.065,0.0793,4.9938,0.6388,0.1599,0.0096,0.1789,0.2716,0.3965,0.2114,0.1991
+Bootstrap (e) - MVP,0.8693,0.0176,3.8627,0.0142,0.1551,0.0045,0.1557,0.0523,0.0847,0.0421,0.1575
+Bootstrap (e) - Tangency,1.0692,0.0802,5.0046,0.6377,0.1603,0.0095,0.1789,0.2703,0.4093,0.2102,0.201

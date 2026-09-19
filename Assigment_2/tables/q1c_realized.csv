@@ -1,0 +1,7 @@
+,Mean (%/mo),SD under TRUE Sigma,Sharpe (true),Sum |w|,Max w,Min w
+Full sample Sigma - MVP,0.8672,3.8346,0.1557,2.2143,0.7188,-0.3267
+Full sample Sigma - Tangency,1.0584,4.4063,0.1789,2.8316,0.6645,-0.6916
+Diagonal (cov = 0) - MVP,0.9794,4.8467,0.1463,1.0,0.1601,0.0493
+Diagonal (cov = 0) - Tangency,0.996,4.9516,0.1466,1.0,0.1512,0.0634
+Identity - MVP,1.0086,5.1422,0.1436,1.0,0.1,0.1
+Identity - Tangency,1.0257,5.2675,0.1434,1.0,0.1235,0.0734

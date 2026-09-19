@@ -1,0 +1,4 @@
+,Mean (%/mo),SD (%/mo),Sharpe (monthly),Sharpe (ann.)
+"Tangency, baseline",1.0584,4.4063,0.1789,0.6197
+"Tangency, +1 SE",1.198,4.3771,0.212,0.7343
+MVP (mu-free),0.8672,3.8346,0.1557,0.5393
