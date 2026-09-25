@@ -23,3 +23,7 @@ The beta coefficient is positive, which is consistent with the hypothesis that h
 
 ### My Evaluation
 The LLM correctly interpreted the positive beta coefficient, the p-value, and the R-squared. It also correctly distinguished between statistical significance at the 5% and 10% levels. However, the interpretation should emphasize that the cross-sectional regression contains only nine ETFs, which limits statistical power. Therefore, the results should not be interpreted as a definitive rejection or confirmation of the CAPM.
+
+## Step 5: AI Workflow Reflection
+
+Using an LLM made the implementation process faster because it helped generate the initial Python code for downloading, cleaning, and analyzing the ETF data. However, I still needed to check the code carefully rather than accepting the output directly. For example, I revised the missing-value diagnostics after noticing that the initial version only checked for missing observations after they had already been dropped. The LLM was also useful for interpreting the regression results, but I needed to add context about the small number of sector ETFs and the resulting limitation in statistical power. Next time, I would define the diagnostics and output I want more clearly in the initial prompt so that less revision is needed later.
