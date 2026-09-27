@@ -13,6 +13,13 @@ The initial code checked for missing values only after dropping missing observat
 
 After the revision, the raw dataset contained no missing prices, so no observations were removed during the cleaning step.
 
+
+## Step 3(b): Regression Specification
+
+The initial AI-generated code estimated market betas and ran the cross-sectional regression using raw returns. After reviewing the CAPM specification, I revised the code to use excess returns by subtracting the monthly risk-free rate from both ETF returns and SPY returns.
+
+The revised code uses the risk-free rate from the Kenneth French Data Library. Under this specification, the Sharpe-Lintner CAPM predicts an intercept of zero.
+
 ## Step 3(c): Interpretation Assistance
 
 ### Prompt
@@ -21,8 +28,15 @@ I ran a cross-sectional CAPM test on nine U.S. sector ETFs using monthly data fr
 ### LLM Interpretation
 The beta coefficient is positive, which is consistent with the hypothesis that higher-beta sector ETFs have higher average returns. A one-unit increase in beta is associated with approximately a 0.20 percentage point increase in average monthly return. However, the beta coefficient has a p-value of 0.072, so it is not statistically significant at the conventional 5% level, although it is significant at the 10% level. The R-squared of 0.390 indicates that market beta explains about 39% of the cross-sectional variation in average sector ETF returns. Overall, the results show a positive relationship between beta and average return, but the statistical evidence for the CAPM is limited.
 
+
 ### My Evaluation
-The LLM correctly interpreted the positive beta coefficient, the p-value, and the R-squared. It also correctly distinguished between statistical significance at the 5% and 10% levels. However, the interpretation should emphasize that the cross-sectional regression contains only nine ETFs, which limits statistical power. Therefore, the results should not be interpreted as a definitive rejection or confirmation of the CAPM.
+
+The LLM correctly interpreted the positive beta coefficient, its p-value, and the R-squared. However, it focused too much on the beta coefficient and overlooked the statistically significant positive intercept.
+
+Since the final regression uses excess returns, the Sharpe-Lintner CAPM predicts an intercept of zero. The estimated intercept of 0.0061 is statistically significant (p = 0.0003), providing evidence against the CAPM using SPY as the market proxy.
+
+The LLM also did not fully discuss the limitations of using only nine ETFs or the estimation uncertainty associated with the first-pass betas. Therefore, its original interpretation was incomplete.
+
 
 ## Step 5: AI Workflow Reflection
 
