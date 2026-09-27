@@ -1,6 +1,8 @@
 import yfinance as yf
+import numpy as np
 import pandas as pd
 import statsmodels.api as sm
+from scipy import stats
 import io
 import zipfile
 import requests
@@ -188,3 +190,80 @@ print(
     "Number of sector ETFs:",
     len(beta_table)
 )
+
+
+# --------------------------------------------------
+# Robustness check: Fama-MacBeth standard errors
+#
+# Each month t, regress the nine ETF excess returns on
+# the same fixed full-sample betas:
+# R_it = gamma_0t + gamma_Mt * Beta_i + error_it
+#
+# The FMB estimate is the time-series average of the
+# monthly gammas; its standard error is the time-series
+# standard deviation of the gammas divided by sqrt(T).
+# --------------------------------------------------
+
+X_fmb = sm.add_constant(beta_table.set_index("Ticker")["Beta"])
+
+monthly_gammas = []
+
+for date in excess_returns.index:
+    y_t = excess_returns.loc[date, sector_etfs]
+    monthly_gammas.append(sm.OLS(y_t, X_fmb).fit().params)
+
+monthly_gammas = pd.DataFrame(monthly_gammas, index=excess_returns.index)
+
+T = len(monthly_gammas)
+fmb_coef = monthly_gammas.mean()
+fmb_se = monthly_gammas.std(ddof=1) / np.sqrt(T)
+fmb_t = fmb_coef / fmb_se
+fmb_p = 2 * stats.t.sf(np.abs(fmb_t), df=T - 1)
+
+# The FMB averages should equal the OLS coefficients,
+# because the betas are the same every month
+assert np.allclose(fmb_coef, cs_model.params)
+
+comparison_table = pd.DataFrame({
+    "OLS Coef.": cs_model.params,
+    "OLS Std. Error": cs_model.bse,
+    "OLS t-stat": cs_model.tvalues,
+    "OLS p-value": cs_model.pvalues,
+    "FMB Coef.": fmb_coef,
+    "FMB Std. Error": fmb_se,
+    "FMB t-stat": fmb_t,
+    "FMB p-value": fmb_p
+})
+
+print("\nOLS vs. Fama-MacBeth (robustness check):")
+print(comparison_table.round(4).T)
+print("Number of monthly cross-sections (T):", T)
+
+
+# --------------------------------------------------
+# Compare the estimated beta premium with the
+# average SPY excess return (the CAPM prediction)
+# --------------------------------------------------
+
+beta_premium = cs_model.params["Beta"]
+spy_premium = market_excess.mean()
+premium_gap = beta_premium - spy_premium
+
+print("\nBeta premium vs. average SPY excess return:")
+print("Estimated beta premium (gamma_M):", round(beta_premium, 4))
+print("Average SPY excess return:", round(spy_premium, 4))
+print("Difference (gamma_M - SPY):", round(premium_gap, 4))
+
+# Test the difference using the monthly series gamma_Mt - SPY_t.
+# Its time-series standard error accounts for the sampling
+# uncertainty of both averages and their covariance.
+monthly_gap = monthly_gammas["Beta"] - market_excess
+gap_se = monthly_gap.std(ddof=1) / np.sqrt(T)
+gap_t = monthly_gap.mean() / gap_se
+gap_p = 2 * stats.t.sf(abs(gap_t), df=T - 1)
+
+assert np.isclose(monthly_gap.mean(), premium_gap)
+
+print("Std. error of difference (monthly series):", round(gap_se, 4))
+print("t-stat of difference:", round(gap_t, 4))
+print("p-value of difference:", round(gap_p, 4))

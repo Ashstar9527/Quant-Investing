@@ -13,7 +13,45 @@ The initial code checked for missing values only after dropping missing observat
 
 After the revision, the raw dataset contained no missing prices, so no observations were removed during the cleaning step.
 
+
+## Step 3(b): Cross-Sectional Regression
+
+### Prompt (Close Paraphrase)
+
+Please generate Python code to estimate the market beta of each of the nine U.S. sector ETFs using SPY as the market proxy. Then run a cross-sectional OLS regression of each ETF's average monthly return on its estimated beta. Report the coefficients, standard errors, t-statistics, p-values, and R-squared.
+
+### Summary of the LLM's Response
+
+The LLM generated code that (1) estimated each ETF's beta with a full-sample time-series OLS regression of its monthly return on SPY's monthly return, (2) stored each ETF's average monthly return and beta in a table, and (3) ran a cross-sectional OLS regression of average returns on beta, reporting coefficients, standard errors, t-statistics, p-values and R². When run, the code produced an intercept of 0.0061, a beta coefficient of 0.0020 (p = 0.0721) and an R² of 0.3903. It followed the prompt correctly, but it used raw returns for both the ETFs and SPY rather than excess returns.
+
+### Subsequent Correction
+
+The initial AI-generated code estimated market betas and ran the cross-sectional regression using raw returns. After reviewing the CAPM specification, I revised the code to use excess returns by subtracting the monthly risk-free rate from both ETF returns and SPY returns. The final analysis uses the excess-return specification.
+
+The revised code uses the risk-free rate from the Kenneth French Data Library. Under this specification, the Sharpe-Lintner CAPM predicts an intercept of zero.
+
+### Robustness Check: Fama-MacBeth Standard Errors (Added After the Final OLS Results)
+
+An AI code review of my finished analysis pointed out that the cross-sectional OLS standard errors treat the nine ETF residuals as independent, even though sector returns are strongly correlated. It recommended reporting Fama-MacBeth (FMB) time-series standard errors, which Part I of the problem set identifies as the preferred approach.
+
+**Prompt (close paraphrase):** Keep my original cross-sectional OLS regression as the main methodology. Add Fama-MacBeth standard errors only as a robustness check, using the same fixed full-sample betas and monthly ETF excess returns. Report the OLS and FMB results side by side, including coefficients, standard errors, t-statistics and p-values, and compare the estimated beta premium with the average SPY excess return. Do not add Shanken, Newey-West or other extensions.
+
+**What the LLM produced:** Code that runs the cross-sectional regression of the nine ETF excess returns on the fixed betas each month, averages the 311 monthly estimates, and computes FMB standard errors as the time-series standard deviation of the monthly estimates divided by √T. It also added a check that the FMB coefficient averages equal the OLS coefficients, which must hold when the betas are fixed.
+
+**Verification:** I reran the script. The OLS results were unchanged, the FMB coefficients matched the OLS coefficients exactly, and only the standard errors differed:
+
+| Variable | Coefficient | OLS SE | OLS t | FMB SE | FMB t | FMB p |
+|---|---:|---:|---:|---:|---:|---:|
+| Intercept | 0.0045 | 0.0009 | 4.8158 | 0.0028 | 1.6032 | 0.1099 |
+| Beta | 0.0020 | 0.0010 | 2.1220 | 0.0037 | 0.5506 | 0.5823 |
+
+The estimated beta premium (0.0020) is about one third of the average SPY excess return (0.0060). The gap is not statistically significant (t = −1.47, p = 0.1416).
+
+**Later correction to the gap test:** The first version of this comparison divided the gap by the standard error of the beta premium alone (t = −4.19 with the OLS standard error and t = −1.09 with the FMB standard error). This ignored the sampling uncertainty of the SPY average and its covariance with the beta premium, even though the monthly beta-premium estimates and SPY excess returns are strongly correlated. I replaced it with a test based on the monthly difference series γ_Mt − SPY_t, whose time-series standard error (0.0027) accounts for both. There is no equivalent test for the single cross-sectional OLS regression, so the OLS comparison is now reported descriptively only.
+
 ## Step 3(c): Interpretation Assistance
+
+**Note:** The prompt and LLM interpretation below are the original record and refer to the **initial raw-return regression**, not the final excess-return results.
 
 ### Prompt
 I ran a cross-sectional CAPM test on nine U.S. sector ETFs using monthly data from February 2000 to December 2025. The cross-sectional regression of average monthly returns on estimated market beta produced an intercept of 0.0061 (t = 6.47, p = 0.0003), a beta coefficient of 0.0020 (t = 2.12, p = 0.0721), and an R-squared of 0.3903. Please interpret these results. Do they support my hypothesis that higher-beta sector ETFs should have higher average returns, and how strong is the evidence for the CAPM?
@@ -21,9 +59,32 @@ I ran a cross-sectional CAPM test on nine U.S. sector ETFs using monthly data fr
 ### LLM Interpretation
 The beta coefficient is positive, which is consistent with the hypothesis that higher-beta sector ETFs have higher average returns. A one-unit increase in beta is associated with approximately a 0.20 percentage point increase in average monthly return. However, the beta coefficient has a p-value of 0.072, so it is not statistically significant at the conventional 5% level, although it is significant at the 10% level. The R-squared of 0.390 indicates that market beta explains about 39% of the cross-sectional variation in average sector ETF returns. Overall, the results show a positive relationship between beta and average return, but the statistical evidence for the CAPM is limited.
 
+
 ### My Evaluation
-The LLM correctly interpreted the positive beta coefficient, the p-value, and the R-squared. It also correctly distinguished between statistical significance at the 5% and 10% levels. However, the interpretation should emphasize that the cross-sectional regression contains only nine ETFs, which limits statistical power. Therefore, the results should not be interpreted as a definitive rejection or confirmation of the CAPM.
+
+**What the LLM got right.** It correctly read the sign and size of the beta coefficient (about 0.20 percentage points of monthly return per unit of beta), correctly noted that p = 0.072 is significant at the 10% level but not at the 5% level, and reached a reasonably cautious conclusion that the evidence for the CAPM is limited.
+
+**What it missed.** It did not discuss the intercept, even though it was the most significant estimate (t = 6.47). In a raw-return regression, the CAPM predicts an intercept equal to the risk-free rate, so the intercept should have been compared with the average risk-free rate. It also did not compare the beta coefficient with the average market excess return, which is the slope the CAPM predicts, and it did not mention the small cross-section (nine ETFs, seven degrees of freedom) or that the first-pass betas are estimated.
+
+**What it got wrong or interpreted misleadingly.**
+- It took the OLS p-values at face value. These standard errors treat the nine ETF residuals as independent, even though sector returns are strongly correlated, so they overstate precision. With Fama-MacBeth standard errors, the beta coefficient has p = 0.58 rather than 0.07.
+- It judged the CAPM mainly by whether the beta coefficient was positive and significant. The CAPM makes a sharper prediction: the slope should equal the market risk premium, and the intercept should equal the risk-free rate. A positive slope well below the market premium points to a flatter security market line rather than support for the CAPM.
+- It described the R² of 0.39 as beta explaining 39% of the cross-sectional variation, without noting that it is estimated from only nine observations.
+
+Some of these gaps partly reflect my prompt, which did not give the risk-free rate or the average market return.
+
+### Re-assessment with the Final Results
+
+| Specification | Intercept | Beta coefficient | Beta p-value | R² |
+|---|---|---|---|---:|
+| Original (raw returns, OLS SE) | 0.0061 (p = 0.0003) | 0.0020 | 0.0721 | 0.3903 |
+| Final (excess returns, OLS SE) | 0.0045 (p = 0.0019) | 0.0020 | 0.0715 | 0.3915 |
+| Final (excess returns, FMB SE) | 0.0045 (p = 0.1099) | 0.0020 | 0.5823 | — |
+
+After switching to excess returns, the beta coefficient was essentially unchanged, and the intercept fell to 0.0045. Under OLS standard errors, the intercept remained significant, which I first read as evidence against the CAPM. The Fama-MacBeth robustness check changed that conclusion: neither the intercept (p = 0.1099) nor the beta premium (p = 0.5823) is significant, and the gap between the beta premium (0.20% per month) and the average SPY excess return (0.60% per month) is not significant either (p = 0.1416). The point estimates suggest a flatter security market line than the CAPM predicts, but the test is not precise enough to reject the CAPM.
+
+The comparison with the market premium and the concern about OLS standard errors came from the later AI code review described in Step 3(b), not from the original LLM interpretation or my first evaluation.
 
 ## Step 5: AI Workflow Reflection
 
-Using an LLM made the implementation process faster because it helped generate the initial Python code for downloading, cleaning, and analyzing the ETF data. However, I still needed to check the code carefully rather than accepting the output directly. For example, I revised the missing-value diagnostics after noticing that the initial version only checked for missing observations after they had already been dropped. The LLM was also useful for interpreting the regression results, but I needed to add context about the small number of sector ETFs and the resulting limitation in statistical power. Next time, I would define the diagnostics and output I want more clearly in the initial prompt so that less revision is needed later.
+Using an LLM let me move quickly from a research design to working Python code for downloading, cleaning and analyzing the ETF data, so I spent more of my time checking the output than writing code from scratch. That checking mattered: I revised the missing-value diagnostics after noticing that the initial code only checked for missing observations after they had already been dropped, and I changed the regression from raw returns to excess returns so that it matched the Sharpe-Lintner CAPM. A later AI code review then pointed out that the cross-sectional OLS standard errors ignore the strong correlation among sector returns, so I added Fama-MacBeth standard errors as a robustness check, which showed that neither the intercept nor the beta premium is statistically significant. AI therefore helped at two different stages, first by generating code quickly and later by questioning my statistical inference, but each improvement still depended on my verifying the specification and results against the CAPM and the methods from Part I. Next time, I would specify the CAPM form, excess returns, the missing-value diagnostics and the appropriate standard errors in my initial prompts, and I would compare the beta premium with the market premium before interpreting the results.
