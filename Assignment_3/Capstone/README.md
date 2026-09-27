@@ -40,11 +40,12 @@ Finally, I run a cross-sectional OLS regression of average ETF excess returns on
 
 ### Step 4(a): Hypothesis
 
-The estimated beta coefficient is positive at 0.0020, which is directionally consistent with my original hypothesis. However, its p-value of 0.0721 indicates that it is not statistically significant at the 5% level.
+The estimated beta coefficient is positive at 0.0020, which is directionally consistent with my original hypothesis. However, its p-value of 0.0715 indicates that it is not statistically significant at the 5% level.
 
-More importantly, the estimated intercept is 0.0061 per month (0.61%), with a p-value of 0.0003. Since the regression uses excess returns, the Sharpe-Lintner CAPM predicts an intercept of zero.
+The estimated intercept is 0.0045 (0.45% per month) and statistically significant (p = 0.0019). Since the regression uses excess returns, the Sharpe-Lintner CAPM predicts an intercept of zero.
 
-The statistically significant positive intercept provides evidence against the CAPM using SPY as the market proxy. Although the beta coefficient is positive, the overall results do not provide strong support for this CAPM specification.
+The significant positive intercept provides evidence against the CAPM using SPY as the market proxy, based on the reported OLS standard errors. Although the beta coefficient is positive, the results do not provide strong support for this CAPM specification.
+
 
 ### Step 4(b): Comparison with Parts I and II
 
