@@ -14,7 +14,15 @@ The initial code checked for missing values only after dropping missing observat
 After the revision, the raw dataset contained no missing prices, so no observations were removed during the cleaning step.
 
 
-## Step 3(b): Regression Specification
+## Step 3(b): Cross-Sectional Regression
+
+### Prompt (Close Paraphrase)
+
+Please generate Python code to estimate the market beta of each of the nine U.S. sector ETFs using SPY as the market proxy. Then run a cross-sectional OLS regression of each ETF's average monthly return on its estimated beta. Report the coefficients, standard errors, t-statistics, p-values, and R-squared.
+
+### Subsequent Correction
+
+The initial code used raw returns. I later revised the regression to use excess returns by subtracting the monthly risk-free rate from both ETF and SPY returns. The final analysis uses the excess-return specification.
 
 The initial AI-generated code estimated market betas and ran the cross-sectional regression using raw returns. After reviewing the CAPM specification, I revised the code to use excess returns by subtracting the monthly risk-free rate from both ETF returns and SPY returns.
 
