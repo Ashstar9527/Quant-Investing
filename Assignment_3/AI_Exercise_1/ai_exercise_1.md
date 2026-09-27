@@ -13,7 +13,7 @@ The LLM's answer is largely correct and more detailed than necessary. It correct
 
 ### My Correction
 
-In the single-factor case, the Shanken correction accounts for first-pass beta estimation uncertainty. The adjustment involves a variance-inflation factor of 1 + lambda² / sigma_M². The corresponding standard error is calculated from the corrected variance.
+In the single-factor case, the Shanken correction accounts for first-pass beta estimation uncertainty. The simplified adjustment involves a variance-inflation factor of 1 + lambda² / sigma_M². The corresponding standard error is calculated from the corrected variance.
 
 
 ## Question 2: Errors-in-Variables
