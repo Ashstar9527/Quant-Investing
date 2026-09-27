@@ -94,3 +94,21 @@ if __name__ == '__main__':
         print(f'{label} {exret.index.min()}..{exret.index.max()}  T={len(exret):4d}  '
               f'N/month: min {n.min()} max {n.max()} mean {n.mean():.1f}  '
               f'mean MktRF {mkt["MktRF"].mean():.4f}')
+
+
+def export_clean(outdir='data'):
+    """Write the cleaned panels to CSV so downstream work need not re-parse the workbook."""
+    import os
+    os.makedirs(outdir, exist_ok=True)
+    exret, mkt, ln_size, ln_bm = build_panel(balanced=False)
+    ret, size, beme = load_industries()
+    for df, name in [(ret, 'industry_returns_total'),
+                     (exret, 'industry_returns_excess'),
+                     (mkt, 'market_proxy'),
+                     (size, 'industry_size_monthly'),
+                     (beme, 'industry_beme_annual'),
+                     (ln_size, 'industry_lnsize_lagged'),
+                     (ln_bm, 'industry_lnbeme_lagged')]:
+        d = df.copy()
+        d.index.name = 'year' if name.endswith('annual') else 'date'
+        d.round(6).to_csv(os.path.join(outdir, name + '.csv'))
