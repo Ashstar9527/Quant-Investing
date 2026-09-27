@@ -12,7 +12,9 @@ The LLM explained that the Shanken correction accounts for the fact that betas u
 The LLM's answer is largely correct and more detailed than necessary. It correctly identifies the estimated-beta problem, explains why conventional Fama-MacBeth standard errors can understate uncertainty, and correctly distinguishes the Shanken correction from Newey-West standard errors. It also provides the more general multi-factor expression. However, it does not clearly state the simplified correction emphasized in the assignment, which inflates the standard errors by a factor related to \(1 + \lambda^2/\sigma_M^2\), where \(\lambda\) is the estimated market risk premium.
 
 ### My Correction
-In the single-factor case used in this assignment, the Shanken correction adjusts Fama-MacBeth standard errors upward by the factor \(1 + \lambda^2/\sigma_M^2\) to account for estimation error in the first-pass betas.
+
+In the single-factor case, the Shanken correction accounts for first-pass beta estimation uncertainty. The adjustment involves a variance-inflation factor of 1 + lambda² / sigma_M². The corresponding standard error is calculated from the corrected variance.
+
 
 ## Question 2: Errors-in-Variables
 
