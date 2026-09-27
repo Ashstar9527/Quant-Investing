@@ -30,13 +30,13 @@ Finally, I run a cross-sectional OLS regression of average ETF excess returns on
 
 | Variable | Coefficient | Std. Error | t-stat | p-value |
 |---|---:|---:|---:|---:|
-| Intercept | 0.0061 | 0.0009 | 6.4712 | 0.0003 |
-| Beta | 0.0020 | 0.0010 | 2.1168 | 0.0721 |
+| Intercept | 0.0045 | 0.0009 | 4.8158 | 0.0019 |
+| Beta | 0.0020 | 0.0010 | 2.1220 | 0.0715 |
 
 - Number of sector ETFs: 9
 - Sample period: February 2000–December 2025
 - Monthly return observations: 311
-- Cross-sectional R²: 0.3903
+- Cross-sectional R²: 0.3915
 
 ### Step 4(a): Hypothesis
 
