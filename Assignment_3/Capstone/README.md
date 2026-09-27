@@ -38,6 +38,8 @@ Finally, I run a cross-sectional OLS regression of average ETF excess returns on
 - Monthly return observations: 311
 - Cross-sectional R²: 0.3915
 
+All coefficients and standard errors are reported in decimal units per month. For comparison with Part I, which reports returns in percent per month, the estimates should be multiplied by 100.
+
 ### Step 4(a): Hypothesis
 
 The estimated beta coefficient is positive at 0.0020, which is directionally consistent with my original hypothesis. However, its p-value of 0.0715 indicates that it is not statistically significant at the 5% level.
