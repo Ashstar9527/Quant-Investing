@@ -30,7 +30,7 @@
 \makeatletter
 \renewcommand\section{\@startsection{section}{1}{0pt}%
   {-2.6ex \@plus -1ex \@minus -.2ex}{1.3ex \@plus .2ex}%
-  {\normalfont\scshape\large\color{psink}}}
+  {\normalfont\bfseries\scshape\large\color{psink}}}
 \renewcommand\subsection{\@startsection{subsection}{2}{0pt}%
   {-2.2ex \@plus -1ex \@minus -.2ex}{1.0ex \@plus .2ex}%
   {\normalfont\bfseries\normalsize\color{psink}}}
@@ -97,7 +97,7 @@ specification. The full July 1926 -- June 2026 sample ($T = 1200$, $N$ from 40
 to 49) is reported as a robustness check. The sample mean of $R_M - R_f$ is
 $0.6116$ on the balanced sample and $0.6952$ on the full sample.
 
-\subsection{Question (a): CAPM predictions for $\gamma_0$ and $\gamma_M$}
+\subsection{Question (a)}
 
 In the cross-sectional regression
 $R_i = \gamma_0 + \gamma_M \beta_{iM} + \eta_i$ with
@@ -133,7 +133,7 @@ $\gamma_0 = 0$ with $\gamma_M$ equal to the average market excess return, and
 Black predicts $\gamma_0 = E[R_z] - R_f$, unrestricted in sign but generally
 positive.
 
-\subsection{Question (b): Fama-MacBeth estimation}
+\subsection{Question (b)}
 
 Each industry's beta is estimated once by OLS over the full sample and held
 fixed thereafter; the estimates range from $0.516$ (Utilities) to $1.514$
@@ -222,7 +222,7 @@ regression the assignment describes.
 treat it as a claim and verified it by re-running the script against our data.
 \end{tight}
 
-\subsection{Question (c): Cross-sectional regression on time-averaged returns}
+\subsection{Question (c)}
 
 \begin{table}[H]
 \centering
@@ -264,7 +264,7 @@ market shock. On the full sample this matters for the conclusion, as the
 cross-sectional regression makes $\hat\gamma_M$ appear significant while
 Fama-MacBeth does not.
 
-\subsection{Question (d): Average return against estimated beta}
+\subsection{Question (d)}
 
 \begin{figure}[H]
 \centering
@@ -320,7 +320,7 @@ Utilities and Software have the lowest and highest betas in the sample, yet
 their average returns differ by little.
 \end{tight}
 
-\subsection{Question (e): CAPM predictions for $\gamma_{size}$ and $\gamma_{B/M}$}
+\subsection{Question (e)}
 
 In the extended regression
 \[
@@ -340,7 +340,7 @@ $\gamma_{size}$ would indicate a size premium and a significantly positive
 $\gamma_{B/M}$ a value premium. Either result rejects the CAPM, regardless of
 the estimate of $\gamma_M$.
 
-\subsection{Question (f): Extended Fama-MacBeth estimation}
+\subsection{Question (f)}
 
 Using the same fixed betas, we estimate each month
 \[
@@ -438,14 +438,11 @@ test than asking it to explain a result stated in the prompt.
 standard errors: percentage points per month. Mean market excess return:
 $0.6116$.
 
-\subsection{Question 1(b)}
+\subsection{Question (1), repeating Part I(b)}
 
 \begin{table}[H]
 \centering
-\caption{Fama--MacBeth estimates ($t$-statistics test zero). Average monthly
-cross-sectional R-squared: $0.2425$. Slope restriction
-$E(\gamma_{M,t} - \mathrm{MktRF}_t) = 0$: mean difference $= -1.1873$,
-SE $= 0.3916$, $t = -3.0316$, $p = 0.0025$.}
+\caption{Extended Fama--MacBeth estimates, 25 size and BE/ME portfolios.}
 \small
 \begin{tabular}{lrrrr}
 \toprule
@@ -456,6 +453,12 @@ SE $= 0.3916$, $t = -3.0316$, $p = 0.0025$.}
 \bottomrule
 \end{tabular}
 \label{tab:p2b}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+The $t$-statistics test against zero. Average monthly R-squared is $0.2425$ with beta
+alone and $0.5288$ for the extended model. For the slope restriction
+$E(\gamma_{M,t} - \mathrm{MktRF}_t) = 0$ the mean difference is $-0.8761$ with SE
+$0.2629$, giving $t = -3.3320$ and $p = 0.0009$.
+\end{minipage}
 \end{table}
 
 Using fixed full-period betas and 684 monthly cross-sectional regressions, we
@@ -470,7 +473,7 @@ Sharpe--Lintner CAPM restrictions and provide evidence against the proxy being
 the tangency portfolio for these assets. The insignificant slope relative to
 zero is not, by itself, grounds for rejection.
 
-\subsection{Question 1(c)}
+\subsection{Question (1), repeating Part I(c)}
 
 \begin{table}[H]
 \centering
@@ -502,7 +505,7 @@ because it incorporates that time-series variation and accommodates
 contemporaneous correlation across portfolio returns. It does not eliminate
 error from estimated betas.
 
-\subsection{Question 1(d)}
+\subsection{Question (1), repeating Part I(d)}
 
 \begin{figure}[H]
 \centering
@@ -523,7 +526,7 @@ $R^2 = 0.1987$, so market beta explains little of their average-return
 variation. The plot is inconsistent with the predicted SML, although visual
 evidence alone is not a formal statistical test.
 
-\subsection{Question 1(f)}
+\subsection{Question (1), repeating Part I(f)}
 
 \begin{table}[H]
 \centering
@@ -563,7 +566,7 @@ constant within each year. This follows the assignment's information-timing
 convention and avoids using contemporaneous characteristics, though actual
 accounting-data availability would require publication dates.
 
-\subsection{Question 2}
+\subsection{Question (2)}
 
 \paragraph{2(a).} Using the 684 monthly observations from July 1969 to June
 2026, we calculate the sample mean vector $\hat\mu$ and covariance matrix
@@ -575,12 +578,7 @@ The weights sum to one, with short selling allowed.
 
 \begin{table}[H]
 \centering
-\caption{In-sample tangency weights and tangency betas. Weights are reported
-as fractions of portfolio value. Size and BE/ME groups increase from 1 to 5.
-Sum of weights: $1.000000$. Gross exposure (sum of absolute weights):
-$13.3859$. Mean excess return: $2.5204\%$ per month. Monthly volatility:
-$6.0461\%$. Monthly Sharpe ratio: $0.4169$. Weighted average beta:
-$1.000000$.}
+\caption{In-sample tangency weights and tangency betas.}
 \small
 \begin{tabular}{lrrlrr}
 \toprule
@@ -602,6 +600,12 @@ Size3\_BM3 & $-0.6615$ & 0.2819 &            &         &        \\
 \bottomrule
 \end{tabular}
 \label{tab:p2w}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+Weights are fractions of portfolio value and size and BE/ME groups increase from 1 to 5.
+Sum of weights $1.000000$; gross exposure $13.3859$; mean excess return $2.5204\%$ per
+month; monthly volatility $6.0461\%$; monthly Sharpe ratio $0.4169$; weighted average
+beta $1.000000$.
+\end{minipage}
 \end{table}
 
 Gross exposure,
@@ -633,11 +637,7 @@ economically meaningful because the fit is mechanically exact.
 
 \begin{table}[H]
 \centering
-\caption{Cross-sectional regression using the in-sample tangency portfolio as
-the market proxy. Cross-sectional R-squared: $1.000000$. $N = 25$. Mean
-tangency excess return: $2.5204\%$ per month. Maximum absolute regression
-residual: $9.659\times10^{-15}$. Fitted line: $0.0000 + (2.5204)\times$ beta.
-CAPM SML: $2.5204\times$ beta.}
+\caption{Cross-sectional regression using the in-sample tangency portfolio as the market proxy.}
 \small
 \begin{tabular}{lrrr}
 \toprule
@@ -648,6 +648,11 @@ CAPM SML: $2.5204\times$ beta.}
 \bottomrule
 \end{tabular}
 \label{tab:p2q2}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+Cross-sectional R-squared $1.000000$, $N = 25$. Mean tangency excess return $2.5204\%$ per
+month and maximum absolute residual $9.659\times10^{-15}$. Fitted line
+$0.0000 + (2.5204)\times$ beta; CAPM SML $2.5204\times$ beta.
+\end{minipage}
 \end{table}
 
 \begin{figure}[H]
@@ -679,7 +684,7 @@ proxy could therefore reflect a poor proxy, while obtaining a perfect fit with
 a deliberately constructed tangency portfolio does not establish that the true
 market portfolio is efficient.
 
-\subsection{Question 3}
+\subsection{Question (3)}
 
 \paragraph{3(a).} Sample 1 contains odd-numbered months in even years and
 even-numbered months in odd years, giving 342 observations. Using only these
@@ -737,10 +742,7 @@ R^e_i = 0.0684 + 3.2851\,\hat\beta_{i,\mathrm{OOS}} + \hat\eta_i .
 
 \begin{table}[H]
 \centering
-\caption{Cross-sectional regression using the out-of-sample tangency portfolio
-as the market proxy. Returns are measured in percent per month. The regression
-has $R^2 = 0.9753$ and $N = 25$. Mean OOS market excess return: $1.9754\%$ per
-month.}
+\caption{Cross-sectional regression using the out-of-sample tangency portfolio as the market proxy.}
 \small
 \begin{tabular}{lrrr}
 \toprule
@@ -751,6 +753,10 @@ $\gamma_M$ & 3.2851 & 0.1091 & 30.1058 \\
 \bottomrule
 \end{tabular}
 \label{tab:p2q3}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+Returns are in percent per month. The regression has $R^2 = 0.9753$ and $N = 25$, and the
+mean out-of-sample market excess return is $1.9754\%$ per month.
+\end{minipage}
 \end{table}
 
 \begin{figure}[H]
@@ -775,7 +781,7 @@ weights. Because the two samples are interleaved in time, this is a
 held-out-sample exercise rather than a strictly forward-looking trading
 backtest.
 
-\subsection{Question 4}
+\subsection{Question (4)}
 
 \paragraph{1. Comparing the results.}
 
@@ -989,8 +995,8 @@ specific pattern of the deterioration observed in Q3.
 
 
 % =====================================================================
-\section{Part III, AI Exercise 1: Stress-Testing LLM Knowledge of
-Fama-MacBeth Econometrics}
+\section{AI Exercise 1 --- Stress-Testing LLM Knowledge of Fama-MacBeth
+Econometrics}
 % =====================================================================
 
 LLM used: ChatGPT. The three questions were asked one at a time in a single
@@ -1109,7 +1115,7 @@ Newey-West as a robustness check.
 
 
 % =====================================================================
-\section{Part III, AI Exercise 2: Predicting Cross-Sectional Deviations}
+\section{AI Exercise 2 --- Predicting Cross-Sectional Deviations from the SML}
 % =====================================================================
 
 We asked an LLM which of the 49 industries it expected to fall above, below and
@@ -1183,18 +1189,14 @@ is what we observe for Chips and Electronic Equipment, though not for Software.
 
 
 % =====================================================================
-\section{Part III, AI Exercise 3: Literature Synthesis and Historical Context}
+\section{AI Exercise 3 --- Literature Synthesis and Historical Context}
 % =====================================================================
 
 \subsection{3(a)}
 
 \begin{table}[H]
 \centering
-\caption{These are the values reported in Part I(b). Estimates and standard
-errors are in percent per month; the table's $t$-statistics test against zero.
-The reported mean market excess returns are $0.6116\%$ and $0.6952\%$ per
-month, respectively. For the main sample, the report gives $t = -2.12$ for
-testing the slope against the sample market premium.}
+\caption{Fama-MacBeth estimates reported in Part I(b).}
 \small
 \begin{tabular}{llrrrr}
 \toprule
@@ -1207,6 +1209,12 @@ July 1926--June 2026 & $\gamma_M$ & 0.2490 & 0.2315 & 1.08 & 0.282 \\
 \bottomrule
 \end{tabular}
 \label{tab:ex3a}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+Estimates and standard errors are in percent per month and the $t$-statistics test
+against zero. The mean market excess returns are $0.6116\%$ and $0.6952\%$ per month
+respectively. For the main sample the report gives $t = -2.12$ for testing the slope
+against the sample market premium.
+\end{minipage}
 \end{table}
 
 My Part I(b) results weaken the favorable evidence of Fama and MacBeth (1973)
@@ -1303,19 +1311,19 @@ Evidence.'' \texttt{doi:10.1111/0022-1082.00080}
 
 
 % =====================================================================
-\section{Capstone: Cross-Sectional Test of U.S.\ Sector ETFs}
+\section{Capstone Exercise: Design Your Own Cross-Sectional Test}
 % =====================================================================
 
-\subsection{Step 1: Dataset}
+\subsection{Step 1 --- Choose a Dataset}
 
 Of the datasets offered, this capstone uses \textbf{U.S.\ sector ETF returns}.
 
-\subsection{Research Question}
+\paragraph{Research question.}
 
 Does market beta explain cross-sectional differences in average returns across
 U.S.\ sector ETFs?
 
-\subsection{Step 2: Hypothesis}
+\subsection{Step 2 --- Formulate a Hypothesis}
 
 The dependent variable is the average monthly return of each U.S.\ sector ETF,
 and the main independent variable is its market beta relative to SPY.
@@ -1339,7 +1347,7 @@ Sharpe-Lintner CAPM predicts an intercept of zero, rather than the risk-free
 rate. The original hypothesis above is retained as written before examining the
 data.
 
-\subsection{Step 3: Methodology}
+\subsection{Step 3 --- Use AI to Help Implement the Test}
 
 I use monthly returns for nine U.S.\ sector ETFs (XLB, XLE, XLF, XLI, XLK, XLP,
 XLU, XLV, and XLY), with SPY as the market proxy and the risk-free rate from
@@ -1365,17 +1373,17 @@ monthly estimates divided by $\sqrt{T}$. Because the betas are the same every
 month, the FMB coefficient averages equal the OLS coefficients exactly; only
 the standard errors differ.
 
-\subsection{Step 3: AI Workflow Log}
+\paragraph{AI workflow log.}
 
 \subsubsection*{Step 3(a): Data Loading and Cleaning}
 
-\paragraph{Prompt (Close Paraphrase).} I asked the LLM to generate Python code
+\smallskip\noindent\textit{Prompt (Close Paraphrase).} I asked the LLM to generate Python code
 to download monthly adjusted-price data for nine U.S.\ sector ETFs (XLB, XLE,
 XLF, XLI, XLK, XLP, XLU, XLV, XLY) and SPY from January 2000 through December
 2025, calculate monthly returns, align the series, and check for missing
 observations.
 
-\paragraph{LLM Output and My Correction.} The code successfully downloaded the
+\smallskip\noindent\textit{LLM Output and My Correction.} The code successfully downloaded the
 data and produced 311 monthly return observations from February 2000 through
 December 2025.
 
@@ -1389,13 +1397,13 @@ contained no missing prices, so no observations were removed.
 
 \subparagraph*{Initial OLS Regression}
 
-\paragraph{Prompt (Close Paraphrase).} Please generate Python code to estimate
+\smallskip\noindent\textit{Prompt (Close Paraphrase).} Please generate Python code to estimate
 the market beta of each of the nine U.S.\ sector ETFs using SPY as the market
 proxy. Then run a cross-sectional OLS regression of each ETF's average monthly
 return on its estimated beta. Report the coefficients, standard errors,
 $t$-statistics, $p$-values, and R-squared.
 
-\paragraph{LLM Output and My Correction.} The LLM generated code to estimate
+\smallskip\noindent\textit{LLM Output and My Correction.} The LLM generated code to estimate
 full-sample betas and regress average ETF returns on those betas. The initial
 results were an intercept of $0.0061$, a beta coefficient of $0.0020$
 ($p = 0.0721$), and $R^2 = 0.3903$.
@@ -1411,7 +1419,7 @@ A later AI code review recommended Fama-MacBeth (FMB) standard errors because
 the original cross-sectional OLS inference did not adequately account for
 common shocks across sector returns.
 
-\paragraph{Prompt (Close Paraphrase).} Keep my original cross-sectional OLS
+\smallskip\noindent\textit{Prompt (Close Paraphrase).} Keep my original cross-sectional OLS
 regression as the main methodology. Add Fama-MacBeth standard errors only as a
 robustness check, using the same fixed full-sample betas and monthly ETF excess
 returns. Report the OLS and FMB results side by side, including coefficients,
@@ -1419,7 +1427,7 @@ standard errors, $t$-statistics and $p$-values, and compare the estimated beta
 premium with the average SPY excess return. Do not add Shanken, Newey-West or
 other extensions.
 
-\paragraph{LLM Output and Verification.} The LLM generated monthly
+\smallskip\noindent\textit{LLM Output and Verification.} The LLM generated monthly
 cross-sectional regressions using fixed betas, then calculated FMB standard
 errors from the time-series variation in the 311 monthly coefficient estimates.
 
@@ -1429,7 +1437,7 @@ FMB standard errors, neither the intercept ($p = 0.1099$) nor the beta
 coefficient ($p = 0.5823$) is significant. I therefore use the FMB standard
 errors as the main basis for inference.
 
-\paragraph{Additional Correction: Market-Premium Gap Test.} The initial
+\smallskip\noindent\textit{Additional Correction: Market-Premium Gap Test.} The initial
 comparison divided the gap by the beta premium's standard error alone, ignoring
 uncertainty in the SPY average and its covariance with the estimated premium.
 
@@ -1442,7 +1450,7 @@ statistically significant.
 
 \subparagraph*{Initial Raw-Return Results}
 
-\paragraph{Prompt.} I ran a cross-sectional CAPM test on nine U.S.\ sector ETFs
+\smallskip\noindent\textit{Prompt.} I ran a cross-sectional CAPM test on nine U.S.\ sector ETFs
 using monthly data from February 2000 to December 2025. The cross-sectional
 regression of average monthly returns on estimated market beta produced an
 intercept of $0.0061$ ($t = 6.47$, $p = 0.0003$), a beta coefficient of
@@ -1451,13 +1459,13 @@ interpret these results. Do they support my hypothesis that higher-beta sector
 ETFs should have higher average returns, and how strong is the evidence for the
 CAPM?
 
-\paragraph{Summary of the LLM's Answer.} The LLM correctly interpreted the
+\smallskip\noindent\textit{Summary of the LLM's Answer.} The LLM correctly interpreted the
 positive beta coefficient as consistent with my hypothesis. It noted that the
 coefficient was significant at the $10\%$ level but not at $5\%$, and that beta
 explained approximately $39\%$ of the observed cross-sectional variation. It
 concluded that the evidence for the CAPM was limited.
 
-\paragraph{My Evaluation.} The LLM correctly interpreted the coefficient's
+\smallskip\noindent\textit{My Evaluation.} The LLM correctly interpreted the coefficient's
 sign, magnitude, and significance. However, it overlooked the intercept and
 failed to compare the estimated slope with the market risk premium, both of
 which are central CAPM restrictions.
@@ -1480,7 +1488,7 @@ OLS intercept as evidence against the CAPM.
 
 \subparagraph*{Final Excess-Return Results}
 
-\paragraph{Prompt.} I ran a cross-sectional CAPM test using nine U.S.\ sector
+\smallskip\noindent\textit{Prompt.} I ran a cross-sectional CAPM test using nine U.S.\ sector
 ETFs, with SPY as the market proxy. My sample contains 311 monthly observations
 from February 2000 through December 2025.
 
@@ -1522,7 +1530,7 @@ sector ETFs earn higher average excess returns? What do they imply about the
 CAPM, and how do the conclusions differ when using OLS versus Fama-MacBeth
 standard errors?
 
-\paragraph{Summary of the LLM's Answer.} The LLM correctly noted that the
+\smallskip\noindent\textit{Summary of the LLM's Answer.} The LLM correctly noted that the
 positive beta coefficient is consistent with my hypothesis but insignificant at
 the $5\%$ level under both OLS and FMB inference.
 
@@ -1536,7 +1544,7 @@ sufficient evidence to reject the individually tested CAPM restrictions. It
 also noted the small cross-section, estimated-beta uncertainty, potential
 serial correlation, and absence of a formal joint test.
 
-\paragraph{My Evaluation.} The LLM correctly distinguished OLS from FMB
+\smallskip\noindent\textit{My Evaluation.} The LLM correctly distinguished OLS from FMB
 inference and compared the estimated beta premium with the market premium
 rather than simply testing whether beta is significant.
 
@@ -1555,7 +1563,7 @@ attention.
 the regressions and generate the results table is submitted separately as
 \texttt{capstone\_analysis.py} (Capstone Deliverable 2).
 
-\subsection{Step 4: Results}
+\subsection{Step 4 --- Report Your Results}
 
 \begin{table}[H]
 \centering
@@ -1612,7 +1620,7 @@ sampling uncertainty of both averages and their covariance. There is no
 equivalent monthly series for the single cross-sectional OLS regression, so
 under OLS the comparison is reported descriptively only.
 
-\subsection{Step 4(a): Hypothesis}
+\paragraph{(a) Do the results support the hypothesis?}
 
 The estimated beta premium is positive at $0.20\%$ per month, consistent with
 my hypothesis, but insignificant using Fama-MacBeth standard errors
@@ -1625,7 +1633,7 @@ criterion, the hypothesis is not supported because the beta premium is
 insignificant. However, an insignificant slope is not by itself a rejection of
 the CAPM, and the FMB tests do not reject its intercept or slope restrictions.
 
-\subsection{Step 4(b): Comparison with Parts I and II}
+\paragraph{(b) Comparison with Parts I and II.}
 
 My estimated beta premium of $0.20\%$ per month compares with $0.035\%$ for the
 49 industry portfolios and $-0.576\%$ for the 25 size/BE-ME portfolios. All
@@ -1638,7 +1646,7 @@ Part I and my Capstone and negative for Part II. So the ETF cross-section looks
 similar to US equities (a flat SML), but my test gives much less precise
 evidence against the CAPM.
 
-\subsection{Step 4(c): Main Limitation}
+\paragraph{(c) Main limitation.}
 
 The main limitation is the small cross-section of nine sector ETFs. Their
 relatively similar market exposures limit variation in beta, reducing the
@@ -1648,7 +1656,7 @@ distinguished from the market premium. In addition, using estimated rather than
 true betas can bias the slope toward zero, while SPY is only a proxy for the
 true market portfolio.
 
-\subsection{Step 5: AI Workflow Reflection}
+\subsection{Step 5 --- AI Workflow Reflection}
 
 Using an LLM helped me move quickly from my research design to working Python
 code, allowing me to spend more time checking the results. I corrected the
