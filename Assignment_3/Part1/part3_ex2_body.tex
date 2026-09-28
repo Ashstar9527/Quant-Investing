@@ -1,0 +1,72 @@
+% =====================================================================
+\section{Part III, AI Exercise 2: Predicting Cross-Sectional Deviations}
+% =====================================================================
+
+We asked an LLM which of the 49 industries it expected to fall above, below and
+near the security market line, and recorded its answer before comparing it with
+our results from Question (d).
+
+\paragraph{(a) The LLM's predictions.}
+\begin{tight}
+\item \textit{Above the line:} Tobacco, Utilities, Beer \& Liquor / Food.
+\item \textit{Below the line:} Coal / Mining, Computers / Electronic Equipment
+/ Semiconductors, Autos / Steel.
+\item \textit{Near the line:} Wholesale / Retail, Transportation, Financials /
+Business Services.
+\end{tight}
+
+Its reasoning was the low-beta anomaly. Defensive industries have low beta but
+still earn competitive returns, so they plot above the line, while cyclical
+industries have high beta without the returns to match. It added a sin-stock
+premium for tobacco and a glamour effect for technology. It stated that these
+were predictions from documented patterns, not calculations from the data.
+
+\paragraph{(b) What the plot shows.} Deviations are measured from the
+theoretical SML in Figure~\ref{fig:sml}, as
+$\overline{R_i} - \bar{R}_M^{e}\,b_{iM}$.
+
+\begin{table}[H]
+\centering
+\caption{Largest deviations from the theoretical security market line, balanced
+sample, percent per month. A positive value means the industry earned more than
+its beta implies.}
+\small
+\begin{tabular}{lrlrlr}
+\toprule
+\multicolumn{2}{c}{Above} & \multicolumn{2}{c}{Below}
+& \multicolumn{2}{c}{Near} \\
+\cmidrule(lr){1-2}\cmidrule(lr){3-4}\cmidrule(lr){5-6}
+Smoke & $+0.675$ & Other & $-0.468$ & BldMt & $-0.003$ \\
+Guns  & $+0.461$ & RlEst & $-0.429$ & Boxes & $+0.004$ \\
+Soda  & $+0.274$ & PerSv & $-0.376$ & Telcm & $+0.006$ \\
+\bottomrule
+\end{tabular}
+\label{tab:dev}
+\end{table}
+
+\paragraph{(c) How accurate were the predictions?} The above-line predictions
+were accurate. All three industries plot above the line, and Tobacco is the
+largest positive deviation in the sample. The near-line predictions were also
+reasonable: Wholesale, Transportation and Financials all sit close to the line,
+though none is among the three closest.
+
+The below-line predictions were mostly wrong. Coal and Mining plot slightly
+above the line rather than below it. Of the technology group, only Software is
+clearly below, while Chips and Electronic Equipment are above. Only Steel was
+placed correctly, and none of the three largest negative deviations was
+anticipated.
+
+This asymmetry is explained by how the model reasoned. It used beta alone,
+predicting that low-beta industries plot above the line and high-beta
+industries plot below. Because the estimated line is so flat, the first half of
+this is almost automatic, since nearly any low-beta industry lands above the
+theoretical SML. That is why the above-line predictions worked. The below-line
+predictions needed more, because high beta is not sufficient: Chips and
+Electronic Equipment have high betas but earned enough to stay above the line.
+The industries that actually fall furthest below have betas near the sample
+average and unusually low returns, which reflects industry-specific weakness
+rather than a risk story the model could infer.
+
+Its caveat about technology was partly right. It predicted technology would
+fall below the line but noted that recent data might reverse this. The reversal
+is what we observe for Chips and Electronic Equipment, though not for Software.
