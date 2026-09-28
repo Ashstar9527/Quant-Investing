@@ -24,9 +24,9 @@ The sample covers February 2000 through December 2025, with 311 monthly observat
 
 I first calculate excess returns by subtracting the monthly risk-free rate from each ETF's return and SPY's return. I then estimate each ETF's market beta using a time-series regression of ETF excess returns on SPY excess returns.
 
-Finally, I run a cross-sectional OLS regression of average ETF excess returns on their estimated market betas. This is the main specification.
+Finally, I run a cross-sectional OLS regression of average ETF excess returns on their estimated market betas. This regression provides the coefficient estimates, while Fama-MacBeth standard errors are used as the main basis for statistical inference.
 
-As a robustness check, I also compute Fama-MacBeth (FMB) standard errors. Each month, I regress the nine ETF excess returns on the same fixed full-sample betas, then take the time-series average of the 311 monthly intercept and slope estimates. The FMB standard error is the time-series standard deviation of the monthly estimates divided by √T. Because the betas are the same every month, the FMB coefficient averages equal the OLS coefficients exactly; only the standard errors differ.
+To calculate the Fama-MacBeth (FMB) standard errors, I run monthly cross-sectional regressions using the same fixed betas. Each month, I regress the nine ETF excess returns on the same fixed full-sample betas, then take the time-series average of the 311 monthly intercept and slope estimates. The FMB standard error is the time-series standard deviation of the monthly estimates divided by √T. Because the betas are the same every month, the FMB coefficient averages equal the OLS coefficients exactly; only the standard errors differ.
 
 ## Results
 
