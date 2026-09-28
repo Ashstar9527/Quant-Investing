@@ -24,9 +24,9 @@ The sample covers February 2000 through December 2025, with 311 monthly observat
 
 I first calculate excess returns by subtracting the monthly risk-free rate from each ETF's return and SPY's return. I then estimate each ETF's market beta using a time-series regression of ETF excess returns on SPY excess returns.
 
-Finally, I run a cross-sectional OLS regression of average ETF excess returns on their estimated market betas. This regression provides the coefficient estimates, while Fama-MacBeth standard errors are used as the main basis for statistical inference.
+Finally, I run a cross-sectional OLS regression of average ETF excess returns on their estimated market betas. This regression provides the coefficient estimates. I use Fama-MacBeth (FMB) standard errors as the main basis for inference because OLS standard errors treat the nine ETF residuals as independent, although sector returns share common monthly shocks.
 
-To calculate the Fama-MacBeth (FMB) standard errors, I run monthly cross-sectional regressions using the same fixed betas. Each month, I regress the nine ETF excess returns on the same fixed full-sample betas, then take the time-series average of the 311 monthly intercept and slope estimates. The FMB standard error is the time-series standard deviation of the monthly estimates divided by √T. Because the betas are the same every month, the FMB coefficient averages equal the OLS coefficients exactly; only the standard errors differ.
+Each month, I regress the nine ETF excess returns on the same fixed full-sample betas, then take the time-series average of the 311 monthly intercept and slope estimates. The FMB standard error is the time-series standard deviation of the monthly estimates divided by √T. Because the betas are the same every month, the FMB coefficient averages equal the OLS coefficients exactly; only the standard errors differ.
 
 ## Results
 
@@ -60,11 +60,11 @@ The test of the difference uses the monthly series γ_Mt − SPY_t, whose time-s
 
 ### Step 4(a): Hypothesis
 
-The estimated beta premium is positive at 0.20% per month, consistent with my hypothesis, but insignificant using Fama-MacBeth standard errors (p = 0.5823). It is below the average SPY excess return of 0.60%, while the estimated intercept is 0.45% rather than zero, suggesting a flatter SML than the CAPM predicts. Although OLS finds a significant intercept (p = 0.0019), the FMB intercept test (p = 0.1099) and the paired market-premium gap test (p = 0.1416) are insignificant. Thus, my results neither strongly support the hypothesis nor provide statistically reliable evidence against the individually tested CAPM restrictions.
+The estimated beta premium is positive at 0.20% per month, consistent with my hypothesis, but insignificant using Fama-MacBeth standard errors (p = 0.5823). It is below the average SPY excess return of 0.60%, while the estimated intercept is 0.45% rather than zero, suggesting a flatter SML than the CAPM predicts. Although OLS finds a significant intercept (p = 0.0019), the FMB intercept test (p = 0.1099) and the paired market-premium gap test (p = 0.1416) are insignificant. By my Step 2 criterion, the hypothesis is not supported because the beta premium is insignificant. However, an insignificant slope is not by itself a rejection of the CAPM, and the FMB tests do not reject its intercept or slope restrictions.
 
 ### Step 4(b): Comparison with Parts I and II
 
-My estimated beta premium of 0.20% per month compares with 0.035% for the 49 industry portfolios and -0.576% for the 25 size/BE-ME portfolios. All three are insignificant using FMB standard errors and below their respective market premiums. However, Parts I and II find significantly positive intercepts and significant differences between their estimated beta premiums and market premiums, while my ETF test does not. Part II also finds a significant book-to-market premium after controlling for beta. All three estimated beta premiums are below their respective CAPM benchmarks, but the slope is positive for Part I and my Capstone and negative for Part II. My ETF results provide less precise evidence against the CAPM.
+My estimated beta premium of 0.20% per month compares with 0.035% for the 49 industry portfolios and -0.576% for the 25 size/BE-ME portfolios. All three are insignificant using FMB standard errors and below their respective market premiums. However, Parts I and II find significantly positive intercepts and significant differences between their estimated beta premiums and market premiums, while my ETF test does not. Part II also finds a significant book-to-market premium after controlling for beta. The slope is positive for Part I and my Capstone and negative for Part II. So the ETF cross-section looks similar to US equities (a flat SML), but my test gives much less precise evidence against the CAPM.
 
 ### Step 4(c): Main Limitation
 
