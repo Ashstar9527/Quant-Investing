@@ -783,6 +783,78 @@ backtest.
 
 \subsection{Question (4)}
 
+\paragraph{LLM explanation obtained before comparing Q2 and Q3}
+
+Using an in-sample tangency portfolio as the market proxy makes the CAPM test
+almost tautological.
+
+Suppose the same \(N\) assets are used both to construct the proxy and to test
+the CAPM. The tangency portfolio is chosen as
+\[
+w_T \propto \Sigma^{-1}(\mu-r_f\mathbf{1}),
+\]
+where \(\mu\) and \(\Sigma\) are the sample mean returns and covariance matrix
+of those assets. By construction, this portfolio maximizes the sample Sharpe
+ratio and therefore lies on the sample mean-variance frontier.
+
+The first-order condition implies
+\[
+\mu-r_f\mathbf{1} \propto \Sigma w_T.
+\]
+But \(\Sigma w_T\) is exactly the vector of covariances between each asset and
+the tangency portfolio:
+\[
+\operatorname{Cov}(R_i,R_T).
+\]
+Therefore,
+\[
+E[R_i]-r_f = \beta_{iT}\big(E[R_T]-r_f\big),
+\qquad\text{with}\qquad
+\beta_{iT} = \frac{\operatorname{Cov}(R_i,R_T)}{\operatorname{Var}(R_T)}.
+\]
+So the CAPM pricing relation holds for the test assets essentially by
+construction. The empirical procedure has selected the portfolio specifically
+to be mean-variance efficient relative to exactly those assets and exactly
+those sample moments. Finding small pricing errors or a strong beta-return
+relation therefore provides little independent evidence for the CAPM.
+
+\paragraph{Connection to Roll (1977)}
+
+This illustrates the core issue behind the Roll critique: empirically testing
+the CAPM is fundamentally a test of whether the chosen market proxy is
+mean-variance efficient. The true CAPM market portfolio contains all relevant
+wealth and is unobservable, so testing the CAPM with a proxy is always partly a
+test of that proxy.
+
+With an in-sample tangency proxy, the problem becomes particularly severe
+because efficiency has been imposed mechanically, rather than discovered
+empirically.
+
+\paragraph{Why out-of-sample is more informative}
+
+An out-of-sample tangency portfolio separates construction from evaluation. For
+example:
+
+\begin{enumerate}\setlength{\itemsep}{2pt}\setlength{\topsep}{3pt}
+\item Estimate \(\hat\mu\), \(\hat\Sigma\), and tangency weights using Sample 1.
+\item Fix those weights.
+\item Evaluate the portfolio and the CAPM relation using Sample 2.
+\end{enumerate}
+
+In Sample 2, the portfolio is not guaranteed to remain mean-variance efficient,
+because realized means and covariances need not equal the Sample 1 estimates.
+Thus the CAPM pricing relation no longer follows mechanically from the
+portfolio-construction algebra.
+
+So the key distinction is:
+
+\begin{tight}
+\item In-sample: efficiency is imposed by construction $\rightarrow$ CAPM can
+trivially appear to work.
+\item Out-of-sample: efficiency must survive in new data $\rightarrow$ the test
+contains genuine empirical information.
+\end{tight}
+
 \paragraph{1. Comparing the results.}
 
 \begin{table}[H]
