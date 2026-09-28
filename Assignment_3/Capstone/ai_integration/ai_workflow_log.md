@@ -1,13 +1,12 @@
-
 # AI Workflow Log
 
 ## Step 3(a): Data Loading and Cleaning
 
-### Prompt (Close Paraphrase)
+**Prompt (Close Paraphrase)**
 
 I asked the LLM to generate Python code to download monthly adjusted-price data for nine U.S. sector ETFs (XLB, XLE, XLF, XLI, XLK, XLP, XLU, XLV, XLY) and SPY from January 2000 through December 2025, calculate monthly returns, align the series, and check for missing observations.
 
-### LLM Output and My Correction
+**LLM Output and My Correction**
 
 The code successfully downloaded the data and produced 311 monthly return observations from February 2000 through December 2025.
 
@@ -30,23 +29,23 @@ However, the code used raw rather than excess returns. I revised it to subtract 
 
 ### Fama-MacBeth Robustness Check
 
+A later AI code review recommended Fama-MacBeth (FMB) standard errors because the original cross-sectional OLS inference did not adequately account for common shocks across sector returns.
+
 **Prompt (Close Paraphrase)**
 
 Keep my original cross-sectional OLS regression as the main methodology. Add Fama-MacBeth standard errors only as a robustness check, using the same fixed full-sample betas and monthly ETF excess returns. Report the OLS and FMB results side by side, including coefficients, standard errors, t-statistics and p-values, and compare the estimated beta premium with the average SPY excess return. Do not add Shanken, Newey-West or other extensions.
 
 **LLM Output and Verification**
 
-A later AI code review recommended Fama-MacBeth (FMB) standard errors because the original cross-sectional OLS inference did not adequately account for common shocks across sector returns.
-
 The LLM generated monthly cross-sectional regressions using fixed betas, then calculated FMB standard errors from the time-series variation in the 311 monthly coefficient estimates.
 
-I reran the script and verified that FMB and OLS produced identical coefficient estimates but different standard errors, t-statistics, and p-values. With FMB standard errors, neither the intercept (p = 0.1099) nor the beta coefficient (p = 0.5823) is significant.
+I reran the script and verified that FMB and OLS produced identical coefficient estimates but different standard errors, t-statistics, and p-values. With FMB standard errors, neither the intercept (p = 0.1099) nor the beta coefficient (p = 0.5823) is significant. I therefore use the FMB standard errors as the main basis for inference.
 
 **Additional Correction: Market-Premium Gap Test**
 
 The initial comparison divided the gap by the beta premium's standard error alone, ignoring uncertainty in the SPY average and its covariance with the estimated premium.
 
-I replaced it with a test based on the monthly difference series between the estimated beta premium and SPY excess returns. The corrected gap is -0.0040, with SE = 0.0027, t = -1.47 and p = 0.1416. The difference is not statistically significant.
+I replaced it with a test based on the monthly difference series between the estimated beta premium and SPY excess returns. The gap is -0.0040, with SE = 0.0027, t = -1.47 and p = 0.1416. The difference is not statistically significant.
 
 
 ## Step 3(c): Interpretation Assistance
@@ -65,7 +64,7 @@ The LLM correctly interpreted the positive beta coefficient as consistent with m
 
 The LLM correctly interpreted the coefficient's sign, magnitude, and significance. However, it overlooked the intercept and failed to compare the estimated slope with the market risk premium, both of which are central CAPM restrictions.
 
-It also relied on OLS p-values without accounting for common shocks across sector returns and did not emphasize the small cross-section or estimated-beta uncertainty. Some omissions reflected my original prompt, which did not provide the risk-free rate or market premium.
+What it got wrong: it relied on OLS p-values without accounting for common shocks across sector returns and did not emphasize the small cross-section or estimated-beta uncertainty. Some omissions reflected my original prompt, which did not provide the risk-free rate or market premium.
 
 ### Re-assessment After Code Corrections
 
