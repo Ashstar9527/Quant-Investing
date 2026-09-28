@@ -64,7 +64,7 @@ The estimated beta premium is positive at 0.20% per month, consistent with my hy
 
 ### Step 4(b): Comparison with Parts I and II
 
-My estimated beta premium of 0.20% per month compares with 0.035% for the 49 industry portfolios and -0.576% for the 25 size/BE-ME portfolios. All three are insignificant using FMB standard errors and below their respective market premiums. However, Parts I and II find significantly positive intercepts and significant differences between their estimated beta premiums and market premiums, while my ETF test does not. Part II also finds a significant book-to-market premium after controlling for beta. All three show a relatively flat SML, but my ETF results provide less precise evidence against the CAPM. Differences in sample periods and market proxies limit direct comparisons.
+My estimated beta premium of 0.20% per month compares with 0.035% for the 49 industry portfolios and -0.576% for the 25 size/BE-ME portfolios. All three are insignificant using FMB standard errors and below their respective market premiums. However, Parts I and II find significantly positive intercepts and significant differences between their estimated beta premiums and market premiums, while my ETF test does not. Part II also finds a significant book-to-market premium after controlling for beta. All three estimated beta premiums are below their respective CAPM benchmarks, but the slope is positive for Part I and my Capstone and negative for Part II. My ETF results provide less precise evidence against the CAPM.
 
 ### Step 4(c): Main Limitation
 
