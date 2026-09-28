@@ -1,0 +1,118 @@
+% =====================================================================
+\section{Part III, AI Exercise 3: Literature Synthesis and Historical Context}
+% =====================================================================
+
+\subsection{3(a)}
+
+\begin{table}[H]
+\centering
+\caption{These are the values reported in Part I(b). Estimates and standard
+errors are in percent per month; the table's $t$-statistics test against zero.
+The reported mean market excess returns are $0.6116\%$ and $0.6952\%$ per
+month, respectively. For the main sample, the report gives $t = -2.12$ for
+testing the slope against the sample market premium.}
+\small
+\begin{tabular}{llrrrr}
+\toprule
+Sample & Parameter & Estimate & Standard error & $t$ & $p$ \\
+\midrule
+July 1969--June 2026 & $\gamma_0$ & 0.6119 & 0.2191 & 2.79 & 0.005 \\
+July 1969--June 2026 & $\gamma_M$ & 0.0352 & 0.2725 & 0.13 & 0.897 \\
+July 1926--June 2026 & $\gamma_0$ & 0.5160 & 0.1714 & 3.01 & 0.003 \\
+July 1926--June 2026 & $\gamma_M$ & 0.2490 & 0.2315 & 1.08 & 0.282 \\
+\bottomrule
+\end{tabular}
+\label{tab:ex3a}
+\end{table}
+
+My Part I(b) results weaken the favorable evidence of Fama and MacBeth (1973)
+and contradict the Sharpe--Lintner CAPM restrictions in my sample. For July
+1969--June 2026, $\hat\gamma_0 = 0.6119\%$ per month (SE $= 0.2191$,
+$t = 2.79$, $p = 0.005$), significantly above the zero intercept predicted for
+excess returns. Meanwhile, $\hat\gamma_M = 0.0352\%$ per month
+(SE $= 0.2725$, $t = 0.13$, $p = 0.897$), providing no statistically
+significant evidence of a positive beta premium. The slope is also far below
+the CAPM benchmark of $0.6116\%$, with the reported benchmark test rejecting
+equality at the $5\%$ level ($t = -2.12$). Thus, the estimated security market
+line is nearly flat, failing to replicate their positive beta--return
+relationship. The longer July 1926--June 2026 sample reinforces this pattern:
+the intercept remains significantly positive, while the beta premium remains
+insignificant. A positive excess-return intercept alone does not reject
+Black's zero-beta CAPM, but the weak beta--return relationship undermines the
+earlier favorable interpretation.
+
+\subsection{3(b)}
+
+The original LLM response correctly identifies Banz's (1981) size effect: small
+firms earned higher average returns than their market betas could explain. It
+also accurately summarizes Fama and French (1992), emphasizing the explanatory
+power of size and book-to-market and the weak relation between beta and average
+returns once beta variation is separated from size. However, it omits
+Rosenberg, Reid, and Lanstein (1985), an important earlier study documenting
+the book-to-market effect that the assignment explicitly asks about. Although
+its discussion of Fama and French (1993) adds useful context, it does not fill
+this omission. Overall, the response captures the main empirical challenges to
+the CAPM but gives an incomplete account of the development of the value
+evidence.
+
+\subsection{3(c)}
+
+The original LLM response does not acknowledge data snooping: size and
+book-to-market may appear important partly because researchers identified and
+tested these patterns using the same historical data. This concern also applies
+to Part I(f), since our sample overlaps with the data used to discover these
+effects, so it is not a fully independent test. However, we use previously
+documented characteristics rather than search across many predictors ourselves.
+Our results provide only weak evidence: size is insignificant ($t = 0.86$),
+while book-to-market is marginally significant ($t = 1.95$). Lagging these
+characteristics addresses their timing but does not eliminate data snooping.
+Testing on a separate period after the original studies would provide stronger
+independent evidence.
+
+\subsection{3(d)}
+
+\paragraph{LLM response to record.} International evidence shows that size and
+value effects occur outside the United States, although their strength varies
+across markets and samples.
+
+\begin{tight}
+\item \textbf{Direct Fama--MacBeth evidence:} Hu, Chen, Shao, and Wang (2019)
+find a significant size-factor premium in Chinese stocks, while market and
+value-factor premia are insignificant. Thus, international Fama--MacBeth tests
+do not uniformly support both size and value. [1]
+\item \textbf{Broader international evidence:} Rouwenhorst (1999) finds that
+small stocks outperform large stocks and value stocks outperform growth stocks
+in emerging markets. Fama and French (1998) find value outperformance in twelve
+of thirteen major markets. These studies provide complementary evidence from
+portfolio comparisons and factor tests; their findings should not all be
+described as Fama--MacBeth regression results. [2], [3]
+\end{tight}
+
+My interpretation is that international replication reduces the likelihood that
+these effects are merely artifacts of searching U.S.\ data. It is consistent
+with compensation for omitted risks, but does not establish that explanation:
+similar investor biases and limits to arbitrage could also produce recurring
+patterns across countries.
+
+\paragraph{Evaluation for submission.} The international evidence modestly
+strengthens the plausibility of a risk-based interpretation by showing that size
+and value patterns are not confined to U.S.\ data. However, it strengthens the
+evidence that these patterns exist more clearly than it distinguishes risk from
+mispricing, since investor biases and limits to arbitrage may also operate
+internationally. The LLM appropriately acknowledges this distinction and the
+variation across markets. In our Part I(f), size is insignificant ($t = 0.86$)
+and book-to-market is only marginally significant ($t = 1.95$), so
+international findings cannot turn our weak evidence into proof of priced
+risks. They provide supporting context for the positive book-to-market
+coefficient, but establishing a risk explanation would require evidence linking
+returns to exposure to economically meaningful risks.
+
+\paragraph{Sources cited in 3(d).}
+\begin{sloppypar}\raggedright
+[1] Hu, Chen, Shao, and Wang (2019). ``Fama--French in China: Size and Value
+Factors in Chinese Stock Returns.'' \texttt{doi:10.1111/irfi.12177}\\
+{[2]} Rouwenhorst (1999). ``Local Return Factors and Turnover in Emerging Stock
+Markets.'' \texttt{doi:10.1111/0022-1082.00151}\\
+{[3]} Fama and French (1998). ``Value versus Growth: The International
+Evidence.'' \texttt{doi:10.1111/0022-1082.00080}
+\end{sloppypar}
