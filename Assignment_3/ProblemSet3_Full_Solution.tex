@@ -75,10 +75,8 @@
 {\color{psink}\textbf{Contents.}} Part I tests the CAPM on the 49
 value-weighted industry portfolios. Part III contains the three standalone AI
 exercises and the capstone, a cross-sectional test of U.S.\ sector ETFs. Part
-II, which repeats the tests on the 25 size and book-to-market portfolios and
-examines Roll's critique using in-sample and out-of-sample tangency
-portfolios, and AI Exercise 3 are appended at the end, reproduced from their
-own reports and retaining their original pagination.
+II repeats the tests on the 25 size and book-to-market portfolios and examines
+Roll's critique using in-sample and out-of-sample tangency portfolios.
 
 \vspace{0.8em}
 
@@ -91,9 +89,7 @@ own reports and retaining their original pagination.
 their average firm size and book-to-market ratios, and the market proxy are
 taken from \texttt{Problem\_Set3\_2026.xlsx}. All figures are in percent per
 month. Missing observations are screened at $-99$, which removes the $-99.99$
-and $-999$ codes; the assignment's gloss of ``any return $<-1$'' assumes
-decimal returns, and applied literally to percent data would discard
-19{,}602 valid observations against 2{,}868 genuine missing values. Industry
+and $-999$ codes. Industry
 returns are total returns while the market proxy is reported as $R_M - R_f$,
 so we subtract the monthly riskless rate from each industry return and work in
 excess returns throughout. Six industries have no data before the late 1960s,
@@ -1321,7 +1317,7 @@ Of the datasets offered, this capstone uses \textbf{U.S.\ sector ETF returns}.
 Does market beta explain cross-sectional differences in average returns across
 U.S.\ sector ETFs?
 
-\subsection{Hypothesis}
+\subsection{Step 2: Hypothesis}
 
 The dependent variable is the average monthly return of each U.S.\ sector ETF,
 and the main independent variable is its market beta relative to SPY.
@@ -1345,7 +1341,7 @@ Sharpe-Lintner CAPM predicts an intercept of zero, rather than the risk-free
 rate. The original hypothesis above is retained as written before examining the
 data.
 
-\subsection{Methodology}
+\subsection{Step 3: Methodology}
 
 I use monthly returns for nine U.S.\ sector ETFs (XLB, XLE, XLF, XLI, XLK, XLP,
 XLU, XLV, and XLY), with SPY as the market proxy and the risk-free rate from
@@ -1370,99 +1366,6 @@ estimates. The FMB standard error is the time-series standard deviation of the
 monthly estimates divided by $\sqrt{T}$. Because the betas are the same every
 month, the FMB coefficient averages equal the OLS coefficients exactly; only
 the standard errors differ.
-
-\subsection{Results}
-
-\begin{table}[H]
-\centering
-\caption{Cross-sectional CAPM test on nine sector ETFs.}
-\small
-\begin{tabular}{lrrrrrrr}
-\toprule
-Variable & Coefficient & OLS & OLS & OLS & FMB & FMB & FMB \\
- & & Std.\ Error & $t$-stat & $p$-value & Std.\ Error & $t$-stat & $p$-value \\
-\midrule
-Intercept & 0.0045 & 0.0009 & 4.8158 & 0.0019 & 0.0028 & 1.6032 & 0.1099 \\
-Beta      & 0.0020 & 0.0010 & 2.1220 & 0.0715 & 0.0037 & 0.5506 & 0.5823 \\
-\bottomrule
-\end{tabular}
-\label{tab:cap}
-\end{table}
-
-\begin{tight}
-\item Number of sector ETFs: 9
-\item Sample period: February 2000--December 2025
-\item Monthly return observations ($T$): 311
-\item Cross-sectional $R^2$: 0.3915
-\item Average SPY excess return: 0.0060
-\item OLS $p$-values use $N - 2 = 7$ degrees of freedom; FMB $p$-values use
-$T - 1 = 310$ degrees of freedom.
-\end{tight}
-
-All coefficients and standard errors are reported in decimal units per month.
-For comparison with Part I, which reports returns in percent per month, the
-estimates should be multiplied by 100.
-
-\begin{table}[H]
-\centering
-\caption{Beta premium vs.\ market premium.}
-\small
-\begin{tabular}{lr}
-\toprule
-& Value \\
-\midrule
-Estimated beta premium ($\gamma_M$) & 0.0020 \\
-Average SPY excess return & 0.0060 \\
-Difference ($\gamma_M -$ SPY) & $-0.0040$ \\
-Std.\ error of difference (monthly series) & 0.0027 \\
-$t$-stat of difference & $-1.47$ \\
-$p$-value of difference & 0.1416 \\
-\bottomrule
-\end{tabular}
-\label{tab:capdiff}
-\end{table}
-
-The test of the difference uses the monthly series
-$\gamma_{Mt} - \text{SPY}_t$, whose time-series standard error accounts for the
-sampling uncertainty of both averages and their covariance. There is no
-equivalent monthly series for the single cross-sectional OLS regression, so
-under OLS the comparison is reported descriptively only.
-
-\subsection{Step 4(a): Hypothesis}
-
-The estimated beta premium is positive at $0.20\%$ per month, consistent with
-my hypothesis, but insignificant using Fama-MacBeth standard errors
-($p = 0.5823$). It is below the average SPY excess return of $0.60\%$, while
-the estimated intercept is $0.45\%$ rather than zero, suggesting a flatter SML
-than the CAPM predicts. Although OLS finds a significant intercept
-($p = 0.0019$), the FMB intercept test ($p = 0.1099$) and the paired
-market-premium gap test ($p = 0.1416$) are insignificant. By my Step 2
-criterion, the hypothesis is not supported because the beta premium is
-insignificant. However, an insignificant slope is not by itself a rejection of
-the CAPM, and the FMB tests do not reject its intercept or slope restrictions.
-
-\subsection{Step 4(b): Comparison with Parts I and II}
-
-My estimated beta premium of $0.20\%$ per month compares with $0.035\%$ for the
-49 industry portfolios and $-0.576\%$ for the 25 size/BE-ME portfolios. All
-three are insignificant using FMB standard errors and below their respective
-market premiums. However, Parts I and II find significantly positive intercepts
-and significant differences between their estimated beta premiums and market
-premiums, while my ETF test does not. Part II also finds a significant
-book-to-market premium after controlling for beta. The slope is positive for
-Part I and my Capstone and negative for Part II. So the ETF cross-section looks
-similar to US equities (a flat SML), but my test gives much less precise
-evidence against the CAPM.
-
-\subsection{Step 4(c): Main Limitation}
-
-The main limitation is the small cross-section of nine sector ETFs. Their
-relatively similar market exposures limit variation in beta, reducing the
-test's statistical power. FMB standard errors are substantially larger than OLS
-standard errors, and the estimated beta premium cannot be statistically
-distinguished from the market premium. In addition, using estimated rather than
-true betas can bias the slope toward zero, while SPY is only a proxy for the
-true market portfolio.
 
 \subsection{Step 3: AI Workflow Log}
 
@@ -1653,6 +1556,99 @@ attention.
 \paragraph{Code.} The commented, runnable script used to load the data, run
 the regressions and generate the results table is submitted separately as
 \texttt{capstone\_analysis.py} (Capstone Deliverable 2).
+
+\subsection{Step 4: Results}
+
+\begin{table}[H]
+\centering
+\caption{Cross-sectional CAPM test on nine sector ETFs.}
+\small
+\begin{tabular}{lrrrrrrr}
+\toprule
+Variable & Coefficient & OLS & OLS & OLS & FMB & FMB & FMB \\
+ & & Std.\ Error & $t$-stat & $p$-value & Std.\ Error & $t$-stat & $p$-value \\
+\midrule
+Intercept & 0.0045 & 0.0009 & 4.8158 & 0.0019 & 0.0028 & 1.6032 & 0.1099 \\
+Beta      & 0.0020 & 0.0010 & 2.1220 & 0.0715 & 0.0037 & 0.5506 & 0.5823 \\
+\bottomrule
+\end{tabular}
+\label{tab:cap}
+\end{table}
+
+\begin{tight}
+\item Number of sector ETFs: 9
+\item Sample period: February 2000--December 2025
+\item Monthly return observations ($T$): 311
+\item Cross-sectional $R^2$: 0.3915
+\item Average SPY excess return: 0.0060
+\item OLS $p$-values use $N - 2 = 7$ degrees of freedom; FMB $p$-values use
+$T - 1 = 310$ degrees of freedom.
+\end{tight}
+
+All coefficients and standard errors are reported in decimal units per month.
+For comparison with Part I, which reports returns in percent per month, the
+estimates should be multiplied by 100.
+
+\begin{table}[H]
+\centering
+\caption{Beta premium vs.\ market premium.}
+\small
+\begin{tabular}{lr}
+\toprule
+& Value \\
+\midrule
+Estimated beta premium ($\gamma_M$) & 0.0020 \\
+Average SPY excess return & 0.0060 \\
+Difference ($\gamma_M -$ SPY) & $-0.0040$ \\
+Std.\ error of difference (monthly series) & 0.0027 \\
+$t$-stat of difference & $-1.47$ \\
+$p$-value of difference & 0.1416 \\
+\bottomrule
+\end{tabular}
+\label{tab:capdiff}
+\end{table}
+
+The test of the difference uses the monthly series
+$\gamma_{Mt} - \text{SPY}_t$, whose time-series standard error accounts for the
+sampling uncertainty of both averages and their covariance. There is no
+equivalent monthly series for the single cross-sectional OLS regression, so
+under OLS the comparison is reported descriptively only.
+
+\subsection{Step 4(a): Hypothesis}
+
+The estimated beta premium is positive at $0.20\%$ per month, consistent with
+my hypothesis, but insignificant using Fama-MacBeth standard errors
+($p = 0.5823$). It is below the average SPY excess return of $0.60\%$, while
+the estimated intercept is $0.45\%$ rather than zero, suggesting a flatter SML
+than the CAPM predicts. Although OLS finds a significant intercept
+($p = 0.0019$), the FMB intercept test ($p = 0.1099$) and the paired
+market-premium gap test ($p = 0.1416$) are insignificant. By my Step 2
+criterion, the hypothesis is not supported because the beta premium is
+insignificant. However, an insignificant slope is not by itself a rejection of
+the CAPM, and the FMB tests do not reject its intercept or slope restrictions.
+
+\subsection{Step 4(b): Comparison with Parts I and II}
+
+My estimated beta premium of $0.20\%$ per month compares with $0.035\%$ for the
+49 industry portfolios and $-0.576\%$ for the 25 size/BE-ME portfolios. All
+three are insignificant using FMB standard errors and below their respective
+market premiums. However, Parts I and II find significantly positive intercepts
+and significant differences between their estimated beta premiums and market
+premiums, while my ETF test does not. Part II also finds a significant
+book-to-market premium after controlling for beta. The slope is positive for
+Part I and my Capstone and negative for Part II. So the ETF cross-section looks
+similar to US equities (a flat SML), but my test gives much less precise
+evidence against the CAPM.
+
+\subsection{Step 4(c): Main Limitation}
+
+The main limitation is the small cross-section of nine sector ETFs. Their
+relatively similar market exposures limit variation in beta, reducing the
+test's statistical power. FMB standard errors are substantially larger than OLS
+standard errors, and the estimated beta premium cannot be statistically
+distinguished from the market premium. In addition, using estimated rather than
+true betas can bias the slope toward zero, while SPY is only a proxy for the
+true market portfolio.
 
 \subsection{Step 5: AI Workflow Reflection}
 
