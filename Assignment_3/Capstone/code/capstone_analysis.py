@@ -193,7 +193,7 @@ print(
 
 
 # --------------------------------------------------
-# Robustness check: Fama-MacBeth standard errors
+# Fama-MacBeth standard errors (main basis for inference)
 #
 # Each month t, regress the nine ETF excess returns on
 # the same fixed full-sample betas:
@@ -235,7 +235,7 @@ comparison_table = pd.DataFrame({
     "FMB p-value": fmb_p
 })
 
-print("\nOLS vs. Fama-MacBeth (robustness check):")
+print("\nOLS vs. Fama-MacBeth (main basis for inference):")
 print(comparison_table.round(4).T)
 print("Number of monthly cross-sections (T):", T)
 
