@@ -70,7 +70,11 @@ Therefore, the point estimates suggest a flatter SML than the CAPM implies, but 
 
 ### Step 4(b): Comparison with Parts I and II
 
-[Complete this section after the results from Parts I and II are available.]
+My sector ETF results show a similar pattern to Parts I and II: market beta has limited power to explain cross-sectional differences in average returns. The estimated beta premium is 0.20% per month for my nine ETFs, compared with 0.035% for the 49 industry portfolios and −0.576% for the 25 size/BE-ME portfolios. None of these beta coefficients is statistically significant using Fama–MacBeth standard errors, and all three are below their respective average market excess returns of approximately 0.60–0.61% per month.
+
+However, the statistical evidence differs. Parts I and II report significantly positive intercepts of 0.612% and 1.355% per month, while my ETF intercept of 0.45% is not significant using Fama–MacBeth standard errors (p = 0.110). The difference between my estimated beta premium and the average SPY excess return is also insignificant (p = 0.142), whereas Part II reports a significant difference from its market premium (p = 0.0025). Part II additionally finds a significant book-to-market premium after controlling for beta, but no significant size premium. My ETF test does not include these characteristics.
+
+Overall, the point estimates suggest a flatter security market line across all three sets of assets, but my ETF results provide less statistically precise evidence against the CAPM. The comparison is also limited by different sample periods and market proxies: Parts I and II cover July 1969–June 2026, while my ETF sample covers February 2000–December 2025.
 
 ### Step 4(c): Main Limitation
 
