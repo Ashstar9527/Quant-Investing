@@ -86,20 +86,16 @@ Roll's critique using in-sample and out-of-sample tangency portfolios.
 \section{Part I: 49 Industry Portfolios}
 % =====================================================================
 
-\paragraph{Data and conventions.} The 49 value-weighted industry portfolios,
-their average firm size and book-to-market ratios, and the market proxy are
-taken from \texttt{Problem\_Set3\_2026.xlsx}. All figures are in percent per
-month. Missing observations are screened at $-99$, which removes the $-99.99$
-and $-999$ codes. Industry
-returns are total returns while the market proxy is reported as $R_M - R_f$,
-so we subtract the monthly riskless rate from each industry return and work in
-excess returns throughout. Six industries have no data before the late 1960s,
-and all 49 series are populated only from July 1969; we therefore report the
+\paragraph{Data and conventions.} All figures are in percent per month.
+Observations coded $-99.99$ or $-999$ are treated as missing. Industry returns
+are total returns, while the market proxy is reported as $R_M - R_f$. We
+therefore subtract the monthly riskless rate from each industry return and
+work in excess returns throughout. Six industries have no data before the late
+1960s, so all 49 series are populated only from July 1969. We report the
 balanced July 1969 -- June 2026 panel ($T = 684$, $N = 49$) as our primary
-specification and the full July 1926 -- June 2026 sample ($T = 1200$, $N$ from
-40 to 49) as a robustness check. Eleven negative book-equity observations are
-masked, since the logarithm is undefined for them. The sample mean of
-$R_M - R_f$ is $0.6116$ on the balanced sample and $0.6952$ on the full sample.
+specification. The full July 1926 -- June 2026 sample ($T = 1200$, $N$ from 40
+to 49) is reported as a robustness check. The sample mean of $R_M - R_f$ is
+$0.6116$ on the balanced sample and $0.6952$ on the full sample.
 
 \subsection{Question (a): CAPM predictions for $\gamma_0$ and $\gamma_M$}
 
@@ -353,7 +349,8 @@ R_{it} = \gamma_{0t} + \gamma_{Mt} b_{iM}
 + \gamma_{B/M,t}\ln(\text{BE/ME}_{t-1}) + \eta_{it},
 \]
 with size lagged one month and book-to-market taken from the previous year and
-held constant within the year.
+held constant within the year. Eleven negative book-equity observations are
+masked, since the logarithm is undefined for them.
 
 \paragraph{Why must the characteristics be lagged?} They must be known to
 investors before the return is realized. Size is measured by market
