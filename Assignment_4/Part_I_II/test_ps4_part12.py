@@ -1,5 +1,4 @@
-"""Independent regression and validation checks for ps4_part12.py.
-
+"""Independent regression and validation checks for ps4_part12.py."""
 
 from pathlib import Path
 
