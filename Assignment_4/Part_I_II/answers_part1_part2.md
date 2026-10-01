@@ -168,7 +168,7 @@ Unlike the industry portfolios, the past-return portfolios show a clear monotoni
 | --- | ---: |
 | GRS F-statistic | 6.5930 |
 | Degrees of freedom | F(10, 1183) |
-| p-value | 5.34 × 10^-10 |
+| p-value | $5.34\times10^{-10}$ |
 | Individually significant alphas at 5% | 6 of 10 |
 
 The GRS test strongly rejects the joint null that all ten momentum alphas equal zero. The rejection is substantially stronger than for the industry portfolios.
