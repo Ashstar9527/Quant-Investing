@@ -133,7 +133,7 @@ Most industry pricing errors are economically small: the average absolute alpha 
 
 Lower-beta industries such as Smoke ($\beta=0.624$, $\alpha=0.464\%$), Food ($\beta=0.723$, $\alpha=0.167\%$), and Health ($\beta=0.827$, $\alpha=0.223\%$) have positive alphas, while high-beta industries such as Steel ($\beta=1.372$, $\alpha=-0.227\%$) and Games ($\beta=1.390$, $\alpha=-0.120\%$) have negative alphas.
 
-Business Equipment is an exception to the simple low-beta pattern: it has $\beta=1.082$ but still has a significantly positive alpha of 0.215% per month. Overall, however, the negative beta-alpha relationship is consistent with a flatter security market line than the CAPM predicts.
+Business Equipment is an exception to the simple low-beta pattern: it has $\beta=1.082$ but still has a significantly positive alpha of 0.215% per month. Overall, however, the negative beta-alpha relationship is consistent with a flatter security market line than the CAPM predicts. One possible explanation is that market beta alone does not capture all dimensions of risk or expected returns across industries. An imperfect market proxy could also contribute to the pricing errors. The data here show that the one-factor CAPM misses the pattern, although they do not by themselves distinguish among these possible explanations.
 
 ---
 
