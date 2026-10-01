@@ -6,7 +6,7 @@ Returns are monthly percentages. Portfolio returns are converted to excess retur
 
 ### (a) Descriptive Statistics
 
-| Portfolio | Mean Return (%/mo) | SD (%/mo) | Monthly Sharpe |
+| Portfolio | Mean Raw Return (%/mo) | Raw Return SD (%/mo) | Monthly Sharpe (Excess Return) |
 | --- | ---: | ---: | ---: |
 | Food | 0.940 | 4.685 | 0.143 |
 | Beer | 1.135 | 7.038 | 0.123 |
@@ -39,7 +39,11 @@ Returns are monthly percentages. Portfolio returns are converted to excess retur
 | Fin | 1.010 | 6.724 | 0.110 |
 | Other | 0.821 | 6.582 | 0.084 |
 
-Average returns and Sharpe ratios vary across industries, but there is no strong monotonic ordering across the 30 portfolios. Monthly Sharpe ratios are mostly in a fairly narrow range. Lower-beta, defensive industries such as Smoke, Food, and Health tend to have relatively high Sharpe ratios, which anticipates the CAPM pattern in part (d).
+There is no common ordering across industries, but two patterns are visible. Average returns are only weakly positively related to market beta (correlation about 0.30), while Sharpe ratios are negatively related to beta (correlation about -0.52). Only five industries have monthly Sharpe ratios above the market's 0.131: Smoke, Health, Food, Business Equipment, and Retail.
+
+*Notes: Monthly data, July 1926–June 2026. Mean and standard deviation are based on raw portfolio returns. Sharpe ratios are computed using excess returns, $(R_p-R_f)$, divided by their sample standard deviation.*
+
+---
 
 ### (b) CAPM Time-Series Regressions and GRS Test
 
@@ -51,7 +55,7 @@ R_{it}-R_{ft}
 \alpha_i+\beta_i(R_{Mt}-R_{ft})+\varepsilon_{it}.
 $$
 
-The sample is July 1926 through June 2026, with \(T=1200\), \(N=30\), and \(K=1\).
+The sample is July 1926 through June 2026, with $T=1200$, $N=30$, and $K=1$.
 
 | Statistic | Result |
 | --- | ---: |
@@ -95,6 +99,10 @@ Because the p-value is below 1%, I reject the joint null that all 30 industry al
 | Fin | -0.064 | 1.156 | -0.79 | 0.4311 |
 | Other | -0.167 | 1.033 | -1.57 | 0.1169 |
 
+*Notes: Alphas are monthly percentage returns. Alpha t-statistics use the OLS standard errors from the corresponding time-series CAPM regression.*
+
+---
+
 ### (c) GRS Null, Intuition, and Implicit Beta Risk Premium
 
 The GRS null is
@@ -115,15 +123,17 @@ $$
 E[R_i-R_f]=\beta_iE[R_M-R_f],
 $$
 
-so the intercept \(\alpha_i\) measures the portfolio's deviation from this pricing relation.
+so the intercept $\alpha_i$ measures the portfolio's deviation from this pricing relation.
+
+---
 
 ### (d) Which Industries Are Difficult for the CAPM to Price, and Why?
 
-The pricing errors show a systematic pattern. Across the 30 industries, the correlation between beta and alpha is approximately **-0.67**. Lower-beta, defensive industries tend to have positive alphas. For example, Smoke has \(\beta=0.624\) and \(\alpha=0.464\%\) per month, Food has \(\beta=0.723\) and \(\alpha=0.167\%\), and Health has \(\beta=0.827\) and \(\alpha=0.223\%\).
+Most industry pricing errors are economically small: the average absolute alpha is about 0.13% per month, and 26 of the 30 individual alphas are not significant at the 5% level. However, the alphas are not randomly distributed. The correlation between beta and alpha is approximately -0.67.
 
-In contrast, higher-beta industries such as Steel (\(\beta=1.372\), \(\alpha=-0.227\%\)) and Games (\(\beta=1.390\), \(\alpha=-0.120\%\)) have negative alphas.
+Lower-beta industries such as Smoke ($\beta=0.624$, $\alpha=0.464\%$), Food ($\beta=0.723$, $\alpha=0.167\%$), and Health ($\beta=0.827$, $\alpha=0.223\%$) have positive alphas, while high-beta industries such as Steel ($\beta=1.372$, $\alpha=-0.227\%$) and Games ($\beta=1.390$, $\alpha=-0.120\%$) have negative alphas.
 
-This pattern suggests that the CAPM security market line is too steep relative to the data: low-beta assets earn more and high-beta assets earn less than the CAPM predicts. This is consistent with a flat-SML / low-beta pattern. Industry-specific risks or investor preferences may also matter for individual portfolios, but they are not captured by the one-factor CAPM.
+Business Equipment is an exception to the simple low-beta pattern: it has $\beta=1.082$ but still has a significantly positive alpha of 0.215% per month. Overall, however, the negative beta-alpha relationship is consistent with a flatter security market line than the CAPM predicts.
 
 ---
 
@@ -131,11 +141,11 @@ This pattern suggests that the CAPM security market line is too steep relative t
 
 ### (e) Repeat Parts (a), (b), and (d)
 
-The momentum sample is January 1927 through June 2026, with \(T=1194\).
+The momentum sample is January 1927 through June 2026, with $T=1194$.
 
 #### Descriptive Statistics
 
-| Portfolio | Mean Return (%/mo) | SD (%/mo) | Monthly Sharpe |
+| Portfolio | Mean Raw Return (%/mo) | Raw Return SD (%/mo) | Monthly Sharpe (Excess Return) |
 | --- | ---: | ---: | ---: |
 | Loser | 0.372 | 9.769 | 0.010 |
 | 2 | 0.732 | 8.037 | 0.057 |
@@ -148,7 +158,9 @@ The momentum sample is January 1927 through June 2026, with \(T=1194\).
 | 9 | 1.171 | 5.529 | 0.163 |
 | Winner | 1.534 | 6.498 | 0.194 |
 
-Unlike the industry portfolios, the past-return portfolios show a clear monotonic pattern. Average returns and Sharpe ratios rise strongly from past losers to past winners. The monthly Sharpe ratio rises from about **0.01 for Loser** to about **0.19 for Winner**.
+Unlike the industry portfolios, the past-return portfolios show a clear monotonic pattern. Average returns and Sharpe ratios rise strongly from past losers to past winners. The monthly Sharpe ratio rises from about 0.01 for Loser to about 0.19 for Winner.
+
+*Notes: Monthly data, January 1927–June 2026. Mean and standard deviation are based on raw portfolio returns. Sharpe ratios are computed using excess returns, $(R_p-R_f)$, divided by their sample standard deviation.*
 
 #### CAPM and GRS Results
 
@@ -174,10 +186,18 @@ The GRS test strongly rejects the joint null that all ten momentum alphas equal 
 | 9 | 0.239 | 0.957 | 3.74 | 0.0002 |
 | Winner | 0.552 | 1.028 | 5.36 | 0.0000 |
 
-The CAPM has particular difficulty explaining the winner-loser spread. Across the ten portfolios, the correlation between market beta and average excess return is approximately **-0.82**. The Loser portfolio has the highest beta, \(\beta=1.559\), but the lowest average return and a large negative alpha of \(-0.977\%\) per month. The Winner portfolio has a much lower beta, \(\beta=1.028\), but a much higher average return and a positive alpha of \(0.552\%\) per month.
+*Notes: Alphas are monthly percentage returns. Alpha t-statistics use the OLS standard errors from the corresponding time-series CAPM regression.*
 
-The alpha pattern therefore reflects a dimension of expected returns that market beta does not capture: past losers tend to have negative alphas and past winners positive alphas. The winner and loser alphas have opposite signs, but the pattern is not symmetric because the loser-side pricing error is larger in magnitude. This is why momentum produces a particularly strong rejection of the CAPM.
+The CAPM has particular difficulty explaining the winner-loser spread. Across the ten portfolios, the correlation between market beta and average excess return is approximately -0.82, and the correlation between beta and alpha is approximately -0.91.
+
+The Loser portfolio has the highest beta, $\beta=1.559$, but the lowest average return and a large negative alpha of $-0.977\%$ per month. The Winner portfolio has a much lower beta, $\beta=1.028$, but a much higher average return and a positive alpha of $0.552\%$ per month.
+
+Thus, market beta points in the wrong direction for explaining the momentum return spread. Past losers tend to have negative alphas and past winners positive alphas. The winner and loser alphas have opposite signs, although the magnitudes are not symmetric because the loser-side pricing error is larger.
+
+One interpretation is that momentum captures exposure to an omitted priced risk factor that is not included in the CAPM. Another is behavioral underreaction or slow information diffusion, which can create predictable continuation in returns. The CAPM itself cannot distinguish between these explanations.
+
+---
 
 ## AI Integration
 
-The required AI prompts, evaluations, corrections, and validation checks are documented separately in `ai_workflow_part1_part2.md`.
+The required AI prompts, evaluations, normalization discussion, and validation checks are documented separately in `ai_workflow_part1_part2.md`.
