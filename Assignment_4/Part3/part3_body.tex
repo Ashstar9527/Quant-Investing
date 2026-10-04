@@ -1,0 +1,394 @@
+% =====================================================================
+\section{Part III: 25 Size and BE/ME Portfolios}
+% =====================================================================
+
+\paragraph{Sample.} 1926-07 to 2026-06, $T = 1200$, $N = 25$. Returns are in
+excess of the one-month T-bill rate, in percent per month. Rows sort on size
+(S = small, B = big); columns sort on BE/ME (L = low, H = high).
+
+\subsection{Question (f), repeating Part I(a)}
+
+\begin{table}[H]
+\centering
+\caption{Summary statistics, 25 size and BE/ME portfolios, percent per month.}
+\small
+\begin{tabular}{lrrrrrcrrrrr}
+\toprule
+& \multicolumn{5}{c}{Mean excess return} && \multicolumn{5}{c}{Standard deviation} \\
+\cmidrule{2-6}\cmidrule{8-12}
+& L & 2 & 3 & 4 & H && L & 2 & 3 & 4 & H \\
+\midrule
+S & 0.58 & 0.68 & 1.00 & 1.14 & 1.35 && 11.88 & 9.62 & 8.82 & 8.25 & 9.13 \\
+2 & 0.66 & 0.95 & 0.98 & 1.04 & 1.24 &&  7.96 & 7.46 & 7.21 & 7.41 & 8.64 \\
+3 & 0.73 & 0.91 & 0.92 & 1.01 & 1.11 &&  7.34 & 6.47 & 6.45 & 6.91 & 8.34 \\
+4 & 0.73 & 0.79 & 0.86 & 0.97 & 1.03 &&  6.17 & 6.08 & 6.28 & 6.80 & 8.52 \\
+B & 0.69 & 0.66 & 0.73 & 0.67 & 1.01 &&  5.34 & 5.24 & 5.56 & 6.50 & 8.48 \\
+\midrule
+& \multicolumn{5}{c}{Sharpe ratio} && \multicolumn{5}{c}{} \\
+\cmidrule{2-6}
+S & 0.049 & 0.071 & 0.113 & 0.138 & 0.148 &&&&&& \\
+2 & 0.083 & 0.127 & 0.137 & 0.141 & 0.144 &&&&&& \\
+3 & 0.100 & 0.141 & 0.142 & 0.145 & 0.133 &&&&&& \\
+4 & 0.118 & 0.129 & 0.136 & 0.143 & 0.121 &&&&&& \\
+B & 0.130 & 0.125 & 0.131 & 0.103 & 0.119 &&&&&& \\
+\bottomrule
+\end{tabular}
+\label{tab:p3f_stats}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+Monthly Sharpe ratio $= \bar R^e_i/\hat\sigma_i$. Market proxy (RM$-$RF):
+mean $0.70$, standard deviation $5.31$, Sharpe ratio $0.131$.
+\end{minipage}
+\end{table}
+
+\paragraph{Discussion.}
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{The dominant pattern is a value effect.} Average returns and
+Sharpe ratios rise with BE/ME in every size quintile, and the spread is
+steepest among small stocks.
+
+\item \textbf{The size effect is conditional.} Small value beats big value,
+but small growth earns less than big growth and is the worst of the 25
+portfolios, with the lowest mean and the highest volatility.
+
+\item \textbf{Unlike the industries, the dispersion is ordered.} The
+industries in Part I span a similar range of Sharpe ratios with no ordering
+to it. Here the dispersion lines up with the characteristic we sorted on,
+which is exactly what a single beta will struggle to match.
+
+\end{itemize}
+
+\subsection{Question (f), repeating Part I(b)}
+
+For each portfolio we estimate
+\[
+R_{it} - R_{ft} = \alpha_i + \beta_{iM}\,(R_{Mt} - R_{ft}) + e_{it},
+\]
+and test $H_0:\alpha_1 = \dots = \alpha_{25} = 0$ with the GRS statistic,
+distributed $F(N,\,T-N-K) = F(25,\,1174)$ under the null.
+
+\begin{table}[H]
+\centering
+\caption{CAPM time-series regressions, 25 size and BE/ME portfolios.
+Intercepts in percent per month.}
+\small
+\begin{tabular}{lrrrrrcrrrrr}
+\toprule
+& \multicolumn{5}{c}{$\hat\alpha_i$} && \multicolumn{5}{c}{$t(\hat\alpha_i)$} \\
+\cmidrule{2-6}\cmidrule{8-12}
+& L & 2 & 3 & 4 & H && L & 2 & 3 & 4 & H \\
+\midrule
+S & $-0.53$ & $-0.29$ & 0.06 & 0.26 & 0.41 && $-2.20$ & $-1.59$ & 0.38 & 1.88 & 2.48 \\
+2 & $-0.22$ & 0.09 & 0.15 & 0.20 & 0.29 && $-1.80$ & 0.88 & 1.53 & 1.88 & 2.12 \\
+3 & $-0.13$ & 0.13 & 0.14 & 0.19 & 0.17 && $-1.43$ & 1.77 & 1.88 & 2.17 & 1.37 \\
+4 & $-0.03$ & 0.03 & 0.09 & 0.17 & 0.07 && $-0.41$ & 0.50 & 1.36 & 1.96 & 0.57 \\
+B & 0.02 & 0.00 & 0.06 & $-0.09$ & 0.10 && 0.51 & 0.01 & 0.90 & $-1.05$ & 0.72 \\
+\midrule
+& \multicolumn{5}{c}{$\hat\beta_{iM}$} && \multicolumn{5}{c}{} \\
+\cmidrule{2-6}
+S & 1.60 & 1.39 & 1.36 & 1.26 & 1.36 &&&&&& \\
+2 & 1.27 & 1.23 & 1.20 & 1.21 & 1.37 &&&&&& \\
+3 & 1.25 & 1.13 & 1.12 & 1.17 & 1.35 &&&&&& \\
+4 & 1.09 & 1.09 & 1.10 & 1.16 & 1.39 &&&&&& \\
+B & 0.96 & 0.94 & 0.96 & 1.09 & 1.30 &&&&&& \\
+\bottomrule
+\end{tabular}
+\label{tab:p3f_capm}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+GRS $= 3.37$, $p < 0.001$, $F(25, 1174)$. $\hat\Sigma$ uses denominator
+$T-K-1$; the factor variance uses $T-1$.
+\end{minipage}
+\end{table}
+
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{The GRS test rejects.} $F = 3.37$ with $p < 0.001$: the market
+proxy is not mean--variance efficient with respect to the 25 size and BE/ME
+portfolios.
+
+\end{itemize}
+
+\subsection{Question (f), repeating Part I(d)}
+
+\paragraph{Discussion.}
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{The intercepts are negative for growth and positive for
+value.} The spread is widest among small stocks, from about $-0.5\%$ per
+month for small growth to $+0.4\%$ for small value. Among the largest
+stocks the intercepts are close to zero.
+
+\item \textbf{The CAPM has most difficulty with small growth and small
+value.} Small growth is overpriced and small value underpriced relative to
+their betas, while big stocks are priced reasonably well. Only five
+intercepts are significant on their own, but the residuals are strongly
+correlated across portfolios, so the GRS test reads the alphas as one
+systematic pattern rather than 25 small deviations.
+
+\item \textbf{Beta cannot produce the spread, which points to a missing
+factor for value and mispricing for small growth.} Within a size quintile
+beta barely changes across BE/ME, and small growth has the highest beta of
+all 25 portfolios despite the lowest return. The value spread moves as a
+common component of the CAPM residuals, but it does not lose money in
+market crashes, so it is not compensation for market risk. Small growth has
+the highest skewness and idiosyncratic volatility of the 25 portfolios, a
+negative alpha in every subsample, and stays mispriced even after adding a
+value factor, which fits investors overpaying for lottery-like stocks.
+
+\end{itemize}
+
+\subsection{Question (g)}
+
+We replace RM$-$RF with the in-sample tangency portfolio of the 25
+portfolios, with weights
+\[
+w_T = \frac{\hat\Sigma^{-1}\hat\mu}{\mathbf{1}'\hat\Sigma^{-1}\hat\mu}
+\]
+estimated over the full sample, and rerun the 25 time-series regressions and
+the GRS test.
+
+\begin{table}[H]
+\centering
+\caption{GRS test with the in-sample tangency portfolio of the 25 size and
+BE/ME portfolios as the market proxy, July 1926 -- June 2026.}
+\small
+\begin{tabular}{lrr}
+\toprule
+& RM$-$RF & In-sample tangency \\
+\midrule
+GRS $F$-statistic & 3.37 & 0.00 \\
+$p$-value & $<0.001$ & 1.00 \\
+Largest $|\hat\alpha_i|$ (\% per month) & 0.53 & 0.00 \\
+Proxy Sharpe ratio (monthly) & 0.131 & 0.299 \\
+\bottomrule
+\end{tabular}
+\label{tab:p3g}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+Tangency weights sum to one, with gross exposure $13.86$ and individual
+weights between $-1.44$ and $1.06$. All 25 intercepts are below $10^{-14}$.
+\end{minipage}
+\end{table}
+
+\paragraph{Discussion.}
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{The GRS test fails to reject.} The statistic is zero and the
+$p$-value is one: every intercept is zero up to rounding error, so the
+in-sample tangency portfolio prices all 25 portfolios perfectly.
+
+\item \textbf{The result is not surprising.} It is an identity. Because
+$w_T \propto \hat\Sigma^{-1}\hat\mu$, each portfolio's covariance with the
+tangency portfolio is proportional to its mean, so
+$\hat\mu_i = \hat\beta_{iT}\,\hat\mu_T$ and
+$\hat\alpha_i = \hat\mu_i - \hat\beta_{iT}\hat\mu_T = 0$ for every $i$,
+whatever the data. In Sharpe-ratio terms, the proxy is already the
+maximum-Sharpe-ratio combination of the test assets, so adding them cannot
+improve it. The result therefore says nothing about the CAPM. The proxy is a
+levered long--short portfolio of the test assets, not a market portfolio,
+and it illustrates Roll's critique just as the perfect cross-sectional fit
+did in Problem Set 3, Question (2).
+
+\end{itemize}
+
+\subsection{Question (h)}
+
+Sample 1 contains odd-numbered months in even years and even-numbered months
+in odd years; Sample 2 contains the rest, giving 600 months each. We estimate
+tangency weights from Sample 1 moments and apply them to Sample 2 returns,
+then reverse the roles. The combined, chronologically sorted series is the
+out-of-sample tangency portfolio, which we use as the market proxy in the 25
+time-series regressions.
+
+\begin{table}[H]
+\centering
+\caption{GRS tests on the 25 size and BE/ME portfolios under three market
+proxies, July 1926 -- June 2026.}
+\small
+\begin{tabular}{lrrr}
+\toprule
+& RM$-$RF & In-sample tangency & Out-of-sample tangency \\
+\midrule
+GRS $F$-statistic & 3.37 & 0.00 & 2.78 \\
+$p$-value & $<0.001$ & 1.00 & $<0.001$ \\
+Proxy Sharpe ratio (monthly) & 0.131 & 0.299 & 0.216 \\
+\bottomrule
+\end{tabular}
+\label{tab:p3h}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+Out-of-sample weights sum to one in each half, with gross exposure $14.81$
+(estimated on Sample 1) and $18.44$ (Sample 2). The correlation between the
+two weight vectors is $0.49$. All 25 intercepts are positive, between $0.14$
+and $0.46\%$ per month.
+\end{minipage}
+\end{table}
+
+\paragraph{Discussion.}
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{The GRS test rejects.} The out-of-sample tangency portfolio
+leaves significant pricing errors in the 25 portfolios.
+
+\item \textbf{It rejects because the weights are estimated with error.}
+The identity in (g) holds only when the weights and the test use the same
+sample moments. Here they do not, and the mean estimates are noisy enough
+that the two halves produce quite different weights. A portfolio that is
+efficient in its own half loses about a third of its Sharpe ratio in the
+other, so it lies inside the frontier of the test assets. Its extra
+volatility is mostly noise that shrinks every beta, so every portfolio's
+average return exceeds what its beta implies and all 25 intercepts are
+positive.
+
+\item \textbf{The result is not surprising.} Optimized weights fit the
+sample they come from and travel poorly, because mean returns are estimated
+with large error. The portfolio still beats the market's Sharpe ratio and
+lowers the GRS statistic, but the test asks whether the proxy is efficient,
+not whether it beats the market, and out of sample it is not.
+
+\end{itemize}
+
+\paragraph{AI integration: Roll's critique.} Before comparing (g) and (h),
+we asked Claude Sonnet 5.5 (chat mode) why the in-sample tangency portfolio
+makes the GRS test fail to reject trivially, and why the out-of-sample
+version does not. It answered that GRS is a monotone function of
+$(SR^{*2} - SR_f^2)/(1 + SR_f^2)$, that an in-sample tangency portfolio
+attains $SR_f = SR^*$ by construction, and that weights estimated on a
+different sample leave the proxy inside the test-sample frontier, restoring
+power. It added that estimation error in those weights makes the test
+over-reject as a test of the underlying model.
+
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item[(i)] \textbf{Yes, on both counts.} The in-sample tangency portfolio
+produced a GRS statistic of zero and a $p$-value of one, exactly as the LLM
+predicted.
+
+\item[(ii)] \textbf{The LLM identified the exact identity.} It showed that
+$\mathrm{Cov}(R_i, f) = \hat\mu_i$, so $\hat\beta_i = \hat\mu_i/\mu_f$ and
+every $\hat\alpha_i$ is zero, rather than appealing loosely to overfitting.
+It did overstate one point: it claimed the exact $F$ distribution applies
+out of sample because the proxy is a given regressor. In our construction
+each half's proxy uses weights estimated from the other half's test-asset
+returns, so the proxy is not independent of the test sample and the $F$
+distribution is only approximate.
+
+\item[(iii)] \textbf{Yes, and the contrast reinforces Roll's critique.}
+With the same assets, the same data and the same model, the verdict moves
+from a perfect fit to a clear rejection depending only on how the proxy is
+built. The LLM's own caveat makes the same point without naming Roll: the
+out-of-sample rejection partly reflects estimation error in the proxy, so
+neither result is a clean verdict on the CAPM. GRS can only ever test
+whether the chosen proxy is efficient.
+
+\end{itemize}
+
+\subsection{Question (i)}
+
+We replace RM$-$RF with the in-sample tangency portfolio of the 30
+value-weight industry portfolios, estimated over the full sample, and rerun
+the GRS test on the 25 size and BE/ME portfolios.
+
+\begin{table}[H]
+\centering
+\caption{CAPM intercepts with the in-sample industry tangency portfolio as
+the market proxy, percent per month.}
+\small
+\begin{tabular}{lrrrrrcrrrrr}
+\toprule
+& \multicolumn{5}{c}{$\hat\alpha_i$} && \multicolumn{5}{c}{$t(\hat\alpha_i)$} \\
+\cmidrule{2-6}\cmidrule{8-12}
+& L & 2 & 3 & 4 & H && L & 2 & 3 & 4 & H \\
+\midrule
+S & $-0.46$ & $-0.10$ & 0.26 & 0.47 & 0.62 && $-1.40$ & $-0.36$ & 1.06 & 2.03 & 2.44 \\
+2 & $-0.17$ & 0.19 & 0.25 & 0.33 & 0.46 && $-0.81$ & 0.95 & 1.32 & 1.63 & 1.96 \\
+3 & $-0.09$ & 0.14 & 0.19 & 0.27 & 0.31 && $-0.48$ & 0.86 & 1.14 & 1.46 & 1.37 \\
+4 & $-0.10$ & 0.02 & 0.11 & 0.22 & 0.21 && $-0.64$ & 0.11 & 0.66 & 1.21 & 0.91 \\
+B & $-0.12$ & $-0.07$ & 0.03 & $-0.05$ & 0.20 && $-1.00$ & $-0.54$ & 0.22 & $-0.31$ & 0.86 \\
+\bottomrule
+\end{tabular}
+\label{tab:p3i}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+GRS $= 3.51$, $p < 0.001$, against $3.37$ with RM$-$RF. Monthly Sharpe
+ratio of the industry tangency portfolio: $0.236$.
+\end{minipage}
+\end{table}
+
+\paragraph{Discussion.}
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{The industry tangency portfolio prices the 25 portfolios no
+better than the market.} The GRS test still rejects, with a slightly larger
+statistic than under RM$-$RF, and the intercepts keep the same pattern:
+negative for small growth, positive and increasing in BE/ME elsewhere.
+
+\item \textbf{This is not surprising.} The tangency portfolio is efficient
+only relative to the assets it is built from. Industries are not sorted on
+size or BE/ME, so their optimal combination carries little of the value
+spread that drives the 25 portfolios' returns. A higher Sharpe ratio than
+the market does not help: what matters is whether the proxy lies on the
+frontier of the test assets, and the industry tangency portfolio points in a
+different direction, as the low correlation between the two tangency
+portfolios in (k) confirms.
+
+\end{itemize}
+
+\subsection{Question (j)}
+
+We replace RM$-$RF with the in-sample tangency portfolio of the 10 past
+return portfolios, estimated over the full sample, and rerun the GRS test on
+the 25 size and BE/ME portfolios. Because the past return portfolios begin in
+January 1927, this test uses 1927-01 to 2026-06 ($T = 1194$).
+
+\begin{table}[H]
+\centering
+\caption{CAPM intercepts with the in-sample past-return tangency portfolio
+as the market proxy, percent per month, 1927-01 to 2026-06.}
+\small
+\begin{tabular}{lrrrrrcrrrrr}
+\toprule
+& \multicolumn{5}{c}{$\hat\alpha_i$} && \multicolumn{5}{c}{$t(\hat\alpha_i)$} \\
+\cmidrule{2-6}\cmidrule{8-12}
+& L & 2 & 3 & 4 & H && L & 2 & 3 & 4 & H \\
+\midrule
+S & $-0.20$ & $-0.07$ & 0.35 & 0.50 & 0.74 && $-0.58$ & $-0.24$ & 1.39 & 2.10 & 2.77 \\
+2 & $-0.17$ & 0.21 & 0.26 & 0.38 & 0.53 && $-0.77$ & 0.99 & 1.30 & 1.83 & 2.15 \\
+3 & $-0.07$ & 0.12 & 0.19 & 0.31 & 0.39 && $-0.37$ & 0.71 & 1.09 & 1.60 & 1.65 \\
+4 & $-0.11$ & 0.02 & 0.12 & 0.28 & 0.28 && $-0.66$ & 0.15 & 0.71 & 1.49 & 1.17 \\
+B & $-0.07$ & $-0.07$ & 0.07 & $-0.00$ & 0.28 && $-0.54$ & $-0.52$ & 0.44 & $-0.02$ & 1.17 \\
+\bottomrule
+\end{tabular}
+\label{tab:p3j}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+GRS $= 3.36$, $p < 0.001$, $F(25, 1168)$, against $3.37$ with RM$-$RF over
+the same sample. The tangency portfolio is mainly long Winner ($0.89$) and
+short Loser ($-0.96$), with a monthly Sharpe ratio of $0.264$.
+\end{minipage}
+\end{table}
+
+\paragraph{Discussion.}
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{How well do we price the 25 size and BE/ME portfolios?}
+No better than the market. The GRS statistic is essentially unchanged from
+the CAPM, but the intercepts now rise even more steeply with BE/ME, reaching
+$0.74\%$ per month for small value, and their average absolute size
+increases by about half.
+
+\item \textbf{Is this surprising? Why or why not?} We expected the momentum
+tangency portfolio to do better, since its Sharpe ratio is about twice the
+market's. On reflection, the result is understandable. The test does not
+reward a high Sharpe ratio; it asks whether the proxy is efficient relative
+to the 25 portfolios, and a bet on winners over losers carries no
+information about value. It even works against value: value portfolios move
+with past losers, so the proxy expects little from them and their alphas
+grow. The GRS statistic holds steady only because those larger alphas are
+also noisier. A better portfolio is not necessarily a better proxy.
+
+\end{itemize}
