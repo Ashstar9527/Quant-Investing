@@ -981,9 +981,10 @@ reductions to occur for portfolios with stronger RMW exposures, while
 portfolios with weak profitability exposure should show smaller
 improvements.
 
-Economically, RMW may earn a positive risk premium because firms with weak
-profitability could be riskier and therefore require different expected
-returns, or the profitability premium may reflect systematic mispricing if
+Economically, RMW may earn a positive premium because firms with robust
+profitability could be riskier in a way that market beta does not capture and
+therefore require higher expected returns than firms with weak profitability,
+or the profitability premium may reflect systematic mispricing if
 investors do not fully incorporate information about firms' profitability
 into prices. The test will examine whether adding RMW materially reduces the
 pricing errors of the 25 portfolios beyond what market beta alone can
@@ -1709,14 +1710,13 @@ However, it understates how limited the improvement is: absolute alphas fall
 for only 9 of 25 portfolios, several of those reductions are below 0.015, and
 total absolute alpha rises from 4.95 to 5.29. Its claim that RMW helps
 ``particularly among smaller firms'' is misleading, because the
-smallest-size quintile also contains the four largest deteriorations. Most
-importantly, it misses the pattern that organizes the table: given RMW's
-positive sample mean, pricing errors shrink only where the sign of the RMW
-loading offsets the sign of the CAPM alpha, and grow where the loading
-pushes an already-positive alpha further from zero, as in small value
-portfolios. The table therefore only partly supports our hypothesis: weakly
-exposed portfolios change little, but strong RMW exposure is associated with
-large alpha changes in either direction, not necessarily reductions.
+smallest-size quintile also contains the four largest deteriorations. Most importantly, it misses the pattern that organizes the table: because
+$\alpha_i^{Augmented} = \alpha_i^{CAPM} - \beta_{i,RMW}\,\alpha_{RMW}^{CAPM}$
+and RMW's CAPM alpha relative to the market is positive
+($\alpha_{RMW}^{CAPM} = 0.301\%$ per month over 1963-07 to 2026-06), pricing
+errors shrink only where the sign of the RMW loading offsets the sign of the
+CAPM alpha, and grow where the loading pushes an already-positive alpha
+further from zero, as in small value portfolios. The table therefore only partly supports our hypothesis: weakly exposed portfolios change little, but strong RMW exposure is associated with large alpha changes in either direction, not necessarily reductions.
 
 \subsection{Step 4}
 
