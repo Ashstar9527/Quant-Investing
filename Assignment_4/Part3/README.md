@@ -6,7 +6,7 @@ portfolios as the market proxy.
 
 ```
 Part3/
-├── part3_body.tex          write-up for (f)–(j), to be merged into the group report
+├── part3_body.tex          write-up for (f)–(k), to be merged into the group report
 ├── data_load.py            loads the workbook; grs(), tangency(), half_split(), grid()
 ├── f_script.py             (f) summary stats, CAPM regressions, GRS
 ├── f_extra_checks.py       (f) supporting checks for the (d) discussion: risk vs mispricing
@@ -16,11 +16,10 @@ Part3/
 ├── i_script.py             (i) in-sample tangency of the 30 industries as the proxy
 ├── j_script.py             (j) in-sample tangency of the 10 past-return portfolios as the proxy,
 │                           plus the value-vs-momentum loading check
+├── k_script.py             (k) correlation matrix of the three tangency portfolios
 ├── *_results.md            printed output of each script
 └── *.csv                   tables behind each results file
 ```
-
-`k_script.py` will be added for (k).
 
 ## Running it
 
