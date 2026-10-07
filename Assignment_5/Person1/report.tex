@@ -1,0 +1,184 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[font=small,labelfont=bf,skip=5pt]{caption}
+\usepackage{listings}
+\lstdefinestyle{pycode}{
+  language=Python, basicstyle=\ttfamily\scriptsize,
+  keywordstyle=\color{psink}\bfseries, commentstyle=\color{psaccent}\itshape,
+  stringstyle=\color{psink}, numbers=left, numberstyle=\tiny\color{psrule},
+  numbersep=7pt, breaklines=true, breakatwhitespace=true, showstringspaces=false,
+  frame=none, xleftmargin=20pt, aboveskip=6pt, belowskip=6pt, columns=fullflexible,
+  keepspaces=true, upquote=true,
+}
+\lstset{style=pycode}
+
+\definecolor{psink}{RGB}{23,54,93}
+\definecolor{psaccent}{RGB}{192,80,77}
+\definecolor{psrule}{RGB}{200,209,222}
+
+\usepackage[colorlinks=true,allcolors=psink]{hyperref}
+
+\graphicspath{{./}}
+\emergencystretch=3em
+
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{10pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{0pt}%
+  {-2.6ex \@plus -1ex \@minus -.2ex}{1.3ex \@plus .2ex}%
+  {\normalfont\scshape\large\color{psink}}}   % lmr has no bold small caps
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}%
+  {-2.2ex \@plus -1ex \@minus -.2ex}{1.0ex \@plus .2ex}%
+  {\normalfont\bfseries\normalsize\color{psink}}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{0pt}%
+  {-1.9ex \@plus -.8ex \@minus -.2ex}{0.8ex \@plus .2ex}%
+  {\normalfont\bfseries\itshape\normalsize\color{psink}}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{0pt}%
+  {-1.6ex \@plus -.6ex \@minus -.2ex}{0.5ex \@plus .1ex}%
+  {\normalfont\itshape\normalsize\color{psink}}}
+\renewcommand\paragraph{\@startsection{paragraph}{4}{0pt}%
+  {1.7ex \@plus 1ex \@minus .2ex}{-0.9em}%
+  {\normalfont\bfseries\normalsize\color{psink}}}
+\makeatother
+
+\newenvironment{tight}
+  {\begin{itemize}\setlength{\itemsep}{3pt}\setlength{\parskip}{0pt}%
+   \setlength{\topsep}{3pt}\setlength{\leftmargini}{1.4em}}
+  {\end{itemize}}
+
+\setcounter{secnumdepth}{0}   % headings carry the assignment's own labels
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\scshape\color{psink} MGT 595 \textemdash\ Problem Set 5}
+\fancyhead[R]{\footnotesize\color{psink}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{%
+  \color{psrule}\leaders\hrule height \headrulewidth\hfill}}
+
+\begin{document}
+
+\thispagestyle{empty}
+\begin{flushleft}
+{\bfseries\LARGE\color{psink} Quantitative Investing}\\[3pt]
+{\scshape\Large\color{psink} Problem Set 5 \textemdash\ Part I: Business Cycle Variation}\\[10pt]
+{\color{psrule}\rule{\textwidth}{1.2pt}}\\[5pt]
+{\small Ashley Wen\,(xw564)\quad\textbar\quad Emily Wu\,(esw63)%
+\quad\textbar\quad Grace Gu\,(xg325)\hfill \today}
+\end{flushleft}
+
+\vspace{1.4em}
+
+% =====================================================================
+\section{Data and Conventions}
+% =====================================================================
+
+\begin{tight}
+  \item \textbf{Sample.} Monthly data from 1926-07 to 2026-06 (UMD and the momentum
+  portfolios start 1927-01). The NBER dummy marks 201 recession months across 16 recessions.
+  \item \textbf{Returns.} All figures are percent per month. Portfolio returns are in
+  excess of the T-bill; RMRF is already excess, and SMB, HML and UMD are zero-cost
+  long--short returns, so they are used as given.
+  \item \textbf{Inference.} Residuals cluster in recession episodes, so $t$-statistics
+  use Newey--West standard errors with 12 lags.
+  \item \textbf{Shared code.} All parts load data through \texttt{common/data.py} and run
+  Fama--MacBeth through \texttt{common/fmb.py}, so lags, samples and beta definitions
+  are identical across Questions (a)--(h).
+\end{tight}
+
+% =====================================================================
+\section{Question (a)}
+% =====================================================================
+
+We estimate $R_t = a + b\,D_t + \varepsilon_t$, where $D_t = 1$ in NBER recession months,
+so $a$ is the non-recession mean and $a+b$ the recession mean.
+
+\begin{table}[H]\centering\small
+\caption{Factor returns in and out of recessions (\% per month)}
+\begin{tabular}{lcccc}
+\toprule
+ & Non-recession $a$ & Recession $a+b$ & Difference $b$ & $t(b)$ \\
+\midrule
+RMRF & 0.93 & $-0.47$ & $-1.40$ & $-2.50$ \\
+SMB  & 0.19 & 0.03    & $-0.16$ & $-0.82$ \\
+HML  & 0.40 & 0.15    & $-0.25$ & $-0.75$ \\
+UMD  & 0.71 & 0.22    & $-0.49$ & $-1.00$ \\
+\bottomrule
+\end{tabular}
+\par\smallskip\footnotesize Newey--West (12 lags) $t$-statistics. UMD starts 1927-01.
+\end{table}
+
+\begin{tight}
+  \item \textbf{What does this tell you?} Only the market is reliably worse in
+  recessions; SMB, HML and UMD give up some return but none of the drops is
+  distinguishable from zero. All three factors still earn a positive average return in
+  recession months, while the market loses money. So the factor premia are not
+  mainly a reward for losing money in recessions, at least not in the way the market premium is.
+  \item \textbf{Based on these results, do you believe SMB or HML is more consistent
+  with a risk-based explanation?} SMB is, but only weakly. Its premium all but
+  disappears in recessions, so small stocks fail to pay off exactly when times are
+  bad, which is what a risk story needs. HML instead keeps a positive return in
+  recessions, in line with Lakonishok, Shleifer and Vishny's (1994) finding that value does not
+  underperform in bad states. With 201 recession months neither difference is
+  significant, so we read this as a lean rather than a verdict.
+\end{tight}
+
+% =====================================================================
+\section{Question (b)}
+% =====================================================================
+
+\begin{table}[H]\centering\small
+\caption{Corner portfolio excess returns in and out of recessions (\% per month)}
+\begin{tabular}{lcccc}
+\toprule
+ & Non-recession $a$ & Recession $a+b$ & Difference $b$ & $t(b)$ \\
+\midrule
+\multicolumn{5}{l}{\textit{Size--BE/ME corners}} \\
+Small Growth & 0.83 & $-0.63$ & $-1.46$ & $-1.30$ \\
+Small Value  & 1.69 & $-0.38$ & $-2.07$ & $-2.62$ \\
+Big Growth   & 0.90 & $-0.34$ & $-1.25$ & $-2.21$ \\
+Big Value    & 1.24 & $-0.12$ & $-1.35$ & $-1.51$ \\
+\addlinespace
+\multicolumn{5}{l}{\textit{Size--momentum corners}} \\
+Small Losers  & 0.80 & $-0.26$ & $-1.06$ & $-1.17$ \\
+Small Winners & 1.84 & $-0.22$ & $-2.06$ & $-2.98$ \\
+Big Losers    & 0.58 & $-0.83$ & $-1.42$ & $-1.66$ \\
+Big Winners   & 1.24 & $-0.40$ & $-1.64$ & $-2.73$ \\
+\addlinespace
+\multicolumn{5}{l}{\textit{Within-size spreads}} \\
+Small Value $-$ Growth   & 0.87 & 0.25 & $-0.62$ & $-1.03$ \\
+Big Value $-$ Growth     & 0.34 & 0.23 & $-0.11$ & $-0.14$ \\
+Small Winners $-$ Losers & 1.04 & 0.04 & $-1.00$ & $-1.29$ \\
+Big Winners $-$ Losers   & 0.64 & 0.39 & $-0.25$ & $-0.40$ \\
+\bottomrule
+\end{tabular}
+\par\smallskip\footnotesize Excess returns over the T-bill. Newey--West (12 lags)
+$t$-statistics. Momentum portfolios start 1927-01.
+\end{table}
+
+\begin{tight}
+  \item \textbf{Do you find stronger cyclical patterns for these extreme portfolios
+  than for the factors?} Yes, but mostly because the corners are long-only portfolios that
+  carry the market's recession losses. Every corner falls by one to two percent per
+  month in recessions, and the high-return corners (Small Value and both
+  Winner portfolios) fall the most. Once we net out the market by taking
+  spreads within a size group, the pattern shrinks back to factor-sized, insignificant
+  drops that stay positive in recessions. The extreme portfolios are more cyclical,
+  but the value and momentum premia themselves are not.
+\end{tight}
+
+\end{document}
