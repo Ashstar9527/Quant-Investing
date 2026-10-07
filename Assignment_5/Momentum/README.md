@@ -6,7 +6,7 @@ All analyses follow `Assignment_5/common/CONVENTIONS.md` and import the group's 
 
 - `part_f.py` — full-sample Fama–MacBeth models (1)–(3).
 - `part_h.py` — full-sample vs. January 1963 onward comparison, re-estimating betas for the restricted sample.
-- `momentum_answers.md` — methods, results, and AI Integration for (g). Comparisons with value in (g)/(h) await Questions (d)/(e).
+- `momentum_answers.md` — methods, results, AI Integration for (g), and comparisons with the value results from Questions (d) and (e).
 - `part_f_comparison.csv`, `part_f_betas.csv`, `part_h_comparison.csv`, `part_h_post1963_betas.csv` — generated results, all saved **in this Momentum folder**, consistent with the existing repository layout.
 
 ## Run
