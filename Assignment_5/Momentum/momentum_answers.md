@@ -53,7 +53,9 @@ The response also did not use our data. In our combined FMB specification, `ret2
 
 ### Comparison with Value Portfolios
 
-**Pending teammate's Question (d) results.** We will compare the significance of the characteristics and factor betas in the *combined* specification for value versus momentum, rather than assuming the two sets of results agree.
+The value and momentum results both lean toward a characteristics interpretation, but the momentum result is somewhat cleaner. For the value portfolios, BE/ME remains strongly significant in the combined equation (3) (estimate = 0.4808, t = 4.39), while SMB beta is insignificant (t = -0.83). HML beta remains statistically significant, but its coefficient becomes negative (estimate = -0.4656, t = -2.05), which is opposite to the positive risk premium predicted by a conventional HML risk story.
+
+For momentum, the combined specification shows an even clearer separation: ret212 remains significant (t = 2.77), while both SMB beta (t = 0.56) and UMD beta (t = 0.35) are insignificant. Thus, both sets of results favor characteristics over a pure covariance-based explanation, but the momentum results provide a cleaner horse race because the momentum characteristic survives while the corresponding UMD beta loses explanatory power entirely. The value evidence is somewhat more mixed because HML beta remains significant, although with the wrong sign for the standard risk interpretation.
 
 ---
 
@@ -92,7 +94,11 @@ The main conclusion does not change. In the post-1963 combined model, `ret212` s
 
 ### Comparison with Value and Cross-Sample Stability
 
-**Pending teammate's Question (e) results.** Once those are available, we can compare whether the *value* combined-model characteristics and betas retain significance across sample periods and determine which premium appears more stable. We should not claim which is more stable before seeing those regressions.
+Both value and momentum show substantial stability across the full and post-1963 samples. For value, the BE/ME coefficient in the combined model is nearly unchanged, from 0.4808 (t = 4.39) in the full sample to 0.4876 (t = 3.57) after 1963. The HML beta remains negative, although its t-statistic falls from -2.05 to -1.87. The size characteristic becomes essentially zero after 1963.
+
+Momentum shows an even more stable characteristics-versus-covariances pattern. In the combined model, the ret212 coefficient changes only slightly from 0.00759 (t = 2.77) to 0.00804 (t = 4.13), while UMD beta remains insignificant in both samples (t = 0.35 and -0.20). SMB beta is also insignificant in both periods.
+
+Overall, momentum appears slightly more stable in terms of the characteristics-versus-covariances conclusion: the past-return characteristic remains significant and the UMD beta remains insignificant in both samples. Value's BE/ME characteristic is also highly stable, but the HML beta moves from significant at the 5% level in the full sample to only marginally significant after 1963, and the size effect disappears. This suggests that the characteristics-based evidence is robust for both premiums, but somewhat cleaner across sample periods for momentum.
 
 ---
 
