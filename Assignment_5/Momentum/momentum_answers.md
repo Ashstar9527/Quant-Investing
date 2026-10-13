@@ -40,7 +40,7 @@ The LLM is partly convincing. It recognizes momentum's state-dependent crashes, 
 
 Our results provide evidence for both sides. In equation (2), the UMD risk price is 0.618% per month, close to UMD's average return of about 0.60%, which is consistent with a risk interpretation when characteristics are excluded. But in equation (3), `ret212` remains significant (t = 2.77), while UMD beta becomes insignificant (t = 0.35) and its estimated risk price falls to only 0.075% per month. This shifts the evidence toward characteristics.
 
-The value result is similar but not identical. BE/ME remains strongly significant in the combined value regression (t = 4.39), while HML beta becomes negative (t = -2.05). For momentum, `ret212` remains significant while UMD beta becomes insignificant, although the market-beta premium is significantly negative (t = -2.54). Thus, neither model has a perfectly clean risk-pricing pattern. The LLM's framing helps explain the difference partly: momentum has less obvious fundamental risk foundations than value, making its premium harder to reconcile with conventional risk models.
+The value result is similar but not identical. BE/ME remains strongly significant in the combined value regression (t = 4.39), while HML beta becomes negative (t = -2.05). For momentum, `ret212` remains significant while UMD beta becomes insignificant, although the market-beta premium is significantly negative (t = -2.54). Thus, neither model has a perfectly clean risk-pricing pattern. The LLM's framing helps explain the difference partly: momentum has less obvious fundamental-risk foundations than value, making its premium harder to reconcile with conventional risk models.
 
 ---
 
