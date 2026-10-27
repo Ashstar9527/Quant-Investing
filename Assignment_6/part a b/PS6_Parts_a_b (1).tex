@@ -1,0 +1,210 @@
+
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx,array}
+\usepackage{float}
+\usepackage[font=small,labelfont=bf,labelsep=period]{caption}
+\usepackage{enumitem}
+\usepackage{newunicodechar}
+\usepackage[hidelinks]{hyperref}
+\newunicodechar{−}{\textminus}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{3em}
+\setlength{\parskip}{6pt plus 2pt}
+\setlist{itemsep=2pt, topsep=4pt}
+\title{Problem Set 6\\[2pt]\large Questions (a) and (b)}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+\vspace{-2.5em}
+\section*{Question (a)}
+ 
+Using the 30 value-weighted industry portfolios, form at the end of each month $t-1$ a portfolio that is long the three industries with the highest month-$t-1$ return (winners, $W_{t-1}$) and short the three industries with the lowest month-$t-1$ return (losers, $L_{t-1}$). Each leg is equal-weighted and the position is held over month $t$:
+ 
+\begin{equation*}
+MOM_t=\frac{1}{3}\sum_{i\in W_{t-1}}R_{i,t}-\frac{1}{3}\sum_{i\in L_{t-1}}R_{i,t}.
+\end{equation*}
+ 
+We report the time-series mean, standard deviation, $t$-statistic and Sharpe ratio of $MOM_t$:
+ 
+\begin{gather*}
+\overline{MOM}=\frac{1}{T}\sum_{t=1}^{T}MOM_t,\qquad
+s_{MOM}=\sqrt{\frac{1}{T-1}\sum_{t=1}^{T}\left(MOM_t-\overline{MOM}\right)^2},\qquad \\
+t=\frac{\overline{MOM}}{s_{MOM}/\sqrt{T}},\qquad
+SR=\frac{\overline{MOM}}{s_{MOM}}.
+\end{gather*}
+ 
+Because $MOM_t$ is the return on a zero-cost (long–short) portfolio, it is already an excess return, so the risk-free rate is not subtracted when computing the Sharpe ratio.
+ 
+\textbf{Data notes.}
+\begin{itemize}
+  \item The \texttt{30 industries} sheet has three title/blank rows; industry names are in the fourth row (\texttt{header=3}), and dates are \texttt{YYYYMM} integers in the first column.
+  \item The sheet contains 30 industries at a monthly frequency from 1926:07 to 2026:06 (1,200 months), with no gaps or duplicate dates.
+  \item There are no missing values and no \texttt{-99.99}/\texttt{-999} missing-data codes in this sheet, so \textbf{no observations are filled or excluded}.
+  \item Returns are in \textbf{percent per month}: the pooled median is about 1, 84.6\% of observations exceed 1 in absolute value, and the extremes (−50.64 and +125.43) are only plausible as percentages. All results below are therefore in percent per month.
+  \item The assignment refers to \texttt{Problem\_\allowbreak{}Set6\_\allowbreak{}2026.xls}; the file supplied is \texttt{Problem\_\allowbreak{}Set6\_\allowbreak{}2026.xlsx}. The contents match the description (four sheets).
+  \item The T-bill rate is not needed, because the strategy is a zero-cost long–short portfolio.
+\end{itemize}
+ 
+\textbf{Portfolio construction.}
+\begin{itemize}
+  \item \textbf{Timing (no look-ahead).} For each holding month $t$, industries are ranked using only month-$t-1$ returns (\texttt{R.shift(1)}), and the resulting weights are applied to month-$t$ returns. Because 1926:07 is used only for ranking, the holding sample is 1926:08–2026:06 ($T$ = 1,199), the maximum the data allow.
+  \item \textbf{Weights.} Each winner receives $+1/3$ and each loser $-1/3$, so the long leg sums to $+1$, the short leg to $-1$, and the net investment is zero.
+  \item \textbf{Ties.} Returns are reported to two decimals, so industries can tie at the 3rd/4th (or 27th/28th) rank. The main rule, \texttt{keep=\textquotedbl{}first\textquotedbl{}}, breaks ties by column order; its effect is assessed below.
+\end{itemize}
+ 
+\textbf{Verification.} The cells below check the construction independently of the main loop:
+\begin{enumerate}
+  \item Winner/loser selection and holding-month returns are recomputed by hand for 1926:08 and 2026:06.
+  \item Every portfolio is formed in month $t-1$ and held in month $t$; selections are the top/bottom three on $t-1$ returns in every month; a look-ahead placebo (ranking on month-$t$ returns) is shown for contrast.
+  \item Each leg has exactly three weights of $1/3$ summing to one, the legs never overlap, and $MOM_t$ equals both $R_{W,t}-R_{L,t}$ and the weight vector applied to month-$t$ returns.
+  \item The summary statistics are recomputed with plain NumPy formulas.
+\end{enumerate}
+ 
+\textbf{Tie sensitivity.} In the months where two industries share the same formation return at the selection cut-off, the composition of the portfolio depends on the tie-breaking rule. The cell below counts these months and recomputes the statistics under \texttt{keep=\textquotedbl{}last\textquotedbl{}} and under a rule that splits the remaining weight equally among all tied industries (so each leg still sums to one).
+ 
+\begin{table}[H]
+\centering
+\caption*{Tie sensitivity: summary statistics under alternative tie-breaking rules}
+\begin{tabular}{lrrrr}
+\toprule
+Rule & Mean (\%) & Std.\ dev.\ (\%) & $t$-statistic & Sharpe ratio \\
+\midrule
+ 
+\texttt{keep=\textquotesingle{}first\textquotesingle{}} (main) & 0.7380 & 5.5523 & 4.6027 & 0.1329 \\
+\texttt{keep=\textquotesingle{}last\textquotesingle{}} & 0.7366 & 5.5517 & 4.5941 & 0.1327 \\
+split tied weight & 0.7373 & 5.5519 & 4.5985 & 0.1328 \\
+\bottomrule
+\end{tabular}
+\end{table}
+ 
+\begin{table}[H]
+\centering
+\caption{1-month, 1-month industry momentum strategy (30 value-weighted industries).}
+\label{tab:mom11}
+\begin{tabular}{ll}
+\toprule
+Statistic & Value \\
+\midrule
+Average monthly momentum return & 0.7380\% \\
+Monthly standard deviation & 5.5523\% \\
+t-statistic & 4.60 \\
+Monthly Sharpe ratio & 0.1329 \\
+Sample period & 1926:08 – 2026:06 (holding months) \\
+Number of observations & 1,199 \\
+\bottomrule
+\end{tabular}
+\end{table}
+ 
+\emph{Notes:} At the end of each month $t-1$, the 30 value-weighted industry portfolios are ranked by their month-$t-1$ return. The strategy goes long the top three (winners) and short the bottom three (losers), with equal weights of 1/3 in each leg, and holds the position over month $t$. Returns are in percent per month. The standard deviation is the sample standard deviation ($ddof=1$). The $t$-statistic tests $H_0:\ E[MOM_t]=0$ and is computed as $\overline{MOM}/(s_{MOM}/\sqrt{T})$. The Sharpe ratio is $\overline{MOM}/s_{MOM}$; no risk-free rate is subtracted because the strategy is zero-cost. No observations were missing or excluded. In 14 months, two industries tie at the selection cut-off; the tie-sensitivity table above shows that the results do not depend on how these ties are broken (mean between 0.7366\% and 0.7380\%).
+ 
+\textbf{Interpretation.}
+ 
+\emph{Sign of the return.} The strategy earns a positive average return of 0.7380\% per month. Last month's three best industries earn 1.3399\% on average in the following month, while last month's three worst earn 0.6019\%. Industries that have recently done well therefore continue to outperform recent losers over the next month, consistent with the short-horizon industry momentum documented by Moskowitz and Grinblatt (1999), and in contrast to the one-month reversal usually found for individual stocks.
+ 
+\emph{Statistical significance.} The $t$-statistic of 4.60 exceeds the two-sided 5\% critical value of about 1.96 (two-sided $p$-value of about $4.2\times10^{-6}$), so we reject the null hypothesis that the mean momentum return is zero at the 5\% level. The test assumes serially uncorrelated, homoskedastic monthly returns; a heteroskedasticity- and autocorrelation-consistent standard error could change the exact $t$-value.
+ 
+\emph{Risk-adjusted performance.} The monthly Sharpe ratio is 0.1329: each percentage point of monthly volatility earns about 0.13 percentage points of average return. The strategy is very volatile (5.5523\% per month against a mean of 0.7380\%) because it holds only three industries per leg and turns over fully each month. The large $t$-statistic reflects the long sample ($t = SR\times\sqrt{T}$) rather than a high Sharpe ratio. These are gross returns before transaction costs, which would lower the net Sharpe ratio for a strategy with this much turnover.
+ 
+\section*{Question (b)}
+ 
+\textbf{Framework.} The Lo–MacKinlay (1990) / Moskowitz–Grinblatt (1999) decomposition applies to the \emph{weighted relative-strength strategy} (WRSS). This strategy holds industry $i$ in month $t$ with weight $w_{i,t}=\frac{1}{N}\left(R_{i,t-1}-\bar R_{t-1}\right)$, where $\bar R_{t-1}$ is the equal-weighted cross-sectional mean and $N=30$. It is the linear, zero-cost version of the 1-month, 1-month strategy in (a). Write each industry's return with the market model, $R_{i,t}=\alpha_i+\beta_i R_{m,t}+e_{i,t}$, and let $\tilde e_{i,t}=e_{i,t}-\bar e_t$. Then
+ 
+\begin{multline*}
+E[\pi_t]=\underbrace{\sigma^2_\mu}_{(1)}+\underbrace{\sigma^2_\beta\,\mathrm{Cov}(R_{m,t},R_{m,t-1})}_{(2)}+\underbrace{\tfrac{1}{N}\textstyle\sum_i \mathrm{Cov}(\tilde e_{i,t},\tilde e_{i,t-1})}_{(3)} \\
+\;+\;\underbrace{\tfrac{1}{N}\textstyle\sum_i(\beta_i-\bar\beta)\left[\mathrm{Cov}(R_{m,t-1},\tilde e_{i,t})+\mathrm{Cov}(\tilde e_{i,t-1},R_{m,t})\right]}_{\text{lead–lag market/residual terms, assumed}\ \approx 0}
+\end{multline*}
+ 
+\begin{itemize}
+  \item $\sigma^2_\mu$ is the cross-sectional variance of the 30 industry sample means.
+  \item $\sigma^2_\beta$ is the cross-sectional variance of the market betas.
+  \item Term (3) is the average cross-autocovariance of the residuals. Because the residuals are demeaned cross-sectionally, it equals $\frac{1}{N}\sum_i\gamma_{ii}-\frac{1}{N^2}\sum_i\sum_j\gamma_{ij}$, with $\gamma_{ij}=\mathrm{Cov}(e_{i,t-1},e_{j,t})$. It is therefore the industries' own residual autocovariances net of the average lead–lag covariance across all pairs of industries.
+\end{itemize}
+ 
+\textbf{Implementation choices.}
+ 
+\begin{itemize}
+  \item The market return is the CRSP value-weighted market from the Fama–French sheet, $R_m=$ \texttt{Mkt-RF} $+$ \texttt{RF}. This puts it in the same total-return units as the industry returns.
+  \item Betas come from full-sample time-series OLS of the market model, 1926:07–2026:06.
+  \item Cross-sectional variances use $1/N$, and autocovariances use the $T-1$ overlapping $(t-1,t)$ pairs (ddof = 0). With these choices the identity holds exactly in sample.
+  \item Units are \%$^2$ per month, because both the WRSS weight and the return are in percent.
+\end{itemize}
+ 
+\begin{table}[H]
+\centering
+\caption{Decomposition of 1-month, 1-month industry momentum profits (1926:08–2026:06).}
+\label{tab:decomp}
+\begin{tabularx}{\textwidth}{Xrr}
+\toprule
+Component & Value (\%²/month) & Share of (1)+(2)+(3) \\
+\midrule
+(1) Cross-sectional variance of industry mean returns & 0.0153 & 2.8\% \\
+(2) $\sigma^2_\beta \times$ market autocovariance & 0.1044 & 19.1\% \\
+(3) Average residual cross-autocovariance & 0.4270 & 78.1\% \\
+\midrule
+Sum of (1)–(3) & 0.5467 & 100\% \\
+Mean WRSS momentum profit & 0.7071 & — \\
+\bottomrule
+\end{tabularx}
+\end{table}
+ 
+\emph{Notes:} Industry betas are full-sample market-model estimates against the CRSP value-weighted market. $\sigma^2_\beta=$ 0.0418 and $\mathrm{Cov}(R_{m,t},R_{m,t-1})=$ 2.4998 \%², a first-order autocorrelation of 0.089. Term (3) is the industries' own residual autocovariance (0.5710) minus the average lead–lag residual covariance across all industry pairs (0.1440). The WRSS profit uses weights $\frac{1}{N}(R_{i,t-1}-\bar R_{t-1})$.
+ 
+\textbf{Answer.}
+ 
+\begin{itemize}
+  \item \textbf{Does the sum approximate the profit?} The three components sum to 0.5467 \%², which is 77.3\% of the mean WRSS profit (0.7071 \%²). The remaining 0.1605 \%² comes from the lead–lag covariances between the market and industry residuals, which the decomposition assumes are zero. Once these are added, the sample identity holds exactly. The WRSS is the linear counterpart of the top-3-minus-bottom-3 portfolio in (a), and the two return series have a correlation of 0.662. The decomposition therefore describes the source of the profits in (a), but not its exact size. The WRSS profit is in \%², while $\overline{MOM}=$ 0.7380\% is in percent. The two numbers happen to be close, but they cannot be compared directly.
+  \item \textbf{Which component contributes most?} \textbf{Component (3), the residual cross-autocovariance}, accounts for 78.1\% of the three-component total.
+  \begin{itemize}
+    \item Component (2) contributes 19.1\%. The market's autocorrelation is positive but small, and betas vary little across industries.
+    \item Component (1) contributes only 2.8\%, so the profit is \emph{not} mainly the result of winners being industries with permanently higher mean returns.
+    \item Within (3), the positive own autocovariance of industry-specific returns (0.5710) dominates. Cross-serial covariances between industries partly offset it (0.1440).
+  \end{itemize}
+ 
+  Industry momentum at the one-month horizon therefore reflects continuation of the industry-specific components of returns, rather than dispersion in expected returns or the market factor.
+\end{itemize}
+ 
+\begin{table}[H]
+\centering
+\caption{Decomposition components compared with the Part (a) average return}
+\label{tab:compare}
+\begin{tabularx}{\textwidth}{Xr>{\raggedright\arraybackslash}p{4.6cm}}
+\toprule
+Statistic & Value & Units \\
+\midrule
+Component 1: dispersion in industry mean returns & 0.0153 & \%²/month \\
+Component 2: beta dispersion × market autocovariance & 0.1044 & \%²/month \\
+Component 3: residual serial covariance & 0.4270 & \%²/month \\
+Sum of components & 0.5467 & \%²/month \\
+Part (a): average momentum return & 0.7380 & \%/month \\
+Sum − Part (a) & −0.1914 & Numerical difference only; units differ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+ 
+\textbf{Comparison.} All three components and Part (a)'s average return are positive. Component 3 dominates, contributing 78.1\% of the decomposition sum, compared with 19.1\% for Component 2 and 2.8\% for Component 1. Numerically, the sum is about 26\% below Part (a), so agreement is not close; however, this percentage is not an economically meaningful return comparison.
+ 
+\textbf{Checks and discrepancy.} Both strategies use the same 1,199 holding months, August 1926–June 2026. Part (a) assigns weights of +1/3 and −1/3 to the three winners and losers. Part (b) uses all industries with weights proportional to lagged returns minus their cross-sectional mean, without normalizing each leg to one. Because those weights use percentage-valued returns, its reported profit is in \%², whereas Part (a) is in percent. Thus, the decomposition is not an exact accounting of Part (a)'s return.
+ 
+Even against its own WRSS benchmark (0.7071 \%²/month), the three-component sum explains only 77.3\%. The remaining gap is accounted for by omitted market–residual lead–lag covariances (0.1605 \%²/month), plus a small endpoint-mean adjustment. Contemporaneous OLS orthogonality does not make these lead–lag covariances zero.
+ 
+The decomposition favors residual return continuation over mean dispersion as the main source of WRSS profits. It does not establish investor under-reaction; that interpretation requires additional evidence about information arrival and delayed price responses, while assessing alternative risk-based explanations.
+ 
+\section*{AI Integration Discussion}
+ 
+\textbf{(i) Distinguishing the components.} The AI correctly separated cross-sectional dispersion in industry mean returns, market autocovariance multiplied by the cross-sectional variance of betas, and residual serial covariance. Component 3 uses market-model residuals rather than raw returns and includes own-industry autocovariances net of average cross-industry lead–lag covariances.
+ 
+\textbf{(ii) Verification and comparison.} We checked that the market and industry dates align and that both strategies use the same 1,199 holding months. We also verified that Component 3 equals own-residual autocovariance minus average cross-industry covariance, and that adding the omitted market–residual lead–lag terms and endpoint adjustment reproduces the WRSS profit.
+ 
+The three components sum to 0.5467 \%²/month, while Part (a)’s average return is 0.7380\%/month. Both are positive, but their magnitudes are not directly comparable: the decomposition uses unnormalized, return-proportional weights across all industries, whereas Part (a) assigns equal weights to the top and bottom three. Even relative to the WRSS profit of 0.7071 \%²/month, the sum explains only 77.3\%. The remaining gap primarily reflects omitted market–residual lead–lag covariances. The AI’s claim that the three terms alone give an exact sample identity therefore needs qualification.
+ 
+\textbf{(iii) Interpretation.} Component 3 contributes 78.1\% of the three-component sum, compared with 19.1\% for Component 2 and 2.8\% for Component 1. Thus, residual serial dependence, rather than persistent differences in industry mean returns, dominates this decomposition. This supports a return-continuation interpretation but does not establish investor under-reaction. That would require evidence linking predictable subsequent returns to delayed responses to identifiable information, while evaluating alternative explanations such as time-varying risk premia.
+ 
+\end{document}
