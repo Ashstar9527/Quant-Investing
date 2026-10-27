@@ -1,0 +1,220 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx,array}
+\usepackage{float}
+\usepackage[font=small,labelfont=bf,labelsep=period]{caption}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{3em}
+\setlength{\parskip}{6pt plus 2pt}
+\title{Problem Set 6\\[2pt]\large Questions (g) and (h)}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+\vspace{-2.5em}
+\section*{Question (g)}
+
+\textbf{Sample.} Commodity returns run from 1970-01 to 2015-12, in percent per month. A commodity is eligible in a month if it has returns for the whole ranking window and the holding month, so the universe grows from 11 commodities in 1970 to 32 by 2005 (GSCI included). Portfolios go long the top three and short the bottom three, equal-weighted, as in (a), (c) and (d). $t$-statistics are OLS; Newey--West versions give the same conclusions.
+
+\subsection*{(i)}
+
+\begin{table}[H]
+\centering
+\caption{Commodity momentum strategies, percent per month.}
+\small
+\begin{tabular}{lrrr}
+\toprule
+& 1--1 & 12--1 & 12--1 skip \\
+\midrule
+Mean & 1.70 & 1.24 & 1.02 \\
+Standard deviation & 9.43 & 9.39 & 9.03 \\
+$t$-statistic & 4.24 & 3.07 & 2.62 \\
+Monthly Sharpe ratio & 0.181 & 0.132 & 0.113 \\
+$T$ & 551 & 540 & 540 \\
+\midrule
+Mean, months with $\geq 20$ commodities & 1.33 & 1.02 & 0.73 \\
+\quad $t$-statistic & 2.68 & 2.11 & 1.56 \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}\begin{minipage}{0.75\textwidth}\footnotesize
+Full samples start 1970-02 (1--1) and 1971-01 (12--1 and skip). The restricted sample starts 1983-11 (1--1) and 1984-10 (12--1 and skip).
+\end{minipage}
+\end{table}
+
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{Comment on whether or not you think this matters.} It matters for how big the effect is, but not for whether it exists. In the early years the top and bottom three make up more than half of a small, volatile universe. Keeping only months with at least 20 commodities lowers every mean, and the skip-a-month strategy loses significance.
+
+\end{itemize}
+
+\subsection*{(ii)}
+
+\begin{table}[H]
+\centering
+\caption{Fama--French regressions of commodity momentum, 1970--2015. Alphas in percent per month, $t$-statistics in parentheses.}
+\small
+\begin{tabular}{lrrr}
+\toprule
+& FF3 $\hat\alpha$ & FF4 $\hat\alpha$ & FF4 UMD $\hat\beta$ \\
+\midrule
+1--1 & 1.76 (4.28) & 1.58 (3.78) & 0.19 (2.04) \\
+12--1 & 1.30 (3.15) & 0.84 (2.04) & 0.49 (5.23) \\
+12--1 skip & 1.09 (2.74) & 0.71 (1.77) & 0.40 (4.44) \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}\begin{minipage}{0.75\textwidth}\footnotesize
+FF3 uses Mkt$-$RF, SMB and HML; FF4 adds UMD. The FF3 $R^2$ is below 1\% for all three strategies.
+\end{minipage}
+\end{table}
+
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{Can the FF 3-factor and 4-factor models price each of the commodity momentum portfolios?} The three-factor model prices none of them, and the four-factor model prices only the skip-a-month strategy. Commodity momentum is nearly unrelated to the market, size and value, but it loads positively on UMD. Those loadings are about half the size of industry momentum's in (f), so stock momentum explains only part of commodity momentum.
+
+\end{itemize}
+
+\subsection*{(iii)--(v)}
+
+\begin{table}[H]
+\centering
+\caption{Industry versus commodity momentum: correlations and spanning regressions.}
+\small
+\begin{tabular}{lrrr}
+\toprule
+& 1--1 & 12--1 & 12--1 skip \\
+\midrule
+Corr(IND MOM, COM MOM) & 0.12 & 0.20 & 0.17 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\begin{tabular}{lrrr}
+\toprule
+12--1 strategies & FF3 $\hat\alpha$ & FF3 + other $\hat\alpha$ & Loading on other \\
+\midrule
+(iv) Industry MOM, adding COM MOM & 1.13 (3.94) & 0.95 (3.34) & 0.14 (4.71) \\
+(v) COM MOM, adding industry MOM & 1.30 (3.15) & 0.98 (2.38) & 0.29 (4.71) \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}\begin{minipage}{0.85\textwidth}\footnotesize
+Correlations use the months both series cover (1970-02 or 1971-01 to 2015-12). Spanning regressions use 1971-01 to 2015-12 ($T = 540$) for both models in each row. Alphas in percent per month, $t$-statistics in parentheses.
+\end{minipage}
+\end{table}
+
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{Compute the correlation between each commodity momentum return and the corresponding industry momentum return.} The correlations are positive but low, at 0.20 or below for all three horizons. Most of each strategy's monthly movement is its own.
+
+\item \textbf{Can the augmented model explain the 12-month, 1-month industry momentum returns (iv)?} It cannot. Commodity momentum loads significantly, but the industry alpha barely falls.
+
+\item \textbf{Can the augmented model explain the 12-month, 1-month COM momentum returns (v)?} It cannot either. Industry momentum absorbs about a quarter of the commodity alpha, and the rest stays significant, so neither strategy spans the other.
+
+\end{itemize}
+
+\subsection*{(vi)}
+
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{Do the results in iii., iv., and v. make sense?} They make sense. If both strategies share a small common momentum component on top of a larger market-specific one, we would expect a low correlation, significant cross-loadings and alphas that survive in both directions.
+
+\item \textbf{Do they surprise you?} They are mildly surprising, because the same rule earns similar Sharpe ratios in both markets while sharing so little of its monthly variation. But industries and commodities respond to different news and are traded by different investors, so their winners rarely line up.
+
+\item \textbf{What story could you give these findings?} Momentum looks like a general underreaction to news that plays out separately in each market. The shared part could come from cross-asset trend traders or a common risk, and our regressions cannot tell which.
+
+\end{itemize}
+
+\paragraph{AI integration: do industry and commodity momentum share a driver?} We wrote our own story first, then gave Claude Sonnet 5.5 our correlation and augmented alphas. It argued for two largely separate sources: slow spread of industry news versus persistent supply shocks, hedging premia only commodities have, and different investors in each market.
+
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item[(i)] \textbf{Does the LLM's story respect the correlation we measured in (iii)?} It does. It treats 0.20 as low and explains how the same underreaction can show up in two markets without moving them together.
+
+\item[(ii)] \textbf{Does it correctly read the spanning regressions in (iv) and (v)?} It reads them only partly. It is right that neither strategy spans the other, but it overclaims that there is no common factor, since both cross-loadings and commodity momentum's UMD loading are significant. The honest reading is related but not redundant.
+
+\item[(iii)] \textbf{Do its quantitative claims match our tables?} They do not. It said the alphas ``don't shrink'', even though it admitted it had not seen the alphas without the other strategy. In fact they fall by a sixth and a quarter, while staying significant.
+
+\end{itemize}
+
+\section*{Question (h)}
+
+\textbf{Sample.} The portfolios are 25 size $\times$ past-return sorts at three horizons: the past 1 month, the past 2--12 months and the past 13--60 months. Returns are in excess of the T-bill rate, in percent per month. Each set uses its full available sample: 1927-01 to 2026-06 for the 1-month and 2--12 month sorts, and 1931-02 to 2026-06 for the 13--60 month sort. For each portfolio we estimate
+\[
+R_{it}-R_{ft}=\alpha_i+\beta_{iM}\,RMRF_t+\beta_{iS}\,SMB_t+\beta_{iH}\,HML_t+\beta_{iU}\,UMD_t+e_{it},
+\]
+and test $H_0:\alpha_1=\dots=\alpha_{25}=0$ with the GRS statistic, which is distributed $F(N,\,T-N-K)$ under the null. The estimator is the same as in Problem Set 4, Part III.
+
+\begin{table}[H]
+\centering
+\caption{GRS tests of the four-factor model on the 25 size and past-return portfolios.}
+\small
+\begin{tabular}{lrrr}
+\toprule
+& (i) Past 1 month & (ii) Past 2--12 months & (iii) Past 13--60 months \\
+\midrule
+GRS $F$-statistic & 8.50 & 2.05 & 1.76 \\
+$p$-value & $<0.001$ & 0.002 & 0.012 \\
+Mean $|\hat\alpha_i|$ (\% per month) & 0.29 & 0.10 & 0.08 \\
+Alphas with $|t| > 1.96$ & 17 & 5 & 6 \\
+Average $R^2$ & 0.89 & 0.92 & 0.88 \\
+$T$ & 1194 & 1190 & 1125 \\
+\midrule
+\multicolumn{4}{l}{\textit{Robustness}} \\
+FF3 GRS ($p$) & 9.23 ($<0.001$) & 4.56 ($<0.001$) & 1.60 (0.031) \\
+FF4 GRS, post-1963 ($p$) & 3.26 ($<0.001$) & 3.42 ($<0.001$) & 1.51 (0.054) \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+GRS is distributed $F(25,\,T-29)$ under the null. $\hat\Sigma$ uses denominator $T-K-1$; the factor covariance uses $T-1$. The post-1963 sample runs 1963-07 to 2026-06 ($T = 756$).
+\end{minipage}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Four-factor intercepts, 25 size and past 1-month return portfolios, percent per month.}
+\small
+\begin{tabular}{lrrrrrcrrrrr}
+\toprule
+& \multicolumn{5}{c}{$\hat\alpha_i$} && \multicolumn{5}{c}{$t(\hat\alpha_i)$} \\
+\cmidrule{2-6}\cmidrule{8-12}
+& L & 2 & 3 & 4 & H && L & 2 & 3 & 4 & H \\
+\midrule
+S & 0.93 & 0.16 & 0.05 & $-0.30$ & $-1.00$ && 8.23 & 1.78 & 0.53 & $-3.10$ & $-9.65$ \\
+2 & 0.50 & 0.25 & 0.10 & $-0.14$ & $-0.71$ && 5.81 & 4.18 & 1.90 & $-2.45$ & $-9.59$ \\
+3 & 0.43 & 0.21 & 0.11 & $-0.16$ & $-0.56$ && 4.83 & 3.66 & 2.24 & $-3.10$ & $-7.15$ \\
+4 & 0.21 & 0.22 & 0.14 & $-0.08$ & $-0.39$ && 2.17 & 3.58 & 2.85 & $-1.50$ & $-4.42$ \\
+B & 0.12 & 0.09 & 0.04 & 0.02 & $-0.26$ && 1.19 & 1.64 & 1.00 & 0.32 & $-3.23$ \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+Rows sort on size (S = small, B = big); columns sort on past 1-month return (L = losers, H = winners).
+\end{minipage}
+\end{table}
+
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{Which sets of 25 portfolios are explained by the model and which are not?} Strictly speaking, the model explains none of the three sets, but it comes close on the 2--12 and 13--60 month sorts. Their intercepts average only about 0.1\% per month, and the test rejects mainly because the regressions fit so tightly. After 1963 the 13--60 month set is no longer rejected at the 5\% level.
+
+\item \textbf{Which set does the model have the most difficult time explaining?} The 1-month sort is by far the hardest to explain. Last month's losers beat last month's winners in every size group, and most strongly among small stocks. UMD skips the most recent month, so it cannot capture this short-term reversal.
+
+\item \textbf{Which results are the most surprising?} The most surprising result is that the model still fails on the 2--12 month sort, even though UMD is built from that same sort. The leftover alphas are small, but they are concentrated in small stocks and do not go away after 1963. By contrast, long-term reversal turns out to be mostly a value effect, because long-run losers become cheap stocks that load on HML.
+
+\item \textbf{After all of this, what have you learned about the cross-section of returns?} How past returns relate to future returns depends on the horizon: reversal at one month, continuation from 2 to 12 months, and reversal again from 13 to 60 months. UMD and HML cover the last two reasonably well, but nothing in the model covers the first. As in Problem Set 4, the pricing errors line up with the characteristic we sort on and are largest among small stocks.
+
+\item \textbf{What have you learned about momentum strategies in general?} Momentum depends on both the horizon and the asset class. The most recent month reverses for individual stocks but continues for industries, and commodity momentum is only loosely related to industry momentum. UMD can account for momentum returns, but that only shows the strategies share a common factor, not why that factor earns a premium.
+
+\end{itemize}
+
+\end{document}

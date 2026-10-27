@@ -1,0 +1,569 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[font=small,labelfont=bf,skip=5pt]{caption}
+\usepackage{listings}
+\lstdefinestyle{pycode}{
+  language=Python, basicstyle=\ttfamily\scriptsize,
+  keywordstyle=\color{psink}\bfseries, commentstyle=\color{psaccent}\itshape,
+  stringstyle=\color{psink}, numbers=left, numberstyle=\tiny\color{psrule},
+  numbersep=7pt, breaklines=true, breakatwhitespace=true, showstringspaces=false,
+  frame=none, xleftmargin=20pt, aboveskip=6pt, belowskip=6pt, columns=fullflexible,
+  keepspaces=true, upquote=true,
+}
+\lstset{style=pycode}
+
+\definecolor{psink}{RGB}{23,54,93}
+\definecolor{psaccent}{RGB}{192,80,77}
+\definecolor{psrule}{RGB}{200,209,222}
+
+\usepackage[colorlinks=true,allcolors=psink]{hyperref}
+
+\graphicspath{{./}}
+\emergencystretch=3em
+
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{10pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{0pt}%
+  {-2.6ex \@plus -1ex \@minus -.2ex}{1.3ex \@plus .2ex}%
+  {\normalfont\scshape\large\color{psink}}}   % lmr has no bold small caps
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}%
+  {-2.2ex \@plus -1ex \@minus -.2ex}{1.0ex \@plus .2ex}%
+  {\normalfont\bfseries\normalsize\color{psink}}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{0pt}%
+  {-1.9ex \@plus -.8ex \@minus -.2ex}{0.8ex \@plus .2ex}%
+  {\normalfont\bfseries\itshape\normalsize\color{psink}}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{0pt}%
+  {-1.6ex \@plus -.6ex \@minus -.2ex}{0.5ex \@plus .1ex}%
+  {\normalfont\itshape\normalsize\color{psink}}}
+\renewcommand\paragraph{\@startsection{paragraph}{4}{0pt}%
+  {1.7ex \@plus 1ex \@minus .2ex}{-0.9em}%
+  {\normalfont\bfseries\normalsize\color{psink}}}
+\makeatother
+
+\newenvironment{tight}
+  {\begin{itemize}\setlength{\itemsep}{3pt}\setlength{\parskip}{0pt}%
+   \setlength{\topsep}{3pt}\setlength{\leftmargini}{1.4em}}
+  {\end{itemize}}
+
+\setcounter{secnumdepth}{0}   % headings carry the assignment's own labels
+\setlength{\headheight}{22pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\scshape\color{psink} MGT 595 \textemdash\ Problem Set 6}
+\fancyhead[R]{\footnotesize\color{psink}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{%
+  \color{psrule}\leaders\hrule height \headrulewidth\hfill}}
+
+\begin{document}
+
+\thispagestyle{empty}
+\begin{flushleft}
+{\bfseries\LARGE\color{psink} Quantitative Investing}\\[3pt]
+{\scshape\Large\color{psink} Problem Set 6}\\[10pt]
+{\color{psrule}\rule{\textwidth}{1.2pt}}\\[5pt]
+{\small Ashley Wen\,(xw564)\quad\textbar\quad Emily Wu\,(esw63)%
+\quad\textbar\quad Grace Gu\,(xg325)\hfill \today}
+\end{flushleft}
+
+\vspace{1.4em}
+
+{\color{psink}\textbf{Contents.}} Questions (a)--(f) study momentum in the 30 value-weighted
+industry portfolios: the 1-month, 1-month strategy and its decomposition (a)--(b), the
+12-month, 1-month strategies with and without a skipped month (c)--(d), and their
+Fama--French alphas (e)--(f). Question (g) turns to commodity momentum and its relation to
+industry momentum, and Question (h) runs GRS tests of the four-factor model on the 25 size
+and past-return portfolios.
+
+\vspace{0.8em}
+
+% =====================================================================
+\section{Data and Conventions}
+% =====================================================================
+
+\begin{tight}
+  \item \textbf{Data.} All series come from \texttt{Problem\_Set6\_2026.xlsx}. Industry,
+  factor and past-return portfolio returns run monthly from 1926-07 to 2026-06; commodity
+  returns run from 1970-01 to 2015-12. UMD starts 1927-01.
+  \item \textbf{Returns.} All figures are percent per month. Momentum strategies are
+  zero-cost long--short returns, so no risk-free rate is subtracted; the past-return
+  portfolios in (h) are taken in excess of the T-bill.
+  \item \textbf{Construction.} Every momentum portfolio is long the top three and short the
+  bottom three assets, equal-weighted, with ties broken by column order.
+  \item \textbf{Code.} Questions (a)--(b) are in \texttt{part a b/ps6\_a\_b\_revised.ipynb},
+  (c)--(f) in \texttt{ps6\_cdef-3.ipynb}, and (g)--(h) in \texttt{part g h/g\_script.py} and
+  \texttt{h\_script.py}.
+\end{tight}
+
+\section{Question (a)}
+ 
+Using the 30 value-weighted industry portfolios, form at the end of each month $t-1$ a portfolio that is long the three industries with the highest month-$t-1$ return (winners, $W_{t-1}$) and short the three industries with the lowest month-$t-1$ return (losers, $L_{t-1}$). Each leg is equal-weighted and the position is held over month $t$:
+ 
+\begin{equation*}
+MOM_t=\frac{1}{3}\sum_{i\in W_{t-1}}R_{i,t}-\frac{1}{3}\sum_{i\in L_{t-1}}R_{i,t}.
+\end{equation*}
+ 
+We report the time-series mean, standard deviation, $t$-statistic and Sharpe ratio of $MOM_t$:
+ 
+\begin{gather*}
+\overline{MOM}=\frac{1}{T}\sum_{t=1}^{T}MOM_t,\qquad
+s_{MOM}=\sqrt{\frac{1}{T-1}\sum_{t=1}^{T}\left(MOM_t-\overline{MOM}\right)^2},\qquad \\
+t=\frac{\overline{MOM}}{s_{MOM}/\sqrt{T}},\qquad
+SR=\frac{\overline{MOM}}{s_{MOM}}.
+\end{gather*}
+ 
+Because $MOM_t$ is the return on a zero-cost (long--short) portfolio, it is already an excess return, so the risk-free rate is not subtracted when computing the Sharpe ratio.
+ 
+\textbf{Data notes.}
+\begin{itemize}
+  \item The \texttt{30 industries} sheet has three title/blank rows; industry names are in the fourth row (\texttt{header=3}), and dates are \texttt{YYYYMM} integers in the first column.
+  \item The sheet contains 30 industries at a monthly frequency from 1926:07 to 2026:06 (1,200 months), with no gaps or duplicate dates.
+  \item There are no missing values and no \texttt{-99.99}/\texttt{-999} missing-data codes in this sheet, so \textbf{no observations are filled or excluded}.
+  \item Returns are in \textbf{percent per month}: the pooled median is about 1, 84.6\% of observations exceed 1 in absolute value, and the extremes (\textminus{}50.64 and +125.43) are only plausible as percentages. All results below are therefore in percent per month.
+  \item The assignment refers to \texttt{Problem\_\allowbreak{}Set6\_\allowbreak{}2026.xls}; the file supplied is \texttt{Problem\_\allowbreak{}Set6\_\allowbreak{}2026.xlsx}. The contents match the description (four sheets).
+  \item The T-bill rate is not needed, because the strategy is a zero-cost long--short portfolio.
+\end{itemize}
+ 
+\textbf{Portfolio construction.}
+\begin{itemize}
+  \item \textbf{Timing (no look-ahead).} For each holding month $t$, industries are ranked using only month-$t-1$ returns (\texttt{R.shift(1)}), and the resulting weights are applied to month-$t$ returns. Because 1926:07 is used only for ranking, the holding sample is 1926:08--2026:06 ($T$ = 1,199), the maximum the data allow.
+  \item \textbf{Weights.} Each winner receives $+1/3$ and each loser $-1/3$, so the long leg sums to $+1$, the short leg to $-1$, and the net investment is zero.
+  \item \textbf{Ties.} Returns are reported to two decimals, so industries can tie at the 3rd/4th (or 27th/28th) rank. The main rule, \texttt{keep=\textquotedbl{}first\textquotedbl{}}, breaks ties by column order; its effect is assessed below.
+\end{itemize}
+ 
+\textbf{Verification.} We check the construction independently of the main loop:
+\begin{enumerate}
+  \item Winner/loser selection and holding-month returns are recomputed by hand for 1926:08 and 2026:06.
+  \item Every portfolio is formed in month $t-1$ and held in month $t$; selections are the top/bottom three on $t-1$ returns in every month; a look-ahead placebo (ranking on month-$t$ returns) is shown for contrast.
+  \item Each leg has exactly three weights of $1/3$ summing to one, the legs never overlap, and $MOM_t$ equals both $R_{W,t}-R_{L,t}$ and the weight vector applied to month-$t$ returns.
+  \item The summary statistics are recomputed with plain NumPy formulas.
+\end{enumerate}
+ 
+\textbf{Tie sensitivity.} In the months where two industries share the same formation return at the selection cut-off, the composition of the portfolio depends on the tie-breaking rule. We count these months and recompute the statistics under \texttt{keep=\textquotedbl{}last\textquotedbl{}} and under a rule that splits the remaining weight equally among all tied industries (so each leg still sums to one).
+ 
+\begin{table}[H]
+\centering
+\caption*{Tie sensitivity: summary statistics under alternative tie-breaking rules}
+\begin{tabular}{lrrrr}
+\toprule
+Rule & Mean (\%) & Std.\ dev.\ (\%) & $t$-statistic & Sharpe ratio \\
+\midrule
+ 
+\texttt{keep=\textquotesingle{}first\textquotesingle{}} (main) & 0.7380 & 5.5523 & 4.6027 & 0.1329 \\
+\texttt{keep=\textquotesingle{}last\textquotesingle{}} & 0.7366 & 5.5517 & 4.5941 & 0.1327 \\
+split tied weight & 0.7373 & 5.5519 & 4.5985 & 0.1328 \\
+\bottomrule
+\end{tabular}
+\end{table}
+ 
+\begin{table}[H]
+\centering
+\caption{1-month, 1-month industry momentum strategy (30 value-weighted industries).}
+\label{tab:mom11}
+\begin{tabular}{ll}
+\toprule
+Statistic & Value \\
+\midrule
+Average monthly momentum return & 0.7380\% \\
+Monthly standard deviation & 5.5523\% \\
+t-statistic & 4.60 \\
+Monthly Sharpe ratio & 0.1329 \\
+Sample period & 1926:08 -- 2026:06 (holding months) \\
+Number of observations & 1,199 \\
+\bottomrule
+\end{tabular}
+\end{table}
+ 
+\emph{Notes:} At the end of each month $t-1$, the 30 value-weighted industry portfolios are ranked by their month-$t-1$ return. The strategy goes long the top three (winners) and short the bottom three (losers), with equal weights of 1/3 in each leg, and holds the position over month $t$. Returns are in percent per month. The standard deviation is the sample standard deviation ($ddof=1$). The $t$-statistic tests $H_0:\ E[MOM_t]=0$ and is computed as $\overline{MOM}/(s_{MOM}/\sqrt{T})$. The Sharpe ratio is $\overline{MOM}/s_{MOM}$; no risk-free rate is subtracted because the strategy is zero-cost. No observations were missing or excluded. In 14 months, two industries tie at the selection cut-off; the tie-sensitivity table above shows that the results do not depend on how these ties are broken (mean between 0.7366\% and 0.7380\%).
+ 
+\textbf{Interpretation.}
+ 
+\emph{Sign of the return.} The strategy earns a positive average return of 0.7380\% per month. Last month's three best industries earn 1.3399\% on average in the following month, while last month's three worst earn 0.6019\%. Industries that have recently done well therefore continue to outperform recent losers over the next month, consistent with the short-horizon industry momentum documented by Moskowitz and Grinblatt (1999), and in contrast to the one-month reversal usually found for individual stocks.
+ 
+\emph{Statistical significance.} The $t$-statistic of 4.60 exceeds the two-sided 5\% critical value of about 1.96 (two-sided $p$-value of about $4.2\times10^{-6}$), so we reject the null hypothesis that the mean momentum return is zero at the 5\% level. The test assumes serially uncorrelated, homoskedastic monthly returns; a heteroskedasticity- and autocorrelation-consistent standard error could change the exact $t$-value.
+ 
+\emph{Risk-adjusted performance.} The monthly Sharpe ratio is 0.1329: each percentage point of monthly volatility earns about 0.13 percentage points of average return. The strategy is very volatile (5.5523\% per month against a mean of 0.7380\%) because it holds only three industries per leg and turns over fully each month. The large $t$-statistic reflects the long sample ($t = SR\times\sqrt{T}$) rather than a high Sharpe ratio. These are gross returns before transaction costs, which would lower the net Sharpe ratio for a strategy with this much turnover.
+ 
+\section{Question (b)}
+ 
+\textbf{Framework.} The Lo--MacKinlay (1990) / Moskowitz--Grinblatt (1999) decomposition applies to the \emph{weighted relative-strength strategy} (WRSS). This strategy holds industry $i$ in month $t$ with weight $w_{i,t}=\frac{1}{N}\left(R_{i,t-1}-\bar R_{t-1}\right)$, where $\bar R_{t-1}$ is the equal-weighted cross-sectional mean and $N=30$. It is the linear, zero-cost version of the 1-month, 1-month strategy in (a). Write each industry's return with the market model, $R_{i,t}=\alpha_i+\beta_i R_{m,t}+e_{i,t}$, and let $\tilde e_{i,t}=e_{i,t}-\bar e_t$. Then
+ 
+\begin{multline*}
+E[\pi_t]=\underbrace{\sigma^2_\mu}_{(1)}+\underbrace{\sigma^2_\beta\,\mathrm{Cov}(R_{m,t},R_{m,t-1})}_{(2)}+\underbrace{\tfrac{1}{N}\textstyle\sum_i \mathrm{Cov}(\tilde e_{i,t},\tilde e_{i,t-1})}_{(3)} \\
+\;+\;\underbrace{\tfrac{1}{N}\textstyle\sum_i(\beta_i-\bar\beta)\left[\mathrm{Cov}(R_{m,t-1},\tilde e_{i,t})+\mathrm{Cov}(\tilde e_{i,t-1},R_{m,t})\right]}_{\text{lead--lag market/residual terms, assumed}\ \approx 0}
+\end{multline*}
+ 
+\begin{itemize}
+  \item $\sigma^2_\mu$ is the cross-sectional variance of the 30 industry sample means.
+  \item $\sigma^2_\beta$ is the cross-sectional variance of the market betas.
+  \item Term (3) is the average cross-autocovariance of the residuals. Because the residuals are demeaned cross-sectionally, it equals $\frac{1}{N}\sum_i\gamma_{ii}-\frac{1}{N^2}\sum_i\sum_j\gamma_{ij}$, with $\gamma_{ij}=\mathrm{Cov}(e_{i,t-1},e_{j,t})$. It is therefore the industries' own residual autocovariances net of the average lead--lag covariance across all pairs of industries.
+\end{itemize}
+ 
+\textbf{Implementation choices.}
+ 
+\begin{itemize}
+  \item The market return is the CRSP value-weighted market from the Fama--French sheet, $R_m=$ \texttt{Mkt-RF} $+$ \texttt{RF}. This puts it in the same total-return units as the industry returns.
+  \item Betas come from full-sample time-series OLS of the market model, 1926:07--2026:06.
+  \item Cross-sectional variances use $1/N$, and autocovariances use the $T-1$ overlapping $(t-1,t)$ pairs (ddof = 0). With these choices the identity holds exactly in sample.
+  \item Units are \%$^2$ per month, because both the WRSS weight and the return are in percent.
+\end{itemize}
+ 
+\begin{table}[H]
+\centering
+\caption{Decomposition of 1-month, 1-month industry momentum profits (1926:08--2026:06).}
+\label{tab:decomp}
+\begin{tabularx}{\textwidth}{Xrr}
+\toprule
+Component & Value (\%$^2$/month) & Share of (1)+(2)+(3) \\
+\midrule
+(1) Cross-sectional variance of industry mean returns & 0.0153 & 2.8\% \\
+(2) $\sigma^2_\beta \times$ market autocovariance & 0.1044 & 19.1\% \\
+(3) Average residual cross-autocovariance & 0.4270 & 78.1\% \\
+\midrule
+Sum of (1)--(3) & 0.5467 & 100\% \\
+Mean WRSS momentum profit & 0.7071 & --- \\
+\bottomrule
+\end{tabularx}
+\end{table}
+ 
+\emph{Notes:} Industry betas are full-sample market-model estimates against the CRSP value-weighted market. $\sigma^2_\beta=$ 0.0418 and $\mathrm{Cov}(R_{m,t},R_{m,t-1})=$ 2.4998 \%$^2$, a first-order autocorrelation of 0.089. Term (3) is the industries' own residual autocovariance (0.5710) minus the average lead--lag residual covariance across all industry pairs (0.1440). The WRSS profit uses weights $\frac{1}{N}(R_{i,t-1}-\bar R_{t-1})$.
+ 
+\textbf{Answer.}
+ 
+\begin{itemize}
+  \item \textbf{Does the sum approximate the profit?} The three components sum to 0.5467 \%$^2$, which is 77.3\% of the mean WRSS profit (0.7071 \%$^2$). The remaining 0.1605 \%$^2$ comes from the lead--lag covariances between the market and industry residuals, which the decomposition assumes are zero. Once these are added, the sample identity holds exactly. The WRSS is the linear counterpart of the top-3-minus-bottom-3 portfolio in (a), and the two return series have a correlation of 0.662. The decomposition therefore describes the source of the profits in (a), but not its exact size. The WRSS profit is in \%$^2$, while $\overline{MOM}=$ 0.7380\% is in percent. The two numbers happen to be close, but they cannot be compared directly.
+  \item \textbf{Which component contributes most?} \textbf{Component (3), the residual cross-autocovariance}, accounts for 78.1\% of the three-component total.
+  \begin{itemize}
+    \item Component (2) contributes 19.1\%. The market's autocorrelation is positive but small, and betas vary little across industries.
+    \item Component (1) contributes only 2.8\%, so the profit is \emph{not} mainly the result of winners being industries with permanently higher mean returns.
+    \item Within (3), the positive own autocovariance of industry-specific returns (0.5710) dominates. Cross-serial covariances between industries partly offset it (0.1440).
+  \end{itemize}
+ 
+  Industry momentum at the one-month horizon therefore reflects continuation of the industry-specific components of returns, rather than dispersion in expected returns or the market factor.
+\end{itemize}
+ 
+\begin{table}[H]
+\centering
+\caption{Decomposition components compared with the Part (a) average return}
+\label{tab:compare}
+\begin{tabularx}{\textwidth}{Xr>{\raggedright\arraybackslash}p{4.6cm}}
+\toprule
+Statistic & Value & Units \\
+\midrule
+Component 1: dispersion in industry mean returns & 0.0153 & \%$^2$/month \\
+Component 2: beta dispersion $\times$ market autocovariance & 0.1044 & \%$^2$/month \\
+Component 3: residual serial covariance & 0.4270 & \%$^2$/month \\
+Sum of components & 0.5467 & \%$^2$/month \\
+Part (a): average momentum return & 0.7380 & \%/month \\
+Sum \textminus{} Part (a) & \textminus{}0.1914 & Numerical difference only; units differ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+ 
+\textbf{Comparison.} All three components and Part (a)'s average return are positive. Component 3 dominates, contributing 78.1\% of the decomposition sum, compared with 19.1\% for Component 2 and 2.8\% for Component 1. Numerically, the sum is about 26\% below Part (a), so agreement is not close; however, this percentage is not an economically meaningful return comparison.
+ 
+\textbf{Checks and discrepancy.} Both strategies use the same 1,199 holding months, August 1926--June 2026. Part (a) assigns weights of +1/3 and \textminus{}1/3 to the three winners and losers. Part (b) uses all industries with weights proportional to lagged returns minus their cross-sectional mean, without normalizing each leg to one. Because those weights use percentage-valued returns, its reported profit is in \%$^2$, whereas Part (a) is in percent. Thus, the decomposition is not an exact accounting of Part (a)'s return.
+ 
+Even against its own WRSS benchmark (0.7071 \%$^2$/month), the three-component sum explains only 77.3\%. The remaining gap is accounted for by omitted market--residual lead--lag covariances (0.1605 \%$^2$/month), plus a small endpoint-mean adjustment. Contemporaneous OLS orthogonality does not make these lead--lag covariances zero.
+ 
+The decomposition favors residual return continuation over mean dispersion as the main source of WRSS profits. It does not establish investor under-reaction; that interpretation requires additional evidence about information arrival and delayed price responses, while assessing alternative risk-based explanations.
+ 
+\subsection{AI Integration Discussion}
+ 
+\textbf{(i) Distinguishing the components.} The AI correctly separated cross-sectional dispersion in industry mean returns, market autocovariance multiplied by the cross-sectional variance of betas, and residual serial covariance. Component 3 uses market-model residuals rather than raw returns and includes own-industry autocovariances net of average cross-industry lead--lag covariances.
+ 
+\textbf{(ii) Verification and comparison.} We checked that the market and industry dates align and that both strategies use the same 1,199 holding months. We also verified that Component 3 equals own-residual autocovariance minus average cross-industry covariance, and that adding the omitted market--residual lead--lag terms and endpoint adjustment reproduces the WRSS profit.
+ 
+The three components sum to 0.5467 \%$^2$/month, while Part (a)'s average return is 0.7380\%/month. Both are positive, but their magnitudes are not directly comparable: the decomposition uses unnormalized, return-proportional weights across all industries, whereas Part (a) assigns equal weights to the top and bottom three. Even relative to the WRSS profit of 0.7071 \%$^2$/month, the sum explains only 77.3\%. The remaining gap primarily reflects omitted market--residual lead--lag covariances. The AI's claim that the three terms alone give an exact sample identity therefore needs qualification.
+ 
+\textbf{(iii) Interpretation.} Component 3 contributes 78.1\% of the three-component sum, compared with 19.1\% for Component 2 and 2.8\% for Component 1. Thus, residual serial dependence, rather than persistent differences in industry mean returns, dominates this decomposition. This supports a return-continuation interpretation but does not establish investor under-reaction. That would require evidence linking predictable subsequent returns to delayed responses to identifiable information, while evaluating alternative explanations such as time-varying risk premia.
+
+% =====================================================================
+\section{Question (c)}
+% =====================================================================
+
+Industries are ranked using compounded returns from month $t-12$ through $t-1$; the top three are bought and the bottom three are shorted in month $t$. Portfolios are equal-weighted, and ties follow the Excel column order, as in part (a).
+
+\begin{table}[H]
+\centering
+\caption{12-month, 1-month industry momentum, with and without skipping a month. Percent per month.}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+Strategy & Months & Mean return & SD & $t$-stat & Monthly Sharpe \\
+\midrule
+(c) 12--1 & 1,188 & 0.8689 & 6.3265 & 4.73 & 0.1373 \\
+(d) 12--1, skip a month & 1,188 & 0.8693 & 6.3114 & 4.75 & 0.1377 \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}\begin{minipage}{0.85\textwidth}\footnotesize
+Holding months run from 1927-07 to 2026-06.
+\end{minipage}
+\end{table}
+
+The 12--1 strategy earns \textbf{0.8689\% per month} ($t = 4.73$; monthly Sharpe $= 0.1373$).
+
+% =====================================================================
+\section{Question (d)}
+% =====================================================================
+
+Industries are ranked using returns from $t-12$ through $t-2$, skipping $t-1$, and the portfolio earns month-$t$ returns. Skipping $t-1$ earns \textbf{0.8693\% per month} ($t = 4.75$; Sharpe $= 0.1377$), almost identical to (c). The positive 1--1 industry momentum return (0.7380\% per month) suggests little short-run reversal for the skip to avoid.
+
+% =====================================================================
+\section{Question (e)}
+% =====================================================================
+
+For each strategy we estimate
+\[
+R^{W-L}_t = \alpha_3 + \beta_M (R_M-R_f)_t + \beta_S\, SMB_t + \beta_H\, HML_t + \epsilon_t,
+\]
+\[
+R^{W-L}_t = \alpha_4 + \beta_M (R_M-R_f)_t + \beta_S\, SMB_t + \beta_H\, HML_t + \beta_U\, UMD_t + \epsilon_t .
+\]
+FF3 and FF4 use the same months within each strategy. The dependent variable is a zero-cost long--short return, so no additional risk-free rate is subtracted. Reported $t$-statistics use standard OLS errors.
+
+\begin{table}[H]
+\centering
+\caption{Fama--French regressions of industry momentum. Alphas in percent per month, $t$-statistics in parentheses.}
+\small
+\begin{tabular}{lrrr}
+\toprule
+Industry strategy & FF3 alpha ($t$) & FF4 alpha ($t$) & FF4 UMD beta ($t$) \\
+\midrule
+1--1 & 0.8001 (4.95) & 0.6564 (3.98) & 0.151 (3.89) \\
+12--1 & 1.1448 (6.47) & 0.2139 (1.59) & 0.986 (31.06) \\
+12--1, skip & 1.1170 (6.28) & 0.1931 (1.41) & 0.978 (30.35) \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}\begin{minipage}{0.85\textwidth}\footnotesize
+Regression samples: 1927-01 to 2026-06 for 1--1 (1,194 months); 1927-07 to 2026-06 for 12--1 and skip (1,188 months).
+\end{minipage}
+\end{table}
+
+All three FF3 alphas are significant at the 1\% level, so FF3 fails to price these strategies. Negative market and HML exposures help explain why the 12--1 alphas exceed their raw mean returns.
+
+% =====================================================================
+\section{Question (f)}
+% =====================================================================
+
+I expected UMD to absorb much of the 12--1 momentum return. Under FF4, the 12--1 and skip alphas fall to \textbf{0.2139\%} ($t = 1.59$) and \textbf{0.1931\%} ($t = 1.41$), neither significant at 5\%. Their UMD betas are near 1 ($t > 30$). However, \textbf{FF4 still fails to price 1--1} (alpha $= 0.6564\%$, $t = 3.98$), whose UMD beta is much smaller (0.151, $t = 3.89$). Skipping a month changes little. Thus 12--1 industry momentum largely overlaps with stock momentum, while 1--1 captures a distinct short-term effect.
+
+\paragraph{AI check.} I asked ChatGPT the assigned question. It correctly noted that UMD is itself a momentum portfolio, so lower FF4 alphas show shared exposure rather than explain the premium. It pointed to momentum crashes after market rebounds (risk) and stronger momentum among less-followed stocks (under-reaction), but neither settles the cause. Its account matches my regressions: all UMD loadings are positive, 1--1 retains a significant alpha, and the skip strategy behaves like non-skip 12--1.
+
+\section{Question (g)}
+
+\textbf{Sample.} Commodity returns run from 1970-01 to 2015-12, in percent per month. A commodity is eligible in a month if it has returns for the whole ranking window and the holding month, so the universe grows from 11 commodities in 1970 to 32 by 2005 (GSCI included). Portfolios go long the top three and short the bottom three, equal-weighted, as in (a), (c) and (d). $t$-statistics are OLS; Newey--West versions give the same conclusions.
+
+\subsection{(i)}
+
+\begin{table}[H]
+\centering
+\caption{Commodity momentum strategies, percent per month.}
+\small
+\begin{tabular}{lrrr}
+\toprule
+& 1--1 & 12--1 & 12--1 skip \\
+\midrule
+Mean & 1.70 & 1.24 & 1.02 \\
+Standard deviation & 9.43 & 9.39 & 9.03 \\
+$t$-statistic & 4.24 & 3.07 & 2.62 \\
+Monthly Sharpe ratio & 0.181 & 0.132 & 0.113 \\
+$T$ & 551 & 540 & 540 \\
+\midrule
+Mean, months with $\geq 20$ commodities & 1.33 & 1.02 & 0.73 \\
+\quad $t$-statistic & 2.68 & 2.11 & 1.56 \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}\begin{minipage}{0.75\textwidth}\footnotesize
+Full samples start 1970-02 (1--1) and 1971-01 (12--1 and skip). The restricted sample starts 1983-11 (1--1) and 1984-10 (12--1 and skip).
+\end{minipage}
+\end{table}
+
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{Comment on whether or not you think this matters.} It matters for how big the effect is, but not for whether it exists. In the early years the top and bottom three make up more than half of a small, volatile universe. Keeping only months with at least 20 commodities lowers every mean, and the skip-a-month strategy loses significance.
+
+\end{itemize}
+
+\subsection{(ii)}
+
+\begin{table}[H]
+\centering
+\caption{Fama--French regressions of commodity momentum, 1970--2015. Alphas in percent per month, $t$-statistics in parentheses.}
+\small
+\begin{tabular}{lrrr}
+\toprule
+& FF3 $\hat\alpha$ & FF4 $\hat\alpha$ & FF4 UMD $\hat\beta$ \\
+\midrule
+1--1 & 1.76 (4.28) & 1.58 (3.78) & 0.19 (2.04) \\
+12--1 & 1.30 (3.15) & 0.84 (2.04) & 0.49 (5.23) \\
+12--1 skip & 1.09 (2.74) & 0.71 (1.77) & 0.40 (4.44) \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}\begin{minipage}{0.75\textwidth}\footnotesize
+FF3 uses Mkt$-$RF, SMB and HML; FF4 adds UMD. The FF3 $R^2$ is below 1\% for all three strategies.
+\end{minipage}
+\end{table}
+
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{Can the FF 3-factor and 4-factor models price each of the commodity momentum portfolios?} The three-factor model prices none of them, and the four-factor model prices only the skip-a-month strategy. Commodity momentum is nearly unrelated to the market, size and value, but it loads positively on UMD. Those loadings are about half the size of industry momentum's in (f), so stock momentum explains only part of commodity momentum.
+
+\end{itemize}
+
+\subsection{(iii)--(v)}
+
+\begin{table}[H]
+\centering
+\caption{Industry versus commodity momentum: correlations and spanning regressions.}
+\small
+\begin{tabular}{lrrr}
+\toprule
+& 1--1 & 12--1 & 12--1 skip \\
+\midrule
+Corr(IND MOM, COM MOM) & 0.12 & 0.20 & 0.17 \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+\begin{tabular}{lrrr}
+\toprule
+12--1 strategies & FF3 $\hat\alpha$ & FF3 + other $\hat\alpha$ & Loading on other \\
+\midrule
+(iv) Industry MOM, adding COM MOM & 1.13 (3.94) & 0.95 (3.34) & 0.14 (4.71) \\
+(v) COM MOM, adding industry MOM & 1.30 (3.15) & 0.98 (2.38) & 0.29 (4.71) \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}\begin{minipage}{0.85\textwidth}\footnotesize
+Correlations use the months both series cover (1970-02 or 1971-01 to 2015-12). Spanning regressions use 1971-01 to 2015-12 ($T = 540$) for both models in each row. Alphas in percent per month, $t$-statistics in parentheses.
+\end{minipage}
+\end{table}
+
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{Compute the correlation between each commodity momentum return and the corresponding industry momentum return.} The correlations are positive but low, at 0.20 or below for all three horizons. Most of each strategy's monthly movement is its own.
+
+\item \textbf{Can the augmented model explain the 12-month, 1-month industry momentum returns (iv)?} It cannot. Commodity momentum loads significantly, but the industry alpha barely falls.
+
+\item \textbf{Can the augmented model explain the 12-month, 1-month COM momentum returns (v)?} It cannot either. Industry momentum absorbs about a quarter of the commodity alpha, and the rest stays significant, so neither strategy spans the other.
+
+\end{itemize}
+
+\subsection{(vi)}
+
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{Do the results in iii., iv., and v. make sense?} They make sense. If both strategies share a small common momentum component on top of a larger market-specific one, we would expect a low correlation, significant cross-loadings and alphas that survive in both directions.
+
+\item \textbf{Do they surprise you?} They are mildly surprising, because the same rule earns similar Sharpe ratios in both markets while sharing so little of its monthly variation. But industries and commodities respond to different news and are traded by different investors, so their winners rarely line up.
+
+\item \textbf{What story could you give these findings?} Momentum looks like a general underreaction to news that plays out separately in each market. The shared part could come from cross-asset trend traders or a common risk, and our regressions cannot tell which.
+
+\end{itemize}
+
+\paragraph{AI integration: do industry and commodity momentum share a driver?} We wrote our own story first, then gave Claude Sonnet 5.5 our correlation and augmented alphas. It argued for two largely separate sources: slow spread of industry news versus persistent supply shocks, hedging premia only commodities have, and different investors in each market.
+
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item[(i)] \textbf{Does the LLM's story respect the correlation we measured in (iii)?} It does. It treats 0.20 as low and explains how the same underreaction can show up in two markets without moving them together.
+
+\item[(ii)] \textbf{Does it correctly read the spanning regressions in (iv) and (v)?} It reads them only partly. It is right that neither strategy spans the other, but it overclaims that there is no common factor, since both cross-loadings and commodity momentum's UMD loading are significant. The honest reading is related but not redundant.
+
+\item[(iii)] \textbf{Do its quantitative claims match our tables?} They do not. It said the alphas ``don't shrink'', even though it admitted it had not seen the alphas without the other strategy. In fact they fall by a sixth and a quarter, while staying significant.
+
+\end{itemize}
+
+\section{Question (h)}
+
+\textbf{Sample.} The portfolios are 25 size $\times$ past-return sorts at three horizons: the past 1 month, the past 2--12 months and the past 13--60 months. Returns are in excess of the T-bill rate, in percent per month. Each set uses its full available sample: 1927-01 to 2026-06 for the 1-month and 2--12 month sorts, and 1931-02 to 2026-06 for the 13--60 month sort. For each portfolio we estimate
+\[
+R_{it}-R_{ft}=\alpha_i+\beta_{iM}\,RMRF_t+\beta_{iS}\,SMB_t+\beta_{iH}\,HML_t+\beta_{iU}\,UMD_t+e_{it},
+\]
+and test $H_0:\alpha_1=\dots=\alpha_{25}=0$ with the GRS statistic, which is distributed $F(N,\,T-N-K)$ under the null. The estimator is the same as in Problem Set 4, Part III.
+
+\begin{table}[H]
+\centering
+\caption{GRS tests of the four-factor model on the 25 size and past-return portfolios.}
+\small
+\begin{tabular}{lrrr}
+\toprule
+& (i) Past 1 month & (ii) Past 2--12 months & (iii) Past 13--60 months \\
+\midrule
+GRS $F$-statistic & 8.50 & 2.05 & 1.76 \\
+$p$-value & $<0.001$ & 0.002 & 0.012 \\
+Mean $|\hat\alpha_i|$ (\% per month) & 0.29 & 0.10 & 0.08 \\
+Alphas with $|t| > 1.96$ & 17 & 5 & 6 \\
+Average $R^2$ & 0.89 & 0.92 & 0.88 \\
+$T$ & 1194 & 1190 & 1125 \\
+\midrule
+\multicolumn{4}{l}{\textit{Robustness}} \\
+FF3 GRS ($p$) & 9.23 ($<0.001$) & 4.56 ($<0.001$) & 1.60 (0.031) \\
+FF4 GRS, post-1963 ($p$) & 3.26 ($<0.001$) & 3.42 ($<0.001$) & 1.51 (0.054) \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+GRS is distributed $F(25,\,T-29)$ under the null. $\hat\Sigma$ uses denominator $T-K-1$; the factor covariance uses $T-1$. The post-1963 sample runs 1963-07 to 2026-06 ($T = 756$).
+\end{minipage}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Four-factor intercepts, 25 size and past 1-month return portfolios, percent per month.}
+\small
+\begin{tabular}{lrrrrrcrrrrr}
+\toprule
+& \multicolumn{5}{c}{$\hat\alpha_i$} && \multicolumn{5}{c}{$t(\hat\alpha_i)$} \\
+\cmidrule{2-6}\cmidrule{8-12}
+& L & 2 & 3 & 4 & H && L & 2 & 3 & 4 & H \\
+\midrule
+S & 0.93 & 0.16 & 0.05 & $-0.30$ & $-1.00$ && 8.23 & 1.78 & 0.53 & $-3.10$ & $-9.65$ \\
+2 & 0.50 & 0.25 & 0.10 & $-0.14$ & $-0.71$ && 5.81 & 4.18 & 1.90 & $-2.45$ & $-9.59$ \\
+3 & 0.43 & 0.21 & 0.11 & $-0.16$ & $-0.56$ && 4.83 & 3.66 & 2.24 & $-3.10$ & $-7.15$ \\
+4 & 0.21 & 0.22 & 0.14 & $-0.08$ & $-0.39$ && 2.17 & 3.58 & 2.85 & $-1.50$ & $-4.42$ \\
+B & 0.12 & 0.09 & 0.04 & 0.02 & $-0.26$ && 1.19 & 1.64 & 1.00 & 0.32 & $-3.23$ \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}\begin{minipage}{0.93\textwidth}\footnotesize
+Rows sort on size (S = small, B = big); columns sort on past 1-month return (L = losers, H = winners).
+\end{minipage}
+\end{table}
+
+\begin{itemize}
+\setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}
+
+\item \textbf{Which sets of 25 portfolios are explained by the model and which are not?} Strictly speaking, the model explains none of the three sets, but it comes close on the 2--12 and 13--60 month sorts. Their intercepts average only about 0.1\% per month, and the test rejects mainly because the regressions fit so tightly. After 1963 the 13--60 month set is no longer rejected at the 5\% level.
+
+\item \textbf{Which set does the model have the most difficult time explaining?} The 1-month sort is by far the hardest to explain. Last month's losers beat last month's winners in every size group, and most strongly among small stocks. UMD skips the most recent month, so it cannot capture this short-term reversal.
+
+\item \textbf{Which results are the most surprising?} The most surprising result is that the model still fails on the 2--12 month sort, even though UMD is built from that same sort. The leftover alphas are small, but they are concentrated in small stocks and do not go away after 1963. By contrast, long-term reversal turns out to be mostly a value effect, because long-run losers become cheap stocks that load on HML.
+
+\item \textbf{After all of this, what have you learned about the cross-section of returns?} How past returns relate to future returns depends on the horizon: reversal at one month, continuation from 2 to 12 months, and reversal again from 13 to 60 months. UMD and HML cover the last two reasonably well, but nothing in the model covers the first. As in Problem Set 4, the pricing errors line up with the characteristic we sort on and are largest among small stocks.
+
+\item \textbf{What have you learned about momentum strategies in general?} Momentum depends on both the horizon and the asset class. The most recent month reverses for individual stocks but continues for industries, and commodity momentum is only loosely related to industry momentum. UMD can account for momentum returns, but that only shows the strategies share a common factor, not why that factor earns a premium.
+
+\end{itemize}
+
+\end{document}
