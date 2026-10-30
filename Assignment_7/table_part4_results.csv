@@ -1,0 +1,372 @@
+panel,spec,term,estimate,std dev,std err,t-stat,p-value,Shanken t-stat,factor mean (%/mo),gap t-stat
+FM,4F (no quality),const,0.443,6.8211,0.2482,1.7846,0.0747,1.7722,,
+FM,4F (no quality),RMRF,0.279,8.1677,0.2973,0.9387,0.3482,0.934,0.603,-1.3018
+FM,4F (no quality),SMB,-0.1159,4.4803,0.1631,-0.7109,0.4774,-0.7082,0.1807,-2.4733
+FM,4F (no quality),HML,-0.1231,4.4737,0.1628,-0.7563,0.4497,-0.7533,0.2944,-3.4253
+FM,4F (no quality),UMD,0.3071,11.4765,0.4177,0.7353,0.4624,0.7308,0.6149,-0.7916
+FM,4F (no quality),avg_R2,0.227,,,,,,,
+FM,4F (no quality),adj_R2,0.1566,,,,,,,
+FM,4F (no quality),T,755.0,,,,,,,
+FM,BAB (Part III),const,0.4138,8.3927,0.3054,1.3548,0.1759,1.3442,,
+FM,BAB (Part III),RMRF,0.307,9.5458,0.3474,0.8837,0.3772,0.8782,0.603,-0.9657
+FM,BAB (Part III),SMB,-0.1176,4.8796,0.1776,-0.6621,0.5081,-0.6589,0.1807,-2.1438
+FM,BAB (Part III),HML,-0.137,5.4306,0.1976,-0.6934,0.4883,-0.6896,0.2944,-2.6088
+FM,BAB (Part III),UMD,0.3137,11.6564,0.4242,0.7394,0.4599,0.7344,0.6149,-0.7611
+FM,BAB (Part III),BAB,0.054,7.7975,0.2838,0.1903,0.8491,0.189,0.7402,-2.6533
+FM,BAB (Part III),avg_R2,0.2738,,,,,,,
+FM,BAB (Part III),adj_R2,0.1891,,,,,,,
+FM,BAB (Part III),T,755.0,,,,,,,
+FM,QMJ,const,0.4921,7.395,0.2691,1.8285,0.0679,1.8158,,
+FM,QMJ,RMRF,0.2426,8.4863,0.3088,0.7855,0.4324,0.7815,0.603,-1.3727
+FM,QMJ,SMB,-0.1196,4.4105,0.1605,-0.7453,0.4563,-0.7425,0.1807,-2.5871
+FM,QMJ,HML,-0.1239,4.4669,0.1626,-0.7623,0.4461,-0.7593,0.2944,-3.441
+FM,QMJ,UMD,0.3149,11.5555,0.4205,0.7489,0.4542,0.7443,0.6149,-0.7656
+FM,QMJ,QMJ,-0.0439,4.1708,0.1518,-0.2892,0.7725,-0.2878,0.3228,-2.9269
+FM,QMJ,avg_R2,0.3002,,,,,,,
+FM,QMJ,adj_R2,0.2186,,,,,,,
+FM,QMJ,T,755.0,,,,,,,
+FM,RMW,const,0.4282,7.2942,0.2655,1.6131,0.1071,1.6011,,
+FM,RMW,RMRF,0.2908,8.4806,0.3086,0.9422,0.3464,0.9371,0.603,-1.1905
+FM,RMW,SMB,-0.1185,4.9269,0.1793,-0.6607,0.509,-0.6576,0.1807,-2.1178
+FM,RMW,HML,-0.1283,4.7656,0.1734,-0.7398,0.4597,-0.7364,0.2944,-3.113
+FM,RMW,UMD,0.3141,11.4963,0.4184,0.7507,0.453,0.7459,0.6149,-0.7722
+FM,RMW,RMW,0.0321,4.7939,0.1745,0.184,0.8541,0.1829,0.2457,-1.3851
+FM,RMW,avg_R2,0.2864,,,,,,,
+FM,RMW,adj_R2,0.2032,,,,,,,
+FM,RMW,T,755.0,,,,,,,
+FM,QMJ+RMW,const,0.4087,7.186,0.2615,1.5629,0.1185,1.5164,,
+FM,QMJ+RMW,RMRF,0.3261,8.3436,0.3037,1.0741,0.2831,1.051,0.603,-1.08
+FM,QMJ+RMW,SMB,-0.313,4.3838,0.1595,-1.9621,0.0501,-1.9307,0.1807,-4.274
+FM,QMJ+RMW,HML,-0.2507,4.6534,0.1694,-1.4802,0.1392,-1.4536,0.2944,-4.1748
+FM,QMJ+RMW,UMD,0.3309,11.5689,0.421,0.7858,0.4322,0.7654,0.6149,-0.7239
+FM,QMJ+RMW,QMJ,-0.0988,4.3245,0.1574,-0.6278,0.5303,-0.6146,0.3228,-3.1963
+FM,QMJ+RMW,RMW,0.1623,4.1961,0.1527,1.0626,0.2883,1.0398,0.2457,-0.6459
+FM,QMJ+RMW,avg_R2,0.3229,,,,,,,
+FM,QMJ+RMW,adj_R2,0.2258,,,,,,,
+FM,QMJ+RMW,T,755.0,,,,,,,
+FM,Joint,const,0.5155,8.4718,0.3083,1.6719,0.095,1.6132,,
+FM,Joint,RMRF,0.2148,9.3596,0.3406,0.6307,0.5284,0.6134,0.603,-1.2979
+FM,Joint,SMB,-0.3176,4.3776,0.1593,-1.9935,0.0466,-1.9559,0.1807,-4.3296
+FM,Joint,HML,-0.2158,4.96,0.1805,-1.1956,0.2322,-1.1681,0.2944,-3.5247
+FM,Joint,UMD,0.3532,11.7386,0.4272,0.8269,0.4086,0.8013,0.6149,-0.6557
+FM,Joint,BAB,-0.1657,8.5498,0.3112,-0.5325,0.5945,-0.5164,0.7402,-3.1455
+FM,Joint,QMJ,-0.0773,4.1844,0.1523,-0.5077,0.6118,-0.4953,0.3228,-3.1819
+FM,Joint,RMW,0.2132,4.0963,0.1491,1.4298,0.1532,1.3942,0.2457,-0.2606
+FM,Joint,avg_R2,0.3521,,,,,,,
+FM,Joint,adj_R2,0.2411,,,,,,,
+FM,Joint,T,755.0,,,,,,,
+Fit,4F (no quality),xs_R2,0.1213,,,,,,,
+Fit,BAB (Part III),xs_R2,0.1214,,,,,,,
+Fit,QMJ,xs_R2,0.1377,,,,,,,
+Fit,RMW,xs_R2,0.1211,,,,,,,
+Fit,QMJ+RMW,xs_R2,0.2282,,,,,,,
+Fit,Joint,xs_R2,0.2451,,,,,,,
+Fit,4F (no quality),xs_adj_R2,0.0415,,,,,,,
+Fit,BAB (Part III),xs_adj_R2,0.0193,,,,,,,
+Fit,QMJ,xs_adj_R2,0.0375,,,,,,,
+Fit,RMW,xs_adj_R2,0.019,,,,,,,
+Fit,QMJ+RMW,xs_adj_R2,0.1179,,,,,,,
+Fit,Joint,xs_adj_R2,0.1163,,,,,,,
+Fit,4F (no quality),xs_RMSE,0.1426,,,,,,,
+Fit,BAB (Part III),xs_RMSE,0.1426,,,,,,,
+Fit,QMJ,xs_RMSE,0.1412,,,,,,,
+Fit,RMW,xs_RMSE,0.1426,,,,,,,
+Fit,QMJ+RMW,xs_RMSE,0.1336,,,,,,,
+Fit,Joint,xs_RMSE,0.1321,,,,,,,
+Fit,4F (no quality),GRS_F,1.6267,,,,,,,
+Fit,BAB (Part III),GRS_F,1.9048,,,,,,,
+Fit,QMJ,GRS_F,2.0304,,,,,,,
+Fit,RMW,GRS_F,1.9957,,,,,,,
+Fit,QMJ+RMW,GRS_F,1.9825,,,,,,,
+Fit,Joint,GRS_F,2.2015,,,,,,,
+Fit,4F (no quality),GRS_p,0.0055,,,,,,,
+Fit,BAB (Part III),GRS_p,0.0003,,,,,,,
+Fit,QMJ,GRS_p,0.0001,,,,,,,
+Fit,RMW,GRS_p,0.0001,,,,,,,
+Fit,QMJ+RMW,GRS_p,0.0001,,,,,,,
+Fit,Joint,GRS_p,0.0,,,,,,,
+Fit,4F (no quality),mean_abs_alpha,0.1681,,,,,,,
+Fit,BAB (Part III),mean_abs_alpha,0.2001,,,,,,,
+Fit,QMJ,mean_abs_alpha,0.2277,,,,,,,
+Fit,RMW,mean_abs_alpha,0.2055,,,,,,,
+Fit,QMJ+RMW,mean_abs_alpha,0.211,,,,,,,
+Fit,Joint,mean_abs_alpha,0.2339,,,,,,,
+Wald,Joint,BAB=QMJ=RMW=0,4.3657,,,,0.2246,,,
+Loadings,Joint,RMRF SD,0.1684,,,,,,,
+Loadings,Joint,SMB SD,0.2864,,,,,,,
+Loadings,Joint,HML SD,0.253,,,,,,,
+Loadings,Joint,UMD SD,0.0906,,,,,,,
+Loadings,Joint,BAB SD,0.1665,,,,,,,
+Loadings,Joint,QMJ SD,0.3604,,,,,,,
+Loadings,Joint,RMW SD,0.3073,,,,,,,
+Loadings,Joint,RMRF VIF,3.0088,,,,,,,
+Loadings,Joint,SMB VIF,2.6139,,,,,,,
+Loadings,Joint,HML VIF,1.5393,,,,,,,
+Loadings,Joint,UMD VIF,1.2196,,,,,,,
+Loadings,Joint,BAB VIF,3.1058,,,,,,,
+Loadings,Joint,QMJ VIF,1.5411,,,,,,,
+Loadings,Joint,RMW VIF,2.6895,,,,,,,
+Loadings,Joint,"corr BAB,QMJ",-0.0841,,,,,,,
+Loadings,Joint,"corr BAB,RMW",0.3074,,,,,,,
+Loadings,Joint,"corr QMJ,RMW",-0.5089,,,,,,,
+Loadings,Joint,"corr RMRF,BAB",-0.7041,,,,,,,
+Loadings,Joint,"corr RMRF,QMJ",0.0849,,,,,,,
+Loadings,Joint,"corr RMRF,RMW",-0.0415,,,,,,,
+Factor corr,Returns,"corr BAB,QMJ",0.2122,,,,,,,
+Factor corr,Returns,"corr BAB,RMW",0.3156,,,,,,,
+Factor corr,Returns,"corr QMJ,RMW",0.6934,,,,,,,
+Factor corr,Returns,"corr RMRF,BAB",-0.0955,,,,,,,
+Factor corr,Returns,"corr RMRF,QMJ",-0.5204,,,,,,,
+Factor corr,Returns,"corr RMRF,RMW",-0.1954,,,,,,,
+Spanning,BAB on 4F,alpha,0.4876,,0.1364,3.5737,0.0004,,,
+Spanning,BAB on 4F,RMRF,0.0165,,0.0446,0.3702,0.7113,,,
+Spanning,BAB on 4F,SMB,0.0057,,0.0747,0.0764,0.9391,,,
+Spanning,BAB on 4F,HML,0.4007,,0.0936,4.2801,0.0,,,
+Spanning,BAB on 4F,UMD,0.2011,,0.0705,2.8517,0.0043,,,
+Spanning,BAB on 4F,R2,0.1602,,,,,,,
+Spanning,BAB on 4F+QMJ,alpha,0.3145,,0.1406,2.2365,0.0253,,,
+Spanning,BAB on 4F+QMJ,RMRF,0.0994,,0.0439,2.2649,0.0235,,,
+Spanning,BAB on 4F+QMJ,SMB,0.1026,,0.0677,1.5165,0.1294,,,
+Spanning,BAB on 4F+QMJ,HML,0.4196,,0.0878,4.7777,0.0,,,
+Spanning,BAB on 4F+QMJ,UMD,0.1668,,0.0639,2.6108,0.009,,,
+Spanning,BAB on 4F+QMJ,QMJ,0.3755,,0.0941,3.9882,0.0001,,,
+Spanning,BAB on 4F+QMJ,R2,0.2043,,,,,,,
+Spanning,BAB on 4F+RMW,alpha,0.3659,,0.1355,2.7003,0.0069,,,
+Spanning,BAB on 4F+RMW,RMRF,0.0354,,0.0411,0.8607,0.3894,,,
+Spanning,BAB on 4F+RMW,SMB,0.1063,,0.0504,2.1069,0.0351,,,
+Spanning,BAB on 4F+RMW,HML,0.37,,0.0709,5.2198,0.0,,,
+Spanning,BAB on 4F+RMW,UMD,0.1885,,0.0537,3.5086,0.0005,,,
+Spanning,BAB on 4F+RMW,RMW,0.4435,,0.0951,4.6645,0.0,,,
+Spanning,BAB on 4F+RMW,R2,0.2427,,,,,,,
+Spanning,BAB on 4F+others,alpha,0.3553,,0.1306,2.72,0.0065,,,
+Spanning,BAB on 4F+others,RMRF,0.0424,,0.0499,0.8499,0.3954,,,
+Spanning,BAB on 4F+others,SMB,0.1106,,0.0532,2.0796,0.0376,,,
+Spanning,BAB on 4F+others,HML,0.3733,,0.0715,5.2183,0.0,,,
+Spanning,BAB on 4F+others,UMD,0.1858,,0.0539,3.4482,0.0006,,,
+Spanning,BAB on 4F+others,QMJ,0.0359,,0.1216,0.2949,0.7681,,,
+Spanning,BAB on 4F+others,RMW,0.422,,0.1383,3.052,0.0023,,,
+Spanning,BAB on 4F+others,R2,0.2429,,,,,,,
+Spanning,QMJ on 4F,alpha,0.4611,,0.0772,5.9749,0.0,,,
+Spanning,QMJ on 4F,RMRF,-0.2206,,0.0254,-8.6799,0.0,,,
+Spanning,QMJ on 4F,SMB,-0.2582,,0.0335,-7.7183,0.0,,,
+Spanning,QMJ on 4F,HML,-0.0505,,0.0503,-1.0049,0.315,,,
+Spanning,QMJ on 4F,UMD,0.0915,,0.0281,3.2516,0.0011,,,
+Spanning,QMJ on 4F,R2,0.4128,,,,,,,
+Spanning,QMJ on 4F+BAB,alpha,0.3929,,0.0797,4.9313,0.0,,,
+Spanning,QMJ on 4F+BAB,RMRF,-0.2229,,0.0229,-9.7481,0.0,,,
+Spanning,QMJ on 4F+BAB,SMB,-0.259,,0.0277,-9.3388,0.0,,,
+Spanning,QMJ on 4F+BAB,HML,-0.1065,,0.0449,-2.3721,0.0177,,,
+Spanning,QMJ on 4F+BAB,UMD,0.0634,,0.0241,2.6311,0.0085,,,
+Spanning,QMJ on 4F+BAB,BAB,0.1398,,0.0387,3.6095,0.0003,,,
+Spanning,QMJ on 4F+BAB,R2,0.4436,,,,,,,
+Spanning,QMJ on 4F+RMW,alpha,0.2964,,0.0548,5.4099,0.0,,,
+Spanning,QMJ on 4F+RMW,RMRF,-0.1951,,0.0163,-11.9892,0.0,,,
+Spanning,QMJ on 4F+RMW,SMB,-0.1222,,0.0251,-4.8584,0.0,,,
+Spanning,QMJ on 4F+RMW,HML,-0.092,,0.0285,-3.2296,0.0012,,,
+Spanning,QMJ on 4F+RMW,UMD,0.0744,,0.0225,3.3076,0.0009,,,
+Spanning,QMJ on 4F+RMW,RMW,0.5998,,0.0465,12.8887,0.0,,,
+Spanning,QMJ on 4F+RMW,R2,0.6963,,,,,,,
+Spanning,QMJ on 4F+others,alpha,0.2936,,0.0573,5.126,0.0,,,
+Spanning,QMJ on 4F+others,RMRF,-0.1954,,0.0161,-12.1573,0.0,,,
+Spanning,QMJ on 4F+others,SMB,-0.123,,0.0264,-4.6576,0.0,,,
+Spanning,QMJ on 4F+others,HML,-0.0948,,0.0288,-3.2872,0.001,,,
+Spanning,QMJ on 4F+others,UMD,0.073,,0.0242,3.0108,0.0026,,,
+Spanning,QMJ on 4F+others,BAB,0.0077,,0.0262,0.2928,0.7697,,,
+Spanning,QMJ on 4F+others,RMW,0.5964,,0.0455,13.1071,0.0,,,
+Spanning,QMJ on 4F+others,R2,0.6963,,,,,,,
+Spanning,RMW on 4F,alpha,0.2745,,0.0833,3.2963,0.001,,,
+Spanning,RMW on 4F,RMRF,-0.0425,,0.029,-1.4688,0.1419,,,
+Spanning,RMW on 4F,SMB,-0.2267,,0.0852,-2.6597,0.0078,,,
+Spanning,RMW on 4F,HML,0.0691,,0.0773,0.8941,0.3713,,,
+Spanning,RMW on 4F,UMD,0.0284,,0.0517,0.5496,0.5826,,,
+Spanning,RMW on 4F,R2,0.1298,,,,,,,
+Spanning,RMW on 4F+BAB,alpha,0.1665,,0.0869,1.9151,0.0555,,,
+Spanning,RMW on 4F+BAB,RMRF,-0.0462,,0.027,-1.7139,0.0866,,,
+Spanning,RMW on 4F+BAB,SMB,-0.228,,0.0729,-3.1289,0.0018,,,
+Spanning,RMW on 4F+BAB,HML,-0.0196,,0.0532,-0.3692,0.712,,,
+Spanning,RMW on 4F+BAB,UMD,-0.0161,,0.0446,-0.3612,0.7179,,,
+Spanning,RMW on 4F+BAB,BAB,0.2215,,0.0632,3.5071,0.0005,,,
+Spanning,RMW on 4F+BAB,R2,0.2153,,,,,,,
+Spanning,RMW on 4F+QMJ,alpha,-0.0966,,0.0641,-1.5083,0.1315,,,
+Spanning,RMW on 4F+QMJ,RMRF,0.135,,0.0226,5.9647,0.0,,,
+Spanning,RMW on 4F+QMJ,SMB,-0.0189,,0.0587,-0.3227,0.7469,,,
+Spanning,RMW on 4F+QMJ,HML,0.1098,,0.0522,2.1006,0.0357,,,
+Spanning,RMW on 4F+QMJ,UMD,-0.0452,,0.0399,-1.1334,0.2571,,,
+Spanning,RMW on 4F+QMJ,QMJ,0.8048,,0.06,13.4123,0.0,,,
+Spanning,RMW on 4F+QMJ,R2,0.5499,,,,,,,
+Spanning,RMW on 4F+others,alpha,-0.1328,,0.0658,-2.0189,0.0435,,,
+Spanning,RMW on 4F+others,RMRF,0.1236,,0.0218,5.6755,0.0,,,
+Spanning,RMW on 4F+others,SMB,-0.0308,,0.0562,-0.5475,0.584,,,
+Spanning,RMW on 4F+others,HML,0.0615,,0.0365,1.6845,0.0921,,,
+Spanning,RMW on 4F+others,UMD,-0.0644,,0.0388,-1.6609,0.0967,,,
+Spanning,RMW on 4F+others,BAB,0.115,,0.0435,2.6467,0.0081,,,
+Spanning,RMW on 4F+others,QMJ,0.7616,,0.0464,16.3973,0.0,,,
+Spanning,RMW on 4F+others,R2,0.5718,,,,,,,
+Robustness,Balanced 1969:07+ | 4F (no quality),const,0.4012,6.938,0.2655,1.5114,0.1312,1.4984,,
+Robustness,Balanced 1969:07+ | 4F (no quality),RMRF,0.3153,8.2879,0.3171,0.9943,0.3204,0.9883,0.6139,-1.1301
+Robustness,Balanced 1969:07+ | 4F (no quality),SMB,-0.2097,4.6053,0.1762,-1.19,0.2345,-1.1841,0.1038,-2.3599
+Robustness,Balanced 1969:07+ | 4F (no quality),HML,-0.0989,4.4812,0.1715,-0.5767,0.5643,-0.5741,0.2837,-3.062
+Robustness,Balanced 1969:07+ | 4F (no quality),UMD,0.2564,12.2836,0.47,0.5455,0.5856,0.5414,0.5958,-0.7709
+Robustness,Balanced 1969:07+ | 4F (no quality),avg_R2,0.2334,,,,,,,
+Robustness,Balanced 1969:07+ | 4F (no quality),adj_R2,0.1637,,,,,,,
+Robustness,Balanced 1969:07+ | 4F (no quality),T,683.0,,,,,,,
+Robustness,Balanced 1969:07+ | BAB (Part III),const,0.4795,8.3005,0.3176,1.5098,0.1316,1.499,,
+Robustness,Balanced 1969:07+ | BAB (Part III),RMRF,0.2416,9.4066,0.3599,0.6713,0.5022,0.6677,0.6139,-1.1844
+Robustness,Balanced 1969:07+ | BAB (Part III),SMB,-0.1918,5.024,0.1922,-0.9979,0.3187,-0.9933,0.1038,-1.9265
+Robustness,Balanced 1969:07+ | BAB (Part III),HML,-0.07,5.2618,0.2013,-0.3479,0.728,-0.3462,0.2837,-2.1631
+Robustness,Balanced 1969:07+ | BAB (Part III),UMD,0.2555,12.2558,0.469,0.5447,0.5861,0.5413,0.5958,-0.7751
+Robustness,Balanced 1969:07+ | BAB (Part III),BAB,-0.0661,7.6648,0.2933,-0.2254,0.8217,-0.2241,0.7764,-3.1927
+Robustness,Balanced 1969:07+ | BAB (Part III),avg_R2,0.2803,,,,,,,
+Robustness,Balanced 1969:07+ | BAB (Part III),adj_R2,0.1966,,,,,,,
+Robustness,Balanced 1969:07+ | BAB (Part III),T,683.0,,,,,,,
+Robustness,Balanced 1969:07+ | QMJ,const,0.4958,7.4393,0.2847,1.7418,0.082,1.7268,,
+Robustness,Balanced 1969:07+ | QMJ,RMRF,0.2432,8.5399,0.3268,0.7442,0.457,0.7396,0.6139,-1.3446
+Robustness,Balanced 1969:07+ | QMJ,SMB,-0.2263,4.4673,0.1709,-1.3239,0.186,-1.3177,0.1038,-2.625
+Robustness,Balanced 1969:07+ | QMJ,HML,-0.0999,4.4758,0.1713,-0.5835,0.5597,-0.5808,0.2837,-3.0773
+Robustness,Balanced 1969:07+ | QMJ,UMD,0.2332,11.9611,0.4577,0.5094,0.6106,0.5056,0.5958,-0.8492
+Robustness,Balanced 1969:07+ | QMJ,QMJ,-0.0701,4.209,0.1611,-0.4352,0.6635,-0.4327,0.3529,-3.2254
+Robustness,Balanced 1969:07+ | QMJ,avg_R2,0.3069,,,,,,,
+Robustness,Balanced 1969:07+ | QMJ,adj_R2,0.2263,,,,,,,
+Robustness,Balanced 1969:07+ | QMJ,T,683.0,,,,,,,
+Robustness,Balanced 1969:07+ | RMW,const,0.4325,7.3188,0.28,1.5443,0.123,1.5323,,
+Robustness,Balanced 1969:07+ | RMW,RMRF,0.2894,8.5318,0.3265,0.8864,0.3757,0.8815,0.6139,-1.1786
+Robustness,Balanced 1969:07+ | RMW,SMB,-0.2005,5.0058,0.1915,-1.047,0.2955,-1.0418,0.1038,-1.9945
+Robustness,Balanced 1969:07+ | RMW,HML,-0.0884,4.8348,0.185,-0.4779,0.6329,-0.4757,0.2837,-2.6032
+Robustness,Balanced 1969:07+ | RMW,UMD,0.2483,11.9464,0.4571,0.5432,0.5872,0.5395,0.5958,-0.8149
+Robustness,Balanced 1969:07+ | RMW,RMW,0.0014,4.768,0.1824,0.0074,0.9941,0.0074,0.2734,-1.7031
+Robustness,Balanced 1969:07+ | RMW,avg_R2,0.2926,,,,,,,
+Robustness,Balanced 1969:07+ | RMW,adj_R2,0.2103,,,,,,,
+Robustness,Balanced 1969:07+ | RMW,T,683.0,,,,,,,
+Robustness,Balanced 1969:07+ | QMJ+RMW,const,0.3985,7.1341,0.273,1.4599,0.1448,1.415,,
+Robustness,Balanced 1969:07+ | QMJ+RMW,RMRF,0.3456,8.3235,0.3185,1.085,0.2783,1.0614,0.6139,-1.0094
+Robustness,Balanced 1969:07+ | QMJ+RMW,SMB,-0.4048,4.5006,0.1722,-2.3507,0.019,-2.3102,0.1038,-3.9896
+Robustness,Balanced 1969:07+ | QMJ+RMW,HML,-0.2435,4.7042,0.18,-1.3526,0.1766,-1.3282,0.2837,-3.8641
+Robustness,Balanced 1969:07+ | QMJ+RMW,UMD,0.2627,12.0052,0.4594,0.572,0.5675,0.5566,0.5958,-0.7766
+Robustness,Balanced 1969:07+ | QMJ+RMW,QMJ,-0.1143,4.3154,0.1651,-0.6921,0.4891,-0.6774,0.3529,-3.4323
+Robustness,Balanced 1969:07+ | QMJ+RMW,RMW,0.1281,4.24,0.1622,0.7895,0.4301,0.7722,0.2734,-1.0667
+Robustness,Balanced 1969:07+ | QMJ+RMW,avg_R2,0.3307,,,,,,,
+Robustness,Balanced 1969:07+ | QMJ+RMW,adj_R2,0.2351,,,,,,,
+Robustness,Balanced 1969:07+ | QMJ+RMW,T,683.0,,,,,,,
+Robustness,Balanced 1969:07+ | Joint,const,0.65,8.6433,0.3307,1.9655,0.0498,1.8598,,
+Robustness,Balanced 1969:07+ | Joint,RMRF,0.0943,9.433,0.3609,0.2611,0.7941,0.2502,0.6139,-1.6472
+Robustness,Balanced 1969:07+ | Joint,SMB,-0.4339,4.4672,0.1709,-2.5384,0.0114,-2.4618,0.1038,-4.2758
+Robustness,Balanced 1969:07+ | Joint,HML,-0.1965,4.8602,0.186,-1.0566,0.291,-1.0214,0.2837,-3.33
+Robustness,Balanced 1969:07+ | Joint,UMD,0.3173,12.2697,0.4695,0.6758,0.4994,0.6436,0.5958,-0.6335
+Robustness,Balanced 1969:07+ | Joint,BAB,-0.428,8.9363,0.3419,-1.2516,0.2111,-1.1931,0.7764,-3.7983
+Robustness,Balanced 1969:07+ | Joint,QMJ,-0.0555,4.1574,0.1591,-0.3486,0.7275,-0.336,0.3529,-3.1726
+Robustness,Balanced 1969:07+ | Joint,RMW,0.2564,4.1084,0.1572,1.6311,0.1033,1.5694,0.2734,-0.1303
+Robustness,Balanced 1969:07+ | Joint,avg_R2,0.3587,,,,,,,
+Robustness,Balanced 1969:07+ | Joint,adj_R2,0.2492,,,,,,,
+Robustness,Balanced 1969:07+ | Joint,T,683.0,,,,,,,
+Robustness,First half (to 1994-11) | 4F (no quality),const,0.6612,7.1606,0.3688,1.7928,0.0738,1.7853,,
+Robustness,First half (to 1994-11) | 4F (no quality),RMRF,-0.1542,8.5654,0.4411,-0.3496,0.7269,-0.3485,0.398,-1.4619
+Robustness,First half (to 1994-11) | 4F (no quality),SMB,-0.0044,3.7478,0.193,-0.023,0.9817,-0.023,0.3018,-2.5225
+Robustness,First half (to 1994-11) | 4F (no quality),HML,-0.1541,3.7504,0.1932,-0.798,0.4253,-0.7963,0.4368,-4.1997
+Robustness,First half (to 1994-11) | 4F (no quality),UMD,0.1324,9.9612,0.513,0.2581,0.7965,0.2571,0.8261,-1.4362
+Robustness,First half (to 1994-11) | 4F (no quality),avg_R2,0.2601,,,,,,,
+Robustness,First half (to 1994-11) | 4F (no quality),adj_R2,0.1924,,,,,,,
+Robustness,First half (to 1994-11) | 4F (no quality),T,377.0,,,,,,,
+Robustness,First half (to 1994-11) | BAB (Part III),const,0.4523,7.5722,0.39,1.1598,0.2469,1.1423,,
+Robustness,First half (to 1994-11) | BAB (Part III),RMRF,0.0526,9.0485,0.466,0.1129,0.9102,0.1116,0.398,-0.8499
+Robustness,First half (to 1994-11) | BAB (Part III),SMB,0.0418,3.6605,0.1885,0.2215,0.8248,0.2203,0.3018,-2.286
+Robustness,First half (to 1994-11) | BAB (Part III),HML,-0.2707,4.0025,0.2061,-1.3134,0.1899,-1.3015,0.4368,-4.4747
+Robustness,First half (to 1994-11) | BAB (Part III),UMD,0.1805,10.224,0.5266,0.3428,0.732,0.3382,0.8261,-1.2983
+Robustness,First half (to 1994-11) | BAB (Part III),BAB,0.2269,6.8067,0.3506,0.6471,0.5179,0.6387,0.8476,-1.9127
+Robustness,First half (to 1994-11) | BAB (Part III),avg_R2,0.3013,,,,,,,
+Robustness,First half (to 1994-11) | BAB (Part III),adj_R2,0.2196,,,,,,,
+Robustness,First half (to 1994-11) | BAB (Part III),T,377.0,,,,,,,
+Robustness,First half (to 1994-11) | QMJ,const,0.6456,7.2161,0.3716,1.7371,0.0832,1.7094,,
+Robustness,First half (to 1994-11) | QMJ,RMRF,-0.1477,8.5812,0.442,-0.3343,0.7384,-0.3303,0.398,-1.4413
+Robustness,First half (to 1994-11) | QMJ,SMB,0.0627,3.5561,0.1831,0.3423,0.7323,0.3405,0.3018,-2.27
+Robustness,First half (to 1994-11) | QMJ,HML,-0.0844,3.7218,0.1917,-0.4405,0.6598,-0.4367,0.4368,-3.7595
+Robustness,First half (to 1994-11) | QMJ,UMD,0.3754,9.2544,0.4766,0.7876,0.4314,0.7767,0.8261,-1.0144
+Robustness,First half (to 1994-11) | QMJ,QMJ,0.1976,2.6651,0.1373,1.4398,0.1508,1.4268,0.3144,-1.1351
+Robustness,First half (to 1994-11) | QMJ,avg_R2,0.3142,,,,,,,
+Robustness,First half (to 1994-11) | QMJ,adj_R2,0.2339,,,,,,,
+Robustness,First half (to 1994-11) | QMJ,T,377.0,,,,,,,
+Robustness,First half (to 1994-11) | RMW,const,0.7445,6.7841,0.3494,2.1308,0.0338,2.0976,,
+Robustness,First half (to 1994-11) | RMW,RMRF,-0.2304,8.2754,0.4262,-0.5406,0.5891,-0.5345,0.398,-1.7451
+Robustness,First half (to 1994-11) | RMW,SMB,0.0217,3.6482,0.1879,0.1154,0.9082,0.1147,0.3018,-2.4741
+Robustness,First half (to 1994-11) | RMW,HML,-0.0863,3.6272,0.1868,-0.4617,0.6445,-0.458,0.4368,-3.9671
+Robustness,First half (to 1994-11) | RMW,UMD,0.3866,8.9227,0.4595,0.8414,0.4007,0.8301,0.8261,-1.0321
+Robustness,First half (to 1994-11) | RMW,RMW,0.1872,2.9983,0.1544,1.2124,0.2261,1.1985,0.1963,-0.0684
+Robustness,First half (to 1994-11) | RMW,avg_R2,0.316,,,,,,,
+Robustness,First half (to 1994-11) | RMW,adj_R2,0.236,,,,,,,
+Robustness,First half (to 1994-11) | RMW,T,377.0,,,,,,,
+Robustness,First half (to 1994-11) | QMJ+RMW,const,0.6396,6.7379,0.347,1.8433,0.0661,1.814,,
+Robustness,First half (to 1994-11) | QMJ+RMW,RMRF,-0.1427,8.3036,0.4277,-0.3336,0.7389,-0.3298,0.398,-1.4946
+Robustness,First half (to 1994-11) | QMJ+RMW,SMB,0.0639,3.5477,0.1827,0.3498,0.7267,0.3479,0.3018,-2.2724
+Robustness,First half (to 1994-11) | QMJ+RMW,HML,-0.0868,3.6163,0.1863,-0.4663,0.6413,-0.4625,0.4368,-3.9931
+Robustness,First half (to 1994-11) | QMJ+RMW,UMD,0.3694,8.9026,0.4585,0.8057,0.4209,0.7947,0.8261,-1.0754
+Robustness,First half (to 1994-11) | QMJ+RMW,QMJ,0.198,2.6529,0.1366,1.4491,0.1482,1.4361,0.3144,-1.1407
+Robustness,First half (to 1994-11) | QMJ+RMW,RMW,0.123,3.2148,0.1656,0.7428,0.4581,0.7337,0.1963,-0.5062
+Robustness,First half (to 1994-11) | QMJ+RMW,avg_R2,0.3466,,,,,,,
+Robustness,First half (to 1994-11) | QMJ+RMW,adj_R2,0.2526,,,,,,,
+Robustness,First half (to 1994-11) | QMJ+RMW,T,377.0,,,,,,,
+Robustness,First half (to 1994-11) | Joint,const,0.5128,7.1866,0.3701,1.3854,0.1668,1.3525,,
+Robustness,First half (to 1994-11) | Joint,RMRF,-0.0059,8.7511,0.4507,-0.0131,0.9895,-0.0129,0.398,-1.0394
+Robustness,First half (to 1994-11) | Joint,SMB,0.078,3.5414,0.1824,0.4275,0.6693,0.4241,0.3018,-2.1534
+Robustness,First half (to 1994-11) | Joint,HML,-0.1894,3.9317,0.2025,-0.9352,0.3503,-0.9222,0.4368,-4.0881
+Robustness,First half (to 1994-11) | Joint,UMD,0.4397,9.2971,0.4788,0.9182,0.3591,0.8992,0.8261,-0.8657
+Robustness,First half (to 1994-11) | Joint,BAB,0.2492,6.8054,0.3505,0.7109,0.4776,0.6963,0.8476,-1.8439
+Robustness,First half (to 1994-11) | Joint,QMJ,0.1833,2.5849,0.1331,1.3767,0.1694,1.359,0.3144,-1.3473
+Robustness,First half (to 1994-11) | Joint,RMW,0.1844,3.3647,0.1733,1.0644,0.2878,1.0443,0.1963,-0.0769
+Robustness,First half (to 1994-11) | Joint,avg_R2,0.3832,,,,,,,
+Robustness,First half (to 1994-11) | Joint,adj_R2,0.2771,,,,,,,
+Robustness,First half (to 1994-11) | Joint,T,377.0,,,,,,,
+Robustness,Second half (1994-12+) | 4F (no quality),const,0.3632,5.242,0.2696,1.347,0.1788,1.3066,,
+Robustness,Second half (1994-12+) | 4F (no quality),RMRF,0.5904,6.884,0.3541,1.6674,0.0963,1.6381,0.8075,-0.8097
+Robustness,Second half (1994-12+) | 4F (no quality),SMB,-0.1591,5.3831,0.2769,-0.5745,0.566,-0.5629,0.0599,-0.9717
+Robustness,Second half (1994-12+) | 4F (no quality),HML,-0.0952,4.2588,0.219,-0.4345,0.6642,-0.4293,0.1524,-1.814
+Robustness,Second half (1994-12+) | 4F (no quality),UMD,0.705,10.7826,0.5546,1.2711,0.2045,1.2404,0.4043,0.6067
+Robustness,Second half (1994-12+) | 4F (no quality),avg_R2,0.2608,,,,,,,
+Robustness,Second half (1994-12+) | 4F (no quality),adj_R2,0.1936,,,,,,,
+Robustness,Second half (1994-12+) | 4F (no quality),T,378.0,,,,,,,
+Robustness,Second half (1994-12+) | BAB (Part III),const,0.411,6.8884,0.3543,1.1601,0.2467,1.1285,,
+Robustness,Second half (1994-12+) | BAB (Part III),RMRF,0.5431,8.1201,0.4177,1.3004,0.1943,1.2755,0.8075,-0.7601
+Robustness,Second half (1994-12+) | BAB (Part III),SMB,-0.1419,5.8361,0.3002,-0.4728,0.6366,-0.4635,0.0599,-0.7963
+Robustness,Second half (1994-12+) | BAB (Part III),HML,-0.0716,4.492,0.231,-0.3099,0.7568,-0.306,0.1524,-1.4451
+Robustness,Second half (1994-12+) | BAB (Part III),UMD,0.6827,10.2108,0.5252,1.3,0.1944,1.2722,0.4043,0.6022
+Robustness,Second half (1994-12+) | BAB (Part III),BAB,-0.0042,7.7828,0.4003,-0.0104,0.9917,-0.0102,0.6332,-1.8253
+Robustness,Second half (1994-12+) | BAB (Part III),avg_R2,0.2917,,,,,,,
+Robustness,Second half (1994-12+) | BAB (Part III),adj_R2,0.2094,,,,,,,
+Robustness,Second half (1994-12+) | BAB (Part III),T,378.0,,,,,,,
+Robustness,Second half (1994-12+) | QMJ,const,0.5194,6.1487,0.3163,1.6423,0.1014,1.5868,,
+Robustness,Second half (1994-12+) | QMJ,RMRF,0.4669,7.3344,0.3772,1.2377,0.2166,1.2111,0.8075,-1.1427
+Robustness,Second half (1994-12+) | QMJ,SMB,-0.2659,4.6997,0.2417,-1.1002,0.272,-1.079,0.0599,-1.8061
+Robustness,Second half (1994-12+) | QMJ,HML,-0.0776,4.2681,0.2195,-0.3536,0.7238,-0.3488,0.1524,-1.676
+Robustness,Second half (1994-12+) | QMJ,UMD,0.5832,9.9404,0.5113,1.1406,0.2548,1.1109,0.4043,0.4005
+Robustness,Second half (1994-12+) | QMJ,QMJ,-0.3106,5.2633,0.2707,-1.1472,0.252,-1.1193,0.3311,-2.8146
+Robustness,Second half (1994-12+) | QMJ,avg_R2,0.3232,,,,,,,
+Robustness,Second half (1994-12+) | QMJ,adj_R2,0.2445,,,,,,,
+Robustness,Second half (1994-12+) | QMJ,T,378.0,,,,,,,
+Robustness,Second half (1994-12+) | RMW,const,0.3838,5.6976,0.2931,1.3098,0.1911,1.2726,,
+Robustness,Second half (1994-12+) | RMW,RMRF,0.5712,7.1759,0.3691,1.5476,0.1226,1.5205,0.8075,-0.8214
+Robustness,Second half (1994-12+) | RMW,SMB,-0.1537,5.5922,0.2876,-0.5345,0.5933,-0.524,0.0599,-0.896
+Robustness,Second half (1994-12+) | RMW,HML,-0.0818,4.4513,0.2289,-0.3574,0.721,-0.3528,0.1524,-1.5423
+Robustness,Second half (1994-12+) | RMW,UMD,0.6808,9.6984,0.4988,1.3648,0.1731,1.3354,0.4043,0.6397
+Robustness,Second half (1994-12+) | RMW,RMW,-0.0677,4.8093,0.2474,-0.2736,0.7845,-0.2684,0.295,-1.7955
+Robustness,Second half (1994-12+) | RMW,avg_R2,0.2942,,,,,,,
+Robustness,Second half (1994-12+) | RMW,adj_R2,0.2121,,,,,,,
+Robustness,Second half (1994-12+) | RMW,T,378.0,,,,,,,
+Robustness,Second half (1994-12+) | QMJ+RMW,const,0.4238,5.8824,0.3026,1.4008,0.1621,1.3302,,
+Robustness,Second half (1994-12+) | QMJ+RMW,RMRF,0.5681,7.1846,0.3695,1.5373,0.1251,1.4888,0.8075,-0.8306
+Robustness,Second half (1994-12+) | QMJ+RMW,SMB,-0.3751,4.7649,0.2451,-1.5306,0.1267,-1.4853,0.0599,-2.3531
+Robustness,Second half (1994-12+) | QMJ+RMW,HML,-0.1873,4.5041,0.2317,-0.8085,0.4193,-0.7893,0.1524,-2.1786
+Robustness,Second half (1994-12+) | QMJ+RMW,UMD,0.73,9.9272,0.5106,1.4298,0.1536,1.3739,0.4043,0.7307
+Robustness,Second half (1994-12+) | QMJ+RMW,QMJ,-0.3096,5.2591,0.2705,-1.1447,0.2531,-1.1029,0.3311,-2.8136
+Robustness,Second half (1994-12+) | QMJ+RMW,RMW,-0.0537,4.7448,0.244,-0.2202,0.8258,-0.2127,0.295,-1.7621
+Robustness,Second half (1994-12+) | QMJ+RMW,avg_R2,0.3595,,,,,,,
+Robustness,Second half (1994-12+) | QMJ+RMW,adj_R2,0.268,,,,,,,
+Robustness,Second half (1994-12+) | QMJ+RMW,T,378.0,,,,,,,
+Robustness,Second half (1994-12+) | Joint,const,0.6434,8.3397,0.4289,1.4999,0.1345,1.4175,,
+Robustness,Second half (1994-12+) | Joint,RMRF,0.3537,9.0039,0.4631,0.7637,0.4455,0.7315,0.8075,-1.131
+Robustness,Second half (1994-12+) | Joint,SMB,-0.3453,4.8731,0.2506,-1.3778,0.1691,-1.3317,0.0599,-2.1084
+Robustness,Second half (1994-12+) | Joint,HML,-0.1289,4.5203,0.2325,-0.5544,0.5796,-0.5399,0.1524,-1.7898
+Robustness,Second half (1994-12+) | Joint,UMD,0.7264,9.9093,0.5097,1.4252,0.1549,1.3644,0.4043,0.7243
+Robustness,Second half (1994-12+) | Joint,BAB,-0.3063,9.0657,0.4663,-0.6568,0.5117,-0.6267,0.6332,-2.2198
+Robustness,Second half (1994-12+) | Joint,QMJ,-0.2773,5.0501,0.2598,-1.0675,0.2864,-1.0263,0.3311,-2.8317
+Robustness,Second half (1994-12+) | Joint,RMW,-0.0171,4.5593,0.2345,-0.0728,0.942,-0.0702,0.295,-1.6776
+Robustness,Second half (1994-12+) | Joint,avg_R2,0.3946,,,,,,,
+Robustness,Second half (1994-12+) | Joint,adj_R2,0.2913,,,,,,,
+Robustness,Second half (1994-12+) | Joint,T,378.0,,,,,,,
