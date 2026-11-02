@@ -1,0 +1,51 @@
+% Problem Set 7 -- Part I. Converted verbatim from part I &V/PS7_PartI&V.docx.
+
+\section{Part I: Conceptual}
+
+\subsection*{Question 1}
+Quality refers to firms with strong profitability, sustainable growth, and financial stability. These characteristics should affect stock valuations because they influence future cash flows and risk. Higher quality does not necessarily mean higher expected returns, since investors may already pay a premium for these firms, and safer firms may have lower required returns. It is surprising that high-quality stocks can earn higher risk-adjusted returns, potentially reflecting mispricing or risks not captured by traditional models.
+
+\subsection*{Question 2}
+Quality is commonly measured through profitability (gross or operating profits), growth (improvements in profitability), and safety (low leverage, stable earnings, and low default risk). There is no single obvious measure because quality is multidimensional, and each indicator captures only one aspect. A composite measure such as QMJ provides a broader assessment, but its choice of variables and weights introduces subjectivity.
+
+\subsection*{Question 3}
+
+\paragraph{Comparison of quality measures.}
+Novy-Marx measures gross profitability (gross profits/assets), while Fama--French's RMW uses operating profitability relative to book equity, accounting for additional expenses. Both focus on profitability, whereas QMJ combines profitability, growth, and safety to capture broader firm quality. BAB differs by focusing on market beta and leverage constraints rather than fundamental quality.
+
+\paragraph{Which measure is more reasonable?}
+I find gross profitability appealing because it is simple and transparent. RMW captures more expenses but is sensitive to book equity. QMJ provides a broader measure but introduces more complexity and discretion. BAB is less convincing as a quality measure because low beta does not necessarily imply strong fundamentals.
+
+\paragraph{Why might these measures predict returns?}
+Gross profitability and RMW may predict returns because profitability helps forecast future earnings, which investors may underestimate. QMJ may outperform if investors underprice sustainable quality. BAB earns a premium because leverage-constrained investors favor high-beta stocks, flattening the security market line.
+
+\paragraph{Are these explanations consistent with market efficiency?}
+Risk compensation is consistent with market efficiency, while persistent mispricing challenges it. BAB can arise in a rational market with leverage constraints. Therefore, these return patterns do not necessarily imply market inefficiency.
+
+\subsection*{AI integration: auditing the LLM on quality definitions}
+
+\paragraph{Our one-sentence characterizations.}
+\begin{tight}
+  \item \textbf{Novy-Marx.} Quality is measured by gross profitability (revenue minus cost of goods sold, divided by total assets), capturing how efficiently a firm generates profits from its assets.
+  \item \textbf{Frazzini and Pedersen.} BAB measures defensiveness through market beta rather than fundamental quality, exploiting leverage constraints by taking leveraged long positions in low-beta assets and short positions in high-beta assets.
+  \item \textbf{Asness, Frazzini, and Pedersen.} QMJ defines quality through profitability, growth, and safety, combining these dimensions to construct a strategy that buys high-quality firms and shorts low-quality firms.
+  \item \textbf{Fama and French.} RMW captures quality through operating profitability, constructing a factor that goes long firms with robust operating profitability and short firms with weak operating profitability.
+\end{tight}
+
+\paragraph{(i)}
+The answer contains several errors. QMJ's growth component is the prior five-year growth in each profitability measure, not generic earnings growth. Its safety component goes beyond financial safety, including market beta, leverage, and bankruptcy risk, so QMJ's overlap with BAB is partly built in rather than purely empirical. BAB's construction is incomplete: it shorts de-levered high-beta stocks, which makes it beta-neutral, and calling it a measure of ``market risk'' is wrong. The intro contradicts itself by calling all four measures aspects of quality and later saying BAB isn't one. The Novy-Marx explanation overstates mispricing, since he stays agnostic on risk versus mispricing.
+
+\paragraph{(ii)}
+Partially. The table separates how each measure proxies quality from why it should earn a premium, but the economic side is asserted rather than argued. The answer never poses the core question of risk compensation versus mispricing or limits-to-arbitrage. Instead, it assigns each measure one story without considering alternatives. It presents Novy-Marx as mispricing, though he leaves the question open. It treats RMW's dividend-discount logic as an explanation, when that logic is agnostic about why expected returns are high. It states QMJ's mispricing reading without the risk alternative the authors test. It calls BAB ``overpricing,'' when it's a leverage-constraint story. The closing paragraph then merges the two questions in a single sentence.
+
+\paragraph{(iii)}
+Does the LLM assert a ``best''? Not explicitly, but it implies QMJ is superior because it's ``more comprehensive.'' That's echoed consensus, not a defended claim. It names no criterion, and breadth isn't one: more inputs mean more discretion and more overlap with other factors.
+
+\paragraph{Our ranking.}
+\begin{enumerate}\setlength{\itemsep}{1pt}
+  \item Novy-Marx gross profitability
+  \item Fama--French RMW
+  \item QMJ
+  \item BAB
+\end{enumerate}
+Gross profitability ranks first because it's a single, pre-specified variable. It's least affected by accounting choices, and scaling by assets keeps leverage out of it. RMW uses a more complete earnings measure, but scaling by book equity makes it noisier and sensitive to leverage. QMJ is the broadest definition of quality but the least clean measure: it has many discretionary inputs, and its safety leg includes beta, so it partly duplicates BAB. BAB's quality measure is deficient, and its premium is contested once conventional construction and trading costs are applied.

@@ -1,0 +1,12 @@
+% Problem Set 7 -- Part V. Converted verbatim from part I &V/PS7_PartI&V.docx.
+
+\section{Part V: Concluding}
+
+\subsection*{Question 1}
+I propose a time-series state-dependence test of whether BAB, QMJ, and RMW reflect different economic mechanisms. Using monthly returns, I would regress each factor's next-month return on lagged state variables (a funding-liquidity measure such as the TED spread, VIX, and the Baker--Wurgler sentiment index), controlling for RMRF, SMB, HML, and UMD, with Newey--West standard errors. To separate prediction from contemporaneous effects, I would also regress same-month factor returns on changes in funding conditions. Frazzini and Pedersen's leverage-constraint theory implies BAB should lose when funding tightens contemporaneously, while tighter constraints should raise its expected subsequent returns. QMJ may instead gain through flight to quality, as the lecture shows, and RMW serves as a benchmark for profitability-based quality. Distinct coefficient patterns would support different mechanisms, while similar patterns would suggest a common channel. State dependence cannot distinguish risk compensation from mispricing or establish causality, but it shows which factors respond to financing frictions or sentiment.
+
+\subsection*{Question 2}
+\paragraph{Comment.}
+MRF is interesting because it measures a firm's ability to maintain profitability during cost shocks rather than its current profitability level. However, I am not convinced it captures a new dimension of quality. Because changes in gross margin depend partly on the COGS-to-revenue ratio, the signal may overlap with gross profitability and RMW, and it resembles QMJ's safety dimension. Measurement is also a concern: industry PPIs may not reflect firms' actual input costs, and 20 quarters of data could produce noisy coefficients, so I would test whether the estimates are stable over time.
+
+The return prediction is not convincing as stated. The proposal offers both a mispricing story (positive premium) and a risk story (negative premium) without committing to a sign, so it cannot be falsified. The risk story would also make MRF an inflation beta rather than a quality factor. I would pre-specify the sign and test alpha against FF5, momentum, QMJ and BAB.
