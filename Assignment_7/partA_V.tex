@@ -1,4 +1,4 @@
-% Problem Set 7 -- Part V. Converted verbatim from part I &V/PS7_PartI&V.docx.
+% Problem Set 7 -- Part V. From part I &V/PartI&V revised.docx; MRF proposal reformatted as bullets.
 
 \section{Part V: Concluding}
 
@@ -6,6 +6,18 @@
 I propose a time-series state-dependence test of whether BAB, QMJ, and RMW reflect different economic mechanisms. Using monthly returns, I would regress each factor's next-month return on lagged state variables (a funding-liquidity measure such as the TED spread, VIX, and the Baker--Wurgler sentiment index), controlling for RMRF, SMB, HML, and UMD, with Newey--West standard errors. To separate prediction from contemporaneous effects, I would also regress same-month factor returns on changes in funding conditions. Frazzini and Pedersen's leverage-constraint theory implies BAB should lose when funding tightens contemporaneously, while tighter constraints should raise its expected subsequent returns. QMJ may instead gain through flight to quality, as the lecture shows, and RMW serves as a benchmark for profitability-based quality. Distinct coefficient patterns would support different mechanisms, while similar patterns would suggest a common channel. State dependence cannot distinguish risk compensation from mispricing or establish causality, but it shows which factors respond to financing frictions or sentiment.
 
 \subsection*{Question 2}
+\paragraph{The LLM's proposal: Margin Resilience Minus Fragility (MRF).}
+\begin{tight}
+  \item \textbf{Concept.} MRF measures a firm's ability to maintain profitability when input costs rise. Gross profitability and RMW measure profitability levels; MRF targets profitability resilience, since two equally profitable firms may differ in pricing power, supplier flexibility and cost management. The LLM positioned it against QMJ (``profitability, growth, safety, and payout'') and BAB (leverage constraints and market beta) as a measure of operational resilience.
+  \item \textbf{Measurement.} Compute quarterly gross margin, $\mathrm{GM}=(\mathrm{Revenue}-\mathrm{COGS})/\mathrm{Revenue}$, from Compustat. Over a rolling 20-quarter window, estimate
+  \[
+  \Delta\mathrm{GM}_{i,t} = \alpha_i + \beta_i\,\Delta P_{j,t} + \gamma_i\, g_{i,t} + \varepsilon_{i,t},
+  \]
+  where $\Delta P_{j,t}$ is input-price growth for industry $j$ (BLS producer price indices) and $g_{i,t}$ is revenue growth, controlling for demand. A higher $\beta_i$ indicates resilience; a strongly negative $\beta_i$ indicates fragility.
+  \item \textbf{Portfolio sort.} Each quarter, rank firms on $\hat\beta_i$ within industries using only public information. Buy the top 20\% (most resilient) and short the bottom 20\% (most fragile), value-weighted, industry-neutral and rebalanced quarterly: $\text{MRF}=R_{\text{resilient}}-R_{\text{fragile}}$.
+  \item \textbf{Return prediction.} Under a mispricing story, investors undervalue resilient firms' ability to sustain earnings during cost shocks, so MRF earns a positive premium. Under a risk story, fragile firms carry more exposure to inflation or supply shocks and earn higher expected returns as compensation, so the premium is negative. The LLM suggested testing MRF's alpha against the Fama--French factors, momentum, QMJ and BAB, and its performance during inflation shocks.
+\end{tight}
+
 \paragraph{Comment.}
 MRF is interesting because it measures a firm's ability to maintain profitability during cost shocks rather than its current profitability level. However, I am not convinced it captures a new dimension of quality. Because changes in gross margin depend partly on the COGS-to-revenue ratio, the signal may overlap with gross profitability and RMW, and it resembles QMJ's safety dimension. Measurement is also a concern: industry PPIs may not reflect firms' actual input costs, and 20 quarters of data could produce noisy coefficients, so I would test whether the estimates are stable over time.
 
