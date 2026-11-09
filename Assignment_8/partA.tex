@@ -1,0 +1,202 @@
+% Problem Set 8 -- Part 1: questions (a), (b), (c). Numbers from ps8_partA.py.
+
+\section{Part 1: Seasonality in Returns}
+
+All regressions use the 75 portfolios sorted on size and past 1-month, 2--12-month and
+13--60-month returns. The left-hand side is the portfolio return in excess of the T-bill, in
+\% per month. The sample is 1931:02--2026:06 ($T=1{,}145$), the months in which all three
+sorts exist. Four portfolios have a few months coded $-99.99$, which we drop, so their $T$ is
+slightly smaller (at least 1{,}127).
+
+\subsection*{Question (a): the January seasonal}
+
+We run $r^e_{i,t} = c_i + J_i\,\mathrm{Jan}_t + \varepsilon_{i,t}$ for each portfolio. The
+intercept $c_i$ is the mean excess return from February to December, and $J_i$ is the extra
+January return. Table~\ref{tab:jan} reports $J_i$ for all 75 portfolios.
+
+\begin{table}[H]
+\centering\small
+\caption{January premium $J_i$ (\% per month) from $r^e_{i,t}=c_i+J_i\,\mathrm{Jan}_t+\varepsilon_{i,t}$, OLS $t$-statistics in parentheses. Rows are size quintiles, columns are past-return quintiles (Low = past losers, High = past winners). 1931:02--2026:06.}
+\label{tab:jan}
+\begin{tabular}{lccccc}
+\toprule
+Size & Low & 2 & 3 & 4 & High \\
+\midrule
+\multicolumn{6}{l}{\textit{Panel A: sorted on past 1-month return}} \\
+Small & 7.32 (6.5) & 4.74 (4.8) & 4.15 (4.3) & 3.72 (4.1) & 3.49 (3.7) \\
+2 & 3.92 (4.0) & 3.05 (3.7) & 2.33 (3.0) & 2.14 (2.6) & 1.32 (1.6) \\
+3 & 3.02 (3.4) & 2.35 (3.1) & 1.78 (2.5) & 1.44 (2.1) & 0.39 (0.5) \\
+4 & 2.15 (2.6) & 1.69 (2.4) & 1.21 (1.9) & 0.40 (0.6) & $-$0.10 ($-$0.1) \\
+Big & 1.16 (1.6) & 0.54 (0.9) & 0.15 (0.3) & $-$0.11 ($-$0.2) & $-$0.52 ($-$0.8) \\
+\midrule
+\multicolumn{6}{l}{\textit{Panel B: sorted on past 2--12-month return}} \\
+Small & 7.45 (6.7) & 5.14 (5.3) & 4.32 (4.8) & 3.56 (3.8) & 3.57 (3.9) \\
+2 & 4.07 (3.9) & 3.10 (3.6) & 2.38 (3.1) & 1.68 (2.2) & 1.66 (2.0) \\
+3 & 2.95 (3.0) & 2.10 (2.6) & 1.68 (2.3) & 1.15 (1.7) & 0.91 (1.3) \\
+4 & 2.23 (2.2) & 1.45 (1.9) & 0.95 (1.4) & 0.39 (0.6) & 0.34 (0.5) \\
+Big & 1.69 (1.9) & 0.82 (1.2) & 0.13 (0.2) & $-$0.32 ($-$0.6) & $-$0.55 ($-$0.9) \\
+\midrule
+\multicolumn{6}{l}{\textit{Panel C: sorted on past 13--60-month return}} \\
+Small & 7.42 (6.9) & 4.73 (5.1) & 3.45 (4.0) & 4.24 (4.6) & 3.70 (3.7) \\
+2 & 4.56 (4.6) & 2.90 (3.4) & 2.08 (2.7) & 1.71 (2.1) & 1.61 (1.9) \\
+3 & 3.82 (4.1) & 2.17 (2.8) & 1.73 (2.4) & 1.23 (1.8) & 0.99 (1.3) \\
+4 & 2.67 (3.0) & 1.29 (1.7) & 1.20 (1.7) & 0.77 (1.1) & 0.28 (0.4) \\
+Big & 2.06 (3.1) & 0.72 (1.2) & 0.31 (0.5) & $-$0.15 ($-$0.3) & $-$0.34 ($-$0.6) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{tight}
+  \item \textbf{Is there a strong January seasonal different from other months?} Yes, January
+  is by far the strongest month for most of these portfolios. The January premium is positive
+  and significant ($t>2$) in 43 of the 75 portfolios, and across all 75 it averages 2.1\% on
+  top of a February--December mean of about 0.8\%. In other words, an average portfolio earns
+  almost four times its normal monthly return in January.
+
+  \item \textbf{For which portfolios is this largest or smallest?} The effect is largest for
+  small past losers and disappears for large past winners. In every panel the January premium
+  generally falls as we move from small to big stocks and from losers to winners, so the small--loser
+  corner earns more than 7\% extra in January with $t$-statistics near 7. The big--winner
+  corner has a small negative premium that is not significant. The pattern looks the same
+  whether ``losers'' are defined over 1, 12 or 60 months, so the January effect is a
+  small-stock and past-loser effect at every horizon.
+
+  \item \textbf{Why might this be?} The most common explanation is tax-loss selling. Investors
+  sell stocks with capital losses in December to cut their tax bill, which pushes down prices
+  of past losers, and then buy back in January when the selling pressure ends. Small stocks are
+  hit hardest because they are illiquid, held mostly by taxable individuals, and expensive to
+  arbitrage. Window dressing adds to this: fund managers dump embarrassing losers before
+  year-end reports and buy riskier small stocks again in January. The intercepts also show that
+  past 12-month losers earn only 0.1--0.3\% per month from February to December against
+  1.0--1.3\% for winners, so momentum is a February--December phenomenon that reverses in
+  January. All of
+  these stories point to year-end trading pressure, not a change in risk, as the source of the
+  January return.
+\end{tight}
+
+\subsection*{Question (b): adding December}
+
+We add a December dummy,
+$r^e_{i,t} = c_i + J_i\,\mathrm{Jan}_t + D_i\,\mathrm{Dec}_t + \varepsilon_{i,t}$, so $c_i$ is
+now the February--November mean. Table~\ref{tab:dec} reports $D_i$ for all 75 portfolios, and
+Table~\ref{tab:corners} compares the three means in the four corner portfolios.
+
+\begin{table}[H]
+\centering\small
+\caption{December premium $D_i$ (\% per month) from $r^e_{i,t}=c_i+J_i\,\mathrm{Jan}_t+D_i\,\mathrm{Dec}_t+\varepsilon_{i,t}$, OLS $t$-statistics in parentheses. Layout as in Table~\ref{tab:jan}.}
+\label{tab:dec}
+\begin{tabular}{lccccc}
+\toprule
+Size & Low & 2 & 3 & 4 & High \\
+\midrule
+\multicolumn{6}{l}{\textit{Panel A: sorted on past 1-month return}} \\
+Small & $-$0.12 ($-$0.1) & 0.10 (0.1) & $-$0.06 ($-$0.1) & $-$0.01 (0.0) & 0.29 (0.3) \\
+2 & 0.68 (0.7) & 0.76 (0.9) & 0.74 (0.9) & 0.99 (1.2) & 1.11 (1.3) \\
+3 & 1.02 (1.1) & 0.69 (0.9) & 1.12 (1.6) & 1.02 (1.5) & 1.03 (1.3) \\
+4 & 0.94 (1.1) & 0.80 (1.2) & 1.16 (1.8) & 0.94 (1.4) & 1.17 (1.6) \\
+Big & 0.43 (0.6) & 0.52 (0.9) & 0.67 (1.2) & 0.78 (1.4) & 0.60 (0.9) \\
+\midrule
+\multicolumn{6}{l}{\textit{Panel B: sorted on past 2--12-month return}} \\
+Small & $-$0.65 ($-$0.6) & $-$0.32 ($-$0.3) & $-$0.24 ($-$0.3) & 0.30 (0.3) & 1.00 (1.1) \\
+2 & 0.16 (0.2) & 0.35 (0.4) & 0.79 (1.0) & 1.39 (1.8) & 1.46 (1.8) \\
+3 & 0.62 (0.6) & 0.66 (0.8) & 0.68 (0.9) & 1.27 (1.9) & 1.48 (2.0) \\
+4 & 0.34 (0.3) & 0.61 (0.8) & 0.79 (1.2) & 1.13 (1.8) & 1.60 (2.4) \\
+Big & $-$0.60 ($-$0.7) & $-$0.01 (0.0) & 0.52 (0.9) & 0.90 (1.6) & 1.19 (2.0) \\
+\midrule
+\multicolumn{6}{l}{\textit{Panel C: sorted on past 13--60-month return}} \\
+Small & $-$0.31 ($-$0.3) & 0.07 (0.1) & 0.22 (0.2) & $-$0.10 ($-$0.1) & 0.07 (0.1) \\
+2 & 0.58 (0.6) & 0.91 (1.1) & 0.94 (1.2) & 0.75 (0.9) & 0.51 (0.6) \\
+3 & 1.00 (1.1) & 0.92 (1.2) & 1.10 (1.5) & 0.71 (1.0) & 0.74 (1.0) \\
+4 & 0.66 (0.7) & 0.80 (1.1) & 0.98 (1.4) & 1.03 (1.5) & 0.87 (1.2) \\
+Big & 0.65 (1.0) & 0.68 (1.1) & 0.54 (0.9) & 0.67 (1.1) & 0.39 (0.6) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{Corner portfolios from the January--December regression. $c$ is the February--November mean, $J$ and $D$ are the extra January and December returns (\% per month, $t$ in parentheses), and the last column is the $t$-statistic of $J-D$.}
+\label{tab:corners}
+\begin{tabular}{llcccc}
+\toprule
+Sort & Portfolio & Feb--Nov $c$ & January $J$ & December $D$ & $t(J-D)$ \\
+\midrule
+1-month & Small, low & 1.42 & 7.31 (6.5) & $-$0.12 ($-$0.1) & 4.9 \\
+ & Small, high & $-$0.23 & 3.51 (3.7) & 0.29 (0.3) & 2.5 \\
+ & Big, low & 0.70 & 1.20 (1.6) & 0.43 (0.6) & 0.8 \\
+ & Big, high & 0.47 & $-$0.46 ($-$0.7) & 0.60 (0.9) & $-$1.2 \\
+\addlinespace
+2--12-month & Small, low & 0.12 & 7.39 (6.6) & $-$0.65 ($-$0.6) & 5.3 \\
+ & Small, high & 1.15 & 3.66 (4.0) & 1.00 (1.1) & 2.2 \\
+ & Big, low & 0.36 & 1.64 (1.8) & $-$0.60 ($-$0.7) & 1.8 \\
+ & Big, high & 0.89 & $-$0.44 ($-$0.7) & 1.19 (2.0) & $-$2.0 \\
+\addlinespace
+13--60-month & Small, low & 0.85 & 7.39 (6.8) & $-$0.31 ($-$0.3) & 5.3 \\
+ & Small, high & 0.50 & 3.70 (3.7) & 0.07 (0.1) & 2.7 \\
+ & Big, low & 0.57 & 2.12 (3.2) & 0.65 (1.0) & 1.6 \\
+ & Big, high & 0.63 & $-$0.31 ($-$0.5) & 0.39 (0.6) & $-$0.8 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{tight}
+  \item \textbf{Is there a strong December and January seasonal, and are they different from
+  each other?} Yes for January, but December is only a modest seasonal, and the two are
+  clearly different for small stocks. Adding the December dummy barely changes the January
+  premia. December premia are mostly positive, averaging 0.6\% across the 75 portfolios, but
+  only 2 of 75 have $t>2$ with OLS standard errors. December is a calmer month than the rest of
+  the year, so with White standard errors 12 portfolios reach $t>2$, 8 of them 12-month winners.
+  December is therefore a real but modest seasonal, about 1--1.6\% in a few portfolios. January exceeds December significantly in 21 portfolios, all but one of them in
+  the two smallest size quintiles, while for big stocks the two months cannot be told apart.
+
+  \item \textbf{For which portfolios are these seasonalities largest or smallest?} The two
+  seasonals run in opposite directions across portfolios. The January effect is largest for
+  small losers, while December is weakest there: small stocks earn nothing significant extra in December,
+  and small 12-month losers are even slightly negative. December is largest for mid-to-large
+  12-month winners, where it is about 1--1.6\% and significant with White standard errors, and these are
+  exactly the portfolios with no significant January effect. So small losers do badly into year-end and then rebound,
+  while large winners do well into year-end and, if anything, give a little back in January.
+
+  \item \textbf{Can you conjecture why these differences exist?} The mirror-image pattern is
+  what year-end selling pressure would produce. In December, tax-loss sellers and window
+  dressers sell losers and hold or buy winners, so losers lag and winners gain. In January the
+  pressure lifts, and the losers bounce back while winners are sold to realize gains in the new
+  tax year. The effect concentrates in small stocks because their prices move most for a given
+  amount of selling. The December premium in mid and large stocks may also reflect the
+  pre-holiday effect and year-end inflows into the broad market, which would explain why mid
+  and large stocks earn a little extra in December across most past-return groups.
+\end{tight}
+
+\subsection*{Question (c): market efficiency}
+
+\begin{tight}
+  \item \textbf{Are these findings evidence for or against market efficiency?} At face value
+  they are evidence against it, but weaker evidence than the $t$-statistics suggest. A return
+  pattern tied to the calendar is known in advance, so in an efficient market investors should
+  buy small losers in late December and trade the January premium away. Its strength over 95 years, at
+  $t$-statistics near 7, is hard to explain with risk. Still, several caveats
+  below mean the findings do not cleanly reject efficiency.
+
+  \item \textbf{How would you try to reconcile them with the efficient markets hypothesis?}
+  There are three ways. First, statistics: we looked at 75 portfolios and could have tested
+  any of 12 months, so some large $t$-statistics are expected by chance. The effect has also
+  weakened sharply since it was published in the late 1970s and early 1980s: the January
+  premium is significant in 46 of 75 portfolios before 1983 but in only 6 after, which is what
+  we would expect if investors learned about it and traded it away. Second, transaction costs: small losers
+  have wide bid--ask spreads and low prices, so the premium may not survive realistic trading
+  costs and short-sale limits. Third, the model: we assumed expected returns are constant across
+  months, and EMH only says prices reflect information given the right model of risk. If small
+  stocks carry more risk in January, or if taxes make the after-tax return equal across months,
+  then a higher pre-tax January return is just compensation. This is the joint-hypothesis
+  problem: we are always testing efficiency and the risk model together.
+
+  \item \textbf{How are the findings perhaps a violation of efficient markets?} The risk story
+  is hard to defend, because nothing about a firm's risk changes on January 1. The tax story
+  only explains why some investors sell, not why arbitrageurs without tax motives fail to buy.
+  The effect is also very large relative to normal returns and has been documented in many
+  countries, including ones with different tax years (Gultekin and Gultekin, 1983), which makes pure data mining less
+  likely. If the premium survives after costs, it is a violation at least of the weak form,
+  since the signal uses only past prices and the calendar. Either way, it shows that limits to
+  arbitrage let predictable patterns persist in the parts of the market that are hardest to
+  trade.
+\end{tight}
