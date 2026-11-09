@@ -1,0 +1,270 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array,tabularx}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\emergencystretch}{2em}
+\newcommand{\ex}{\mathrm{e}}
+\begin{document}
+\begin{center}
+    {\Large\bfseries Problem Set 8}\\[4pt]
+    Questions (d) and (e)
+\end{center}
+
+\section*{Question (d)}
+
+Each month, run the cross-sectional regression across the 75 portfolios:
+\begin{equation}
+ r_{i,t}-r_{f,t}=a_t+b_{1,t}X_{1,i,t}+b_{2,t}X_{2,i,t}
+                    +b_{3,t}X_{3,i,t}+\varepsilon_{i,t},
+ \label{eq:fmb}
+\end{equation}
+where returns are in decimal units and
+\begin{equation}
+\begin{aligned}
+ X_{1,i,t}&=r_{i,t-1},\\
+ X_{2,i,t}&=\prod\nolimits_{j=2}^{12}(1+r_{i,t-j})-1,\\
+ X_{3,i,t}&=\prod\nolimits_{j=13}^{60}(1+r_{i,t-j})-1.
+\end{aligned}
+\label{eq:predictors}
+\end{equation}
+The second and third predictors compound 11 and 48 monthly returns, respectively.
+Missing-value codes $-999$ and $-99.99$ are excluded before constructing the
+predictors. Retaining months with complete observations for all 75 portfolios
+gives 1,000 monthly regressions, from March 1943 through June 2026.
+For each coefficient, report its time-series mean and conventional
+Fama--MacBeth $t$-statistic:
+\begin{equation}
+ \bar b_j=\frac{1}{T}\sum_{t=1}^{T}b_{j,t},\qquad
+ t(\bar b_j)=\frac{\bar b_j}{s(b_{j,t})/\sqrt{T}},\qquad T=1{,}000,
+ \label{eq:fmb-stat}
+\end{equation}
+where $s$ is the sample standard deviation; the same calculation applies to the intercept.
+
+\begin{table}[htbp]
+\centering
+\caption{Time-series averages of monthly cross-sectional coefficients}
+\label{tab:fmb}
+\begin{tabular}{lrr}
+\toprule
+Variable & Average coefficient & Fama--MacBeth $t$-statistic\\
+\midrule
+Intercept & 0.003070 & 2.0858\\
+Past one-month return & 0.053647 & 4.8898\\
+Past return, $t-12$ to $t-2$ & 0.018197 & 6.4683\\
+Past return, $t-60$ to $t-13$ & 0.002779 & 3.6992\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The Fama--MacBeth coefficients are positive and statistically significant at all
+three horizons. The past one-month coefficient is 0.05365 ($t=4.89$), indicating
+short-term continuation rather than reversal. The past 12-month coefficient,
+skipping the latest month, is 0.01820 ($t=6.47$), supporting intermediate-term
+momentum. The past 60-month coefficient, skipping the latest year, is 0.002779
+($t=3.70$), indicating long-term continuation rather than reversal. Holding other
+predictors constant, a 10-percentage-point increase in these measures predicts
+approximately 53.6, 18.2, and 2.8 basis points higher monthly excess returns,
+respectively. The intercept is significant at 5\% ($t=2.09$).
+
+Overall, past winners tend to outperform past losers. Investor underreaction and
+gradual information diffusion could explain this persistence; the negative
+coefficients expected from overreaction followed by reversal are absent.
+
+These results potentially challenge weak-form efficiency because historical
+returns predict future returns. However, predictability does not establish
+exploitable abnormal returns. The regressions subtract the risk-free rate but do
+not control for systematic risk, so the patterns could reflect risk compensation.
+Transaction costs, turnover, and short-selling costs could absorb trading profits.
+Data mining could also exaggerate significance, making risk-adjusted,
+out-of-sample results after costs necessary for a stronger conclusion.
+
+\clearpage
+\section*{Question (e)}
+
+\subsection*{Sample splitting and strategy construction}
+
+Split: 700 training / 300 testing months (July 2001 to June 2026); the first
+120 training months calibrate the model and are excluded from performance.
+The training sample runs from March 1943 through June 2001. Training performance
+therefore covers March 1953 through June 2001 (580 months).
+
+The 75 portfolios comprise the 1-month, 12-month, and 60-month sorting families.
+Within each family, $S1$--$S5$ denote smallest--largest size groups, and
+$P1$--$P5$ denote lowest--highest past-return groups. Use the three lagged-return
+signals in Equation~\eqref{eq:predictors}.
+
+The training walk-forward re-estimates coefficients every 12 months using prior
+data only, whereas the test uses coefficients fixed at the end of training; the
+two are not like-for-like. At each estimation date, retain a Fama--MacBeth slope
+only if its mean is positive and its conventional $t$-statistic exceeds 1.96;
+otherwise set it to zero. The momentum forecast is
+\begin{equation}
+ m_{i,t}=\widehat b_1X_{1,i,t}+\widehat b_2X_{2,i,t}
+                              +\widehat b_3X_{3,i,t}.
+ \label{eq:momentum}
+\end{equation}
+
+Seasonal increments are estimated net of the fitted momentum component.
+For each portfolio, regress training excess returns minus the momentum forecast
+on an intercept, a January dummy, and a December dummy; February--November is
+the baseline. Retain a positive January increment with an HC1 $t$-statistic
+above 1.96 only for $S1P1$ and $S1P2$ across the three families. Retain a positive
+December increment with an HC1 $t$-statistic above 1.96 only for $P4$ and $P5$
+in the 12-month family. Set other increments to zero.
+
+Parameter selection optimizes the walk-forward training Sharpe. The candidate
+seasonal blends are $0.5$, $1.0$, and $2.0$, and the candidate numbers of
+portfolios per leg are 7 and 15. Select the highest net monthly training Sharpe;
+ties favor the lower blend, then fewer portfolios per leg. The selected blend is
+\textbf{2.0}, with \textbf{7 portfolios per leg}.
+
+\subsection*{Frozen rule}
+
+The final training slopes are
+\begin{equation}
+ (\widehat b_1,\widehat b_2,\widehat b_3)
+ =(0.072603246787,\;0.021941645673,\;0.004497895106).
+ \label{eq:frozen-slopes}
+\end{equation}
+Table~\ref{tab:seasonal} reports the nonzero frozen seasonal increments.
+All coefficients are fixed throughout testing.
+
+\begin{table}[htbp]
+\centering
+\caption{Nonzero frozen momentum-adjusted seasonal increments}
+\label{tab:seasonal}
+\begin{tabular}{llrr}
+\toprule
+Sorting family & Portfolio & January & December\\
+\midrule
+1-month  & $S1P1$ & 0.084157 & 0\\
+1-month  & $S1P2$ & 0.056753 & 0\\
+12-month & $S1P1$ & 0.089833 & 0\\
+12-month & $S1P2$ & 0.061516 & 0\\
+60-month & $S1P1$ & 0.084715 & 0\\
+60-month & $S1P2$ & 0.054828 & 0\\
+\midrule
+12-month & $S1P4$ & 0 & 0.017001\\
+12-month & $S1P5$ & 0 & 0.022356\\
+12-month & $S2P4$ & 0 & 0.022110\\
+12-month & $S2P5$ & 0 & 0.025407\\
+12-month & $S3P4$ & 0 & 0.020930\\
+12-month & $S3P5$ & 0 & 0.024924\\
+12-month & $S4P4$ & 0 & 0.019643\\
+12-month & $S4P5$ & 0 & 0.022779\\
+12-month & $S5P4$ & 0 & 0.013961\\
+12-month & $S5P5$ & 0 & 0.019163\\
+\bottomrule
+\end{tabular}
+\par\smallskip
+\begin{minipage}{0.9\textwidth}
+\footnotesize
+Increments are in decimal monthly-return units, displayed to six decimal
+places. All unlisted increments are zero. The strategy uses the unrounded
+training estimates.
+\end{minipage}
+\end{table}
+
+Let $d_{i,t}$ equal the retained January increment in January, the retained
+December increment in December, and zero otherwise. The monthly score is
+\begin{equation}
+ q_{i,t}=z(m_{i,t})+2z(d_{i,t}),\qquad
+ z(v_i)=\frac{v_i-\bar v}{\sqrt{75^{-1}\sum_{j=1}^{75}(v_j-\bar v)^2}}.
+ \label{eq:score}
+\end{equation}
+Set a component to zero if its cross-sectional standard deviation is no greater
+than $10^{-12}$. Long the seven highest scores at $+1/7$ each and short the
+seven lowest scores at $-1/7$ each; other risky weights are zero. Shorts are
+relative hedges. If the score range is no greater than $10^{-12}$, hold cash.
+For ties, use a stable ascending sort in portfolio order: 1-month, 12-month,
+60-month families, then ascending size and past-return rank; the last seven
+are long and the first seven are short.
+
+Rebalance monthly at the prior month-end. Gross risky exposure is 2.0 and net
+risky exposure is zero when invested. The 100\% equity collateral earns the
+risk-free rate, with no additional funding spread. Each evaluation segment starts
+flat; there is no terminal liquidation.
+
+Trading cost is 0.001 per dollar traded, and short borrowing costs 0.005 annually.
+Deduct costs at month-end. With $\widetilde w_{i,t}$ denoting the drifted weight
+before rebalancing,
+\begin{equation}
+\begin{aligned}
+ r^{\ex,\mathrm{gross}}_{s,t}
+    &=\sum_{i=1}^{75}w_{i,t}r_{i,t},\\
+ r^{\ex,\mathrm{net}}_{s,t}
+    &=r^{\ex,\mathrm{gross}}_{s,t}
+      -0.001\sum_{i=1}^{75}|w_{i,t}-\widetilde w_{i,t}|
+      -\frac{0.005}{12}\sum_{i:w_{i,t}<0}(-w_{i,t}),\\
+ r^{\mathrm{net,total}}_{s,t}
+    &=r_{f,t}+r^{\ex,\mathrm{net}}_{s,t}.
+\end{aligned}
+\label{eq:strategy-return}
+\end{equation}
+After each month, the next pretrade risky weight is
+$w_{i,t}(1+r_{i,t})/(1+r^{\mathrm{net,total}}_{s,t})$.
+
+Step 1 screened full-sample information (including the test period), so the test
+period is not an independent discovery test; this rule is version 2, revised
+after earlier test results were viewed.
+
+\clearpage
+\subsection*{Performance}
+
+For each reported excess-return series, compute its arithmetic monthly mean,
+sample standard deviation, and Sharpe ratio:
+\begin{equation}
+ \bar r^{\ex}_s=\frac{1}{N}\sum_t r^{\ex}_{s,t},\qquad
+ s_s=\sqrt{\frac{1}{N-1}\sum_t(r^{\ex}_{s,t}-\bar r^{\ex}_s)^2},\qquad
+ \mathrm{SR}_{m}=\frac{\bar r^{\ex}_s}{s_s},\qquad
+ \mathrm{SR}_{a}=\sqrt{12}\,\mathrm{SR}_{m}.
+ \label{eq:performance}
+\end{equation}
+Annualization uses $\sqrt{12}$ without autocorrelation adjustment.
+
+\begin{table}[htbp]
+\centering
+\caption{Strategy performance using the selected rule}
+\label{tab:performance}
+\small
+\begin{tabular}{llrrrr}
+\toprule
+Sample & Excess returns & Mean (\%) & SD (\%) & Monthly SR & Annualized SR\\
+\midrule
+Training walk-forward & Gross & 1.434 & 3.237 & 0.443 & 1.534\\
+                      & Net   & 1.243 & 3.221 & 0.386 & 1.336\\
+\addlinespace
+Training final-frozen & Gross & 1.474 & 3.271 & 0.450 & 1.560\\
+                      & Net   & 1.272 & 3.260 & 0.390 & 1.352\\
+\addlinespace
+Test frozen           & Gross & 0.382 & 3.837 & 0.100 & 0.345\\
+                      & Net   & 0.120 & 3.835 & 0.031 & 0.108\\
+\bottomrule
+\end{tabular}
+\par\smallskip
+\begin{minipage}{\textwidth}
+\footnotesize
+Means and standard deviations are monthly. Training performance covers
+March 1953--June 2001 ($N=580$); testing covers July 2001--June 2026 ($N=300$).
+Training walk-forward re-estimates every 12 months using prior data only.
+Training final-frozen applies the final training coefficients to those same
+training months and is in-sample, not an unbiased backtest. Test frozen keeps
+the final training coefficients fixed. Net returns subtract trading and
+borrowing costs specified above.
+\end{minipage}
+\end{table}
+
+Net annualized Sharpe: training walk-forward 1.336; final frozen rule over the
+training months 1.352 (in-sample, not an unbiased backtest); test 0.108; test
+performance is positive but weaker (HAC mean $t=0.61$).
+The HAC mean $t$-statistic uses six monthly lags.
+
+\end{document}
