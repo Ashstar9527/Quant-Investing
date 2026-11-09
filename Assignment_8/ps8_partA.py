@@ -77,6 +77,21 @@ def grid(res, col):
     return pd.concat(out, names=["sort", "size"])
 
 
+QE_RETURNS = HERE / "question_f_input_PS8_Qe_monthly_returns.csv"  # output of question_e/part_e.ipynb
+
+
+def part_f(path=QE_RETURNS):
+    """(f) Sharpe CIs for the frozen (e) strategy: training walk-forward and test, gross and net."""
+    m = pd.read_csv(path, index_col=0)
+    rows = []
+    for sample in m["Sample"].unique():
+        for col in ["Gross_Excess", "Net_Excess"]:
+            ci = sharpe_ci(m.loc[m["Sample"] == sample, col])
+            for method, row in ci.iterrows():
+                rows.append({"sample": sample, "returns": col, "method": method, **row.to_dict()})
+    return pd.DataFrame(rows)
+
+
 def sharpe_ci(r, level=0.95, periods_per_year=12):
     """(f) Confidence intervals for the Sharpe ratio of a monthly return series r.
 
@@ -131,3 +146,11 @@ if __name__ == "__main__":
         sub = seasonal_regressions(X.loc[lo:hi])
         print(f"{lo}-{hi}: avg Jan premium {sub.a_Jan.mean():.2f}, t>2 in {(sub.a_t_Jan > 2).sum()}/75, "
               f"small 12m losers {sub.loc['12m S1P1', 'a_Jan']:.2f} (t={sub.loc['12m S1P1', 'a_t_Jan']:.1f})")
+
+    # (f) confidence intervals around the (e) Sharpe ratio
+    if QE_RETURNS.exists():
+        f = part_f()
+        f.to_csv(HERE / "table_partF_sharpe_ci.csv", index=False, float_format="%.4f")
+        print("\n(f) Sharpe ratio 95% CIs (monthly and annualized)")
+        print(f[["sample", "returns", "method", "T", "skew", "kurt", "SR_m", "se_m", "lo_m", "hi_m",
+                 "SR_ann", "lo_ann", "hi_ann"]].round(3).to_string(index=False))

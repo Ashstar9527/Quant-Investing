@@ -1,0 +1,60 @@
+% Problem Set 8 -- Part 1: question (f). Numbers from ps8_partA.py (part_f), using the monthly
+% returns of the frozen strategy from question_e/part_e.ipynb.
+
+\subsection*{Question (f): confidence intervals for the Sharpe ratio}
+
+We use the monthly excess returns of the frozen strategy from (e), both in the walk-forward
+training period (1953:03--2001:06, $T=580$) and in the held-out test period (2001:07--2026:06,
+$T=300$). Let $\widehat{SR}$ be the monthly Sharpe ratio, $\hat\gamma_3$ the skewness and
+$\hat\gamma_4$ the (raw, not excess) kurtosis of the returns. Under i.i.d.\ normal returns
+(Lo, 2002) the Sharpe ratio is approximately normal with
+\[
+  \operatorname{Var}\big(\widehat{SR}\big)\approx\frac{1+\tfrac12\widehat{SR}^{\,2}}{T},
+\]
+and for i.i.d.\ returns with any distribution (Mertens, 2002; Opdyke, 2007) the variance becomes
+\[
+  \operatorname{Var}\big(\widehat{SR}\big)\approx\frac{1-\hat\gamma_3\,\widehat{SR}
+  +\tfrac{\hat\gamma_4-1}{4}\,\widehat{SR}^{\,2}}{T}.
+\]
+The 95\% interval is $\widehat{SR}\pm1.96\,\mathrm{SE}$, computed in monthly units and then
+multiplied by $\sqrt{12}$. Table~\ref{tab:srci} reports both intervals.
+
+\begin{table}[H]
+\centering\small
+\caption{Annualized Sharpe ratios of the strategy from (e) with 95\% confidence intervals. ``Normal'' assumes i.i.d.\ normal returns; ``General'' adjusts for skewness and kurtosis. Net returns subtract the trading and borrowing costs used in (e).}
+\label{tab:srci}
+\begin{tabular}{llccccc}
+\toprule
+Sample & Returns & Skew & Kurtosis & $\widehat{SR}$ (ann.) & Normal 95\% CI & General 95\% CI \\
+\midrule
+Training, 1953--2001 & Gross & $-$0.03 & 11.0 & 1.53 & [1.24, 1.83] & [1.19, 1.88] \\
+($T=580$)            & Net   & $-$0.05 & 11.1 & 1.34 & [1.04, 1.63] & [1.00, 1.67] \\
+\addlinespace
+Test, 2001--2026     & Gross & 0.02 & 5.8 & 0.34 & [$-$0.05, 0.74] & [$-$0.05, 0.74] \\
+($T=300$)            & Net   & 0.04 & 5.8 & 0.11 & [$-$0.28, 0.50] & [$-$0.28, 0.50] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{tight}
+  \item \textbf{The training Sharpe ratio is clearly positive under both distributions.} The net
+  training Sharpe ratio of 1.34 has a 95\% interval of roughly 1.0 to 1.7, so even its lower end
+  is far above zero and above the market's long-run Sharpe ratio of about 0.4--0.5. Taken at face
+  value, this would say the strategy is a very strong one.
+
+  \item \textbf{The general interval is wider, and the gap grows with the Sharpe ratio.} The
+  strategy's returns are nearly symmetric but have fat tails, with kurtosis of about 11 in
+  training against 3 for a normal distribution. Fat tails make the estimated Sharpe ratio
+  noisier, so the general interval is about 15\% wider than the normal one in training. In the
+  test period the adjustment barely matters, because the kurtosis term is multiplied by
+  $\widehat{SR}^{\,2}$, which is close to zero there.
+
+  \item \textbf{The test interval includes zero, so the training interval is too optimistic.} The
+  held-out net Sharpe ratio of 0.11 falls far below the lower end of the training interval and
+  below the market's 0.58 over the same years, and its own interval runs from about $-0.3$ to
+  $0.5$. Both intervals assume the strategy was fixed before we saw the data, but the signals in
+  (e) were chosen using facts from (a), (b) and (d) over the full sample, and the rule was
+  revised once after earlier test results were seen. They also ignore autocorrelation in the returns. The training interval
+  therefore measures sampling noise only, not the selection bias that part (g) is about, which
+  is why the strategy looks much weaker once it is run on data it has not seen.
+\end{tight}
