@@ -1,0 +1,328 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage[font=small,labelfont=bf,skip=5pt]{caption}
+
+\title{Problem Set 9 --- Questions (m), (n) and Capstone}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-3em}
+
+% Code: ps9_part_m_n.py, ps9_capstone_invvol.py. AI log: ai_process_record.md.
+
+%======================================================================
+\section*{Part 2: MOM vs.\ TSMOM}
+\subsection*{Question (m)}
+
+We test whether one momentum strategy is redundant given the other with spanning
+regressions, run in both directions for each asset class $k\in\{\text{EQ, FX, FI, CM}\}$:
+\[
+\text{TSMOM}^k_t=\alpha+\beta\,\text{MOM}^k_t+\gamma\,\text{RMRF}_t+\varepsilon_t,
+\qquad
+\text{MOM}^k_t=\alpha'+\beta'\,\text{TSMOM}^k_t+\gamma'\,\text{RMRF}_t+\varepsilon'_t .
+\]
+Under the null that MOM spans TSMOM, $\alpha=0$; under the null that TSMOM spans MOM,
+$\alpha'=0$. We also regress diversified TSMOM on an inverse-volatility average of the
+four MOM factors, and the reverse. Because each asset class has its own regressor,
+GRS does not apply to the four alphas jointly, so we use a SUR-style Wald test,
+$W=\hat\alpha'\hat V^{-1}\hat\alpha\sim\chi^2_4$. The sample runs from January 1985 to
+May 2026 ($T=481$).
+
+\begin{table}[H]
+\centering\small
+\caption{Spanning regressions, MOM vs.\ TSMOM, controlling for RMRF. Alphas in \% per year;
+$t_{NW}$ uses Newey--West standard errors with 6 lags; $\rho$ is the correlation between
+MOM and TSMOM. TSMOM runs at much higher volatility than MOM (e.g.\ 29\% vs.\ 4.5\% a year
+in FI), so alpha magnitudes are not comparable across the two directions; the
+$t$-statistics are.}
+\label{tab:m}
+\begin{tabular}{lrrrrrrr}
+\toprule
+ & \multicolumn{3}{c}{TSMOM on MOM} & \multicolumn{3}{c}{MOM on TSMOM} & \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+ & $\alpha$ & $t$ & $t_{NW}$ & $\alpha$ & $t$ & $t_{NW}$ & $\rho$\\
+\midrule
+Equity indices (EQ) & 6.39 & 1.58 & 1.27 & 3.36 & 2.15 & 2.09 & 0.36\\
+Currencies (FX)     & 8.46 & 4.19 & 4.20 & $-1.94$ & $-2.12$ & $-2.48$ & 0.73\\
+Fixed income (FI)   & 20.04 & 4.64 & 3.99 & $-0.76$ & $-1.25$ & $-1.16$ & 0.41\\
+Commodities (CM)    & 7.43 & 4.12 & 3.91 & $-3.01$ & $-1.27$ & $-1.23$ & 0.65\\
+Aggregate           & 9.04 & 6.01 & 5.78 & $-1.08$ & $-1.87$ & $-1.79$ & --\\
+\midrule
+Joint Wald $\chi^2_4$ ($p$) & \multicolumn{3}{c}{49.29 ($<0.001$)} & \multicolumn{3}{c}{13.62 (0.009)} & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{itemize}
+\item \textbf{Design a test to see if MOM captures TSMOM and vice versa.} We use a spanning
+regression rather than a correlation, because a high correlation does not make one strategy
+redundant. With one regressor, $\alpha_{B|A}>0$ exactly when $SR_B>\rho\,SR_A$, so spanning
+depends on the means as well as on the correlation. The test is also asymmetric: B can have
+zero alpha on A while A still has positive alpha on B, which is why we run it in both
+directions.
+
+\item \textbf{Run that test, show your results, and interpret the findings.} MOM does not
+capture TSMOM: TSMOM keeps a large, significant alpha in FX, FI, CM and in aggregate
+($t=6.0$), and only equities are insignificant. In the other direction, MOM's alphas on
+TSMOM are zero or negative everywhere except equity index futures, where MOM still earns
+about 3\% a year ($t=2.2$). The joint Wald test rejects both nulls, but the second rejection
+is driven by the positive equity alpha and the negative FX alpha, so it does not mean MOM
+adds value overall. TSMOM contains most of what MOM does, plus a time-series component that
+MOM, being market-neutral within each asset class, cannot replicate.
+
+\item \textbf{What do you conclude?} TSMOM largely spans MOM, but MOM does not span TSMOM.
+The rule $SR_B>\rho\,SR_A$ predicts the sign of all eight alphas, because TSMOM has the
+higher Sharpe ratio in every asset class and the correlations are well below one.
+Cross-sectional momentum only adds something of its own in equity index futures.
+\end{itemize}
+
+%======================================================================
+\section*{Part 3: Hedge Funds}
+\subsection*{Question (n)}
+
+Hedge-fund returns are in excess of the one-month T-bill rate. The spreadsheet does not
+contain a T-bill column, so we use the Fama--French \texttt{RF} series. HFRI indices run
+from January 1990 to August 2019 and DJCS indices from January 1994 to June 2026; each
+regression ends at the last month for which all of the model's factors are available.
+Dedicated Short Bias ends early (HFRI December 2017, DJCS January 2017), so each GRS test is
+run on all ten indices over the shorter common sample and on the other nine over their full
+sample. RMRF(lag) is the previous month's RMRF.
+
+\begin{table}[H]
+\centering
+\caption{Hedge-fund alphas (\% per year) with $t$-statistics in parentheses, average
+$R^2$, and GRS $F$-statistics with $p$-values. M1 CAPM; M2 adds RMRF(lag); M3 Fama--French
+4 factors + lag; M4 AMP 3 factors + lag; M5 adds TSMOM; M6 adds LTREV and STR; M7 adds BAB,
+Quality/Defensive and Carry.}
+\label{tab:n}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrrr}
+\toprule
+ & M1 & M2 & M3 & M4 & M5 & M6 & M7\\
+\midrule
+\multicolumn{8}{l}{\emph{Panel A: HFRI}}\\
+Convertible Arb   & 3.32 (3.4) & 2.58 (2.7) & 2.92 (3.0) & 2.24 (2.2) & 2.23 (2.1) & 2.23 (2.1) & 1.35 (1.4)\\
+Dedicated Short   & 4.36 (2.2) & 4.54 (2.2) & 3.63 (2.2) & 0.90 (0.4) & 0.55 (0.3) & 0.47 (0.2) & $-1.08$ ($-0.5$)\\
+Emerging Markets  & 3.36 (1.8) & 2.44 (1.3) & 2.28 (1.2) & 1.19 (0.6) & 1.78 (0.9) & 1.87 (0.9) & 0.05 (0.0)\\
+Equity Mkt Neutral& 2.75 (5.4) & 2.70 (5.3) & 1.75 (3.9) & 1.43 (2.9) & 1.48 (2.9) & 1.51 (3.0) & 1.45 (2.9)\\
+Event Driven      & 4.47 (5.7) & 3.65 (5.0) & 3.58 (5.2) & 2.83 (3.6) & 3.02 (3.8) & 3.11 (4.0) & 2.53 (3.3)\\
+FI Relative Value & 4.73 (7.5) & 4.21 (6.9) & 4.27 (7.0) & 3.47 (5.4) & 3.68 (5.6) & 3.70 (5.7) & 3.23 (5.2)\\
+Fund Composite    & 3.78 (5.3) & 3.23 (4.7) & 3.05 (4.9) & 2.72 (3.8) & 2.61 (3.6) & 2.70 (3.8) & 2.28 (3.2)\\
+Global Macro      & 5.60 (4.6) & 5.43 (4.4) & 4.48 (3.7) & 3.93 (3.2) & 2.20 (1.8) & 2.28 (1.9) & 1.88 (1.6)\\
+Long/Short Equity & 4.37 (4.6) & 3.87 (4.1) & 3.45 (4.2) & 3.31 (3.4) & 3.42 (3.5) & 3.59 (3.7) & 3.34 (3.4)\\
+Managed Futures   & 4.55 (3.6) & 4.56 (3.6) & 4.05 (3.3) & 4.47 (3.4) & 2.20 (1.8) & 2.24 (1.9) & 2.40 (2.0)\\
+\addlinespace
+Average $|\alpha|$ & 4.13 & 3.72 & 3.35 & 2.65 & 2.32 & 2.37 & 1.96\\
+Average $R^2$      & 0.38 & 0.41 & 0.49 & 0.46 & 0.48 & 0.49 & 0.53\\
+GRS, all 10        & 11.02 (.000) & 10.10 (.000) & 8.40 (.000) & 6.06 (.000) & 5.02 (.000) & 4.99 (.000) & 4.82 (.000)\\
+GRS, ex-Ded.\ Short & 11.24 (.000) & 10.21 (.000) & 8.68 (.000) & 6.16 (.000) & 5.12 (.000) & 5.22 (.000) & 5.00 (.000)\\
+\midrule
+\multicolumn{8}{l}{\emph{Panel B: DJCS}}\\
+Convertible Arb   & 2.40 (2.6) & 1.52 (1.7) & 1.76 (1.9) & 1.14 (1.2) & 1.22 (1.3) & 1.24 (1.3) & 0.64 (0.7)\\
+Dedicated Short   & $-0.42$ ($-0.2$) & $-0.18$ ($-0.1$) & $-0.72$ ($-0.4$) & 0.32 (0.2) & 0.44 (0.2) & 0.46 (0.2) & 0.52 (0.2)\\
+Emerging Markets  & 0.93 (0.5) & $-0.19$ ($-0.1$) & $-0.33$ ($-0.2$) & $-1.71$ ($-0.9$) & $-1.50$ ($-0.8$) & $-1.41$ ($-0.7$) & $-2.03$ ($-1.1$)\\
+Equity Mkt Neutral& 2.80 (4.4) & 2.69 (4.2) & 2.51 (3.8) & 1.76 (2.6) & 1.70 (2.5) & 1.71 (2.5) & 1.44 (2.1)\\
+Event Driven      & 2.39 (3.0) & 1.44 (1.9) & 1.21 (1.6) & 0.18 (0.2) & 0.23 (0.3) & 0.40 (0.5) & $-0.01$ (0.0)\\
+FI Relative Value & 1.75 (2.0) & 0.96 (1.1) & 0.99 (1.1) & 0.87 (1.0) & 0.94 (1.0) & 0.97 (1.1) & 0.43 (0.5)\\
+Fund Composite    & 2.51 (2.9) & 1.89 (2.2) & 1.14 (1.4) & 0.42 (0.5) & $-0.08$ ($-0.1$) & 0.10 (0.1) & $-0.27$ ($-0.3$)\\
+Global Macro      & 5.18 (3.5) & 5.16 (3.5) & 4.05 (2.7) & 2.61 (1.8) & 1.41 (1.0) & 1.67 (1.2) & 1.37 (1.0)\\
+Long/Short Equity & 2.17 (2.2) & 1.76 (1.8) & 0.94 (1.1) & 0.44 (0.5) & 0.32 (0.3) & 0.49 (0.5) & 0.46 (0.5)\\
+Managed Futures   & 3.24 (1.7) & 3.61 (1.8) & 2.27 (1.2) & 0.15 (0.1) & $-3.17$ ($-2.0$) & $-3.07$ ($-1.9$) & $-3.60$ ($-2.2$)\\
+\addlinespace
+Average $|\alpha|$ & 2.38 & 1.94 & 1.59 & 0.96 & 1.10 & 1.15 & 1.08\\
+Average $R^2$      & 0.29 & 0.32 & 0.36 & 0.37 & 0.41 & 0.41 & 0.46\\
+GRS, all 10        & 5.71 (.000) & 5.76 (.000) & 5.56 (.000) & 3.61 (.000) & 3.52 (.000) & 3.49 (.000) & 3.33 (.000)\\
+GRS, ex-Ded.\ Short & 4.10 (.000) & 4.28 (.000) & 3.92 (.000) & 2.27 (.018) & 2.47 (.010) & 2.42 (.011) & 2.59 (.007)\\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Selected Model 7 loadings, with $t$-statistics in parentheses. RMRF(lag) loadings are
+from Model 2.}
+\label{tab:n-load}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrrr}
+\toprule
+ & RMRF & RMRF(lag), M2 & VAL & MOM & TSMOM & BAB & Carry\\
+\midrule
+\multicolumn{8}{l}{\emph{HFRI}}\\
+Convertible Arb   & 0.20 (10.2) & 0.10 (5.3) & $-0.12$ ($-1.8$) & $-0.13$ ($-2.1$) & 0.00 (0.0) & 0.17 (5.6) & 0.35 (4.8)\\
+Dedicated Short   & $-0.85$ ($-21.2$) & $-0.02$ ($-0.6$) & 0.84 (5.9) & 0.15 (1.1) & 0.01 (0.2) & 0.09 (1.5) & 0.25 (1.7)\\
+Emerging Markets  & 0.58 (14.7) & 0.12 (3.4) & 0.02 (0.2) & 0.13 (1.0) & $-0.08$ ($-1.4$) & 0.03 (0.5) & 0.54 (3.6)\\
+Equity Mkt Neutral& 0.10 (10.0) & 0.01 (0.7) & 0.04 (1.2) & 0.16 (4.8) & $-0.01$ ($-0.4$) & 0.07 (5.0) & $-0.02$ ($-0.6$)\\
+Event Driven      & 0.33 (21.4) & 0.11 (7.6) & $-0.05$ ($-0.9$) & $-0.01$ ($-0.1$) & $-0.01$ ($-0.7$) & 0.09 (4.0) & 0.17 (3.0)\\
+FI Relative Value & 0.16 (12.7) & 0.07 (5.9) & 0.00 (0.1) & 0.01 (0.3) & $-0.02$ ($-1.4$) & 0.10 (5.4) & 0.15 (3.3)\\
+Fund Composite    & 0.36 (25.0) & 0.07 (5.4) & $-0.14$ ($-2.6$) & 0.02 (0.5) & 0.02 (1.0) & 0.04 (1.9) & 0.14 (2.6)\\
+Global Macro      & 0.21 (8.8) & 0.02 (1.0) & $-0.15$ ($-1.8$) & $-0.08$ ($-1.0$) & 0.23 (7.1) & 0.07 (1.8) & 0.04 (0.4)\\
+Long/Short Equity & 0.48 (24.5) & 0.07 (3.6) & $-0.17$ ($-2.5$) & 0.07 (1.1) & 0.00 ($-0.1$) & 0.04 (1.3) & 0.14 (1.9)\\
+Managed Futures   & 0.22 (9.1) & 0.00 (0.0) & $-0.26$ ($-3.0$) & $-0.20$ ($-2.5$) & 0.30 (9.0) & $-0.05$ ($-1.3$) & $-0.11$ ($-1.2$)\\
+\midrule
+\multicolumn{8}{l}{\emph{DJCS}}\\
+Convertible Arb   & 0.15 (8.1) & 0.10 (5.8) & $-0.09$ ($-1.5$) & $-0.07$ ($-1.2$) & $-0.01$ ($-0.6$) & 0.11 (4.0) & 0.27 (3.6)\\
+Dedicated Short   & $-0.83$ ($-19.6$) & $-0.03$ ($-0.9$) & $-0.06$ ($-0.4$) & $-0.16$ ($-1.1$) & $-0.03$ ($-0.6$) & 0.16 (2.5) & $-0.12$ ($-0.7$)\\
+Emerging Markets  & 0.43 (11.5) & 0.12 (3.7) & 0.04 (0.3) & 0.24 (1.9) & $-0.05$ ($-1.0$) & 0.00 (0.0) & 0.70 (4.6)\\
+Equity Mkt Neutral& 0.10 (7.6) & 0.01 (1.0) & 0.11 (2.4) & 0.09 (2.0) & 0.01 (0.7) & 0.00 ($-0.2$) & 0.08 (1.4)\\
+Event Driven      & 0.30 (20.6) & 0.11 (7.6) & 0.04 (0.9) & 0.08 (1.6) & $-0.01$ ($-0.5$) & 0.08 (3.4) & 0.17 (2.9)\\
+FI Relative Value & 0.11 (6.4) & 0.09 (5.6) & $-0.15$ ($-2.7$) & $-0.11$ ($-2.1$) & $-0.02$ ($-0.7$) & 0.13 (5.0) & 0.29 (4.2)\\
+Fund Composite    & 0.29 (18.9) & 0.07 (4.3) & $-0.13$ ($-2.5$) & 0.07 (1.3) & 0.09 (4.0) & 0.08 (3.1) & 0.23 (3.5)\\
+Global Macro      & 0.22 (8.0) & 0.00 (0.1) & $-0.05$ ($-0.6$) & 0.00 (0.0) & 0.22 (5.7) & 0.14 (3.2) & 0.24 (2.1)\\
+Long/Short Equity & 0.45 (25.4) & 0.05 (2.5) & $-0.17$ ($-2.9$) & 0.23 (3.9) & 0.01 (0.5) & 0.03 (1.1) & 0.21 (2.9)\\
+Managed Futures   & 0.06 (1.9) & $-0.04$ ($-1.1$) & 0.01 (0.1) & $-0.24$ ($-2.3$) & 0.61 (13.8) & 0.05 (0.9) & 0.00 (0.0)\\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{itemize}
+\item \textbf{Which model performs the best at pricing the hedge fund portfolios and why?}
+Model 7 performs best, although every model is rejected by the GRS test. It has the
+smallest average alpha for HFRI and the highest average $R^2$ in both families, because it
+adds the factors that credit- and carry-style strategies actually trade. Most of the
+improvement comes earlier, though: moving to the AMP factors (M4) and adding TSMOM (M5)
+roughly halves the alphas of Global Macro and Managed Futures, while the reversal factors
+in M6 add almost nothing. The everywhere factors and TSMOM do the heavy lifting, and BAB,
+Quality and Carry finish the job.
+
+\item \textbf{What factors do the various hedge fund strategies load on?} Directional
+strategies load mainly on the market: Long/Short Equity and Emerging Markets have betas of
+about 0.45--0.6, and Dedicated Short about $-0.85$. Managed Futures and Global Macro load on
+TSMOM, Convertible Arbitrage, FI Relative Value and Event Driven load on BAB and Carry, and
+Equity Market Neutral loads on momentum. Each strategy looks like a combination of a few
+traded factors.
+
+\item \textbf{Do these make sense?} Yes, the loadings match what the strategies say they do.
+Managed futures funds run trend-following programs, which is time-series momentum;
+convertible and fixed-income arbitrage earn a credit and carry spread, which shows up as
+Carry and BAB; and a short-biased fund should have a strongly negative market beta. The
+factor models recover the strategies' stated styles from returns alone.
+
+\item \textbf{Is there anything surprising?} Yes, three things stand out. Long/Short
+Equity and the fund composites load \emph{negatively} on VAL, so these funds tilt toward
+growth rather than value. Equity Market Neutral is not market neutral (beta about 0.1) and keeps a
+significant alpha under every model. Finally, DJCS Managed Futures has a \emph{negative}
+alpha of about $-3.6\%$ a year under Model 7 ($t=-2.2$): it earns less than its TSMOM
+exposure would deliver, which is what we would expect from fees charged on a cheap,
+replicable strategy.
+
+\item \textbf{What does the loading on the lagged market return tell you?} It signals stale
+prices in illiquid holdings. The lagged loading is significant (about 0.06--0.12) for
+Convertible Arbitrage, FI Relative Value, Event Driven, Emerging Markets and the fund
+composites, whose assets are marked infrequently, so their reported returns respond to the
+market with a delay. Their true beta is closer to the sum of the two loadings, which means
+the CAPM understates their market risk and overstates their alpha. The lagged loading is
+near zero for Global Macro and Managed Futures, which trade liquid futures and are marked
+to market every day.
+\end{itemize}
+
+%======================================================================
+\section*{Part 4: Capstone --- Build and Stress-Test a Multi-Factor Combination}
+
+\subsection*{Steps 1--2: Rule and hypothesis (written before running)}
+
+\begin{itemize}
+\item \textbf{Which method we chose and why.} We chose inverse-volatility weighting,
+$w_i\propto 1/\hat\sigma_i$, over a ten-factor menu: RMRF, SMB, VAL$^{\text{everywhere}}$,
+MOM$^{\text{everywhere}}$, TSMOM, BAB, Quality/Defensive, Carry, STR and LTREV. The rule uses
+only volatilities, which are estimated far more precisely than means, so it should capture
+most of the diversification benefit with little estimation error. The benchmarks are equal
+weight and the in-sample tangency portfolio, $w\propto\hat\Sigma^{-1}\hat\mu$.
+
+\item \textbf{Predicted Sharpe ratios.} We predicted an in-sample Sharpe ratio of about 1.1
+and an out-of-sample Sharpe ratio of about 1.05 for inverse volatility (gap about 0.05),
+about 1.0 with no gap for equal weight, and about 1.9 in sample against 1.4 out of sample
+for tangency (gap about 0.5).
+
+\item \textbf{Which method we expected to degrade most.} We expected tangency to degrade
+most. With ten correlated factors it leans heavily on noisy mean estimates and takes large
+offsetting positions in correlated pairs such as VAL and LTREV, or MOM and TSMOM.
+
+\item \textbf{Risk metric beyond Sharpe.} We chose maximum drawdown. Inverse volatility
+overweights low-volatility factors such as Quality and Carry, which tend to crash together
+in liquidity events, so we expected its drawdown to look worse than its Sharpe ratio
+suggests.
+\end{itemize}
+
+\subsection*{Step 3: Implementation}
+
+The common sample is January 1985 to February 2026 ($T=494$), limited by TSMOM at the start
+and by Quality and Carry at the end. Every portfolio is rescaled to 10\% annual volatility,
+so that drawdowns are comparable and not driven by leverage. For the out-of-sample version,
+weights estimated on even months are applied to odd months and vice versa, and each
+held-out half is scaled using the volatility of its estimation half only. This is a
+cross-fitted, held-out estimate, not a real-time backtest, because the estimation half
+contains months that come later in calendar time than the month being scored. The AMP
+spanning regression is $r_{p,t}=\alpha+\beta_1\text{RMRF}_t+\beta_2\text{VAL}_t+\beta_3\text{MOM}_t+\varepsilon_t$.
+The LLM-generated code reproduced our estimates exactly; the corrections we made are listed
+in the AI workflow log.
+
+\subsection*{Step 4: Results}
+
+\begin{table}[H]
+\centering\small
+\caption{Capstone results, all portfolios scaled to 10\% annual volatility. Sharpe ratios are
+annualized. OOS uses the even/odd-month cross-fit. Maximum drawdown is for the OOS series,
+with peak, trough and recovery months. AMP alpha in \% per year with Newey--West (6 lags)
+$t$-statistics in parentheses; OLS $t$-statistics are 2.33, 1.98, 5.29 (IS) and 2.23, 1.97,
+1.89 (OOS).}
+\label{tab:cap}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrlrr}
+\toprule
+ & IS Sharpe & OOS Sharpe & Gap & OOS MDD & MDD path & AMP $\alpha$, IS & AMP $\alpha$, OOS\\
+\midrule
+Inverse volatility & 1.28 & 1.27 & 0.01 & $-23.0\%$ & 2018-09 $\to$ 2020-03 $\to$ 2021-05 & 2.79 (1.91) & 2.67 (1.83)\\
+Equal weight       & 1.22 & 1.22 & 0.00 & $-26.3\%$ & 2007-06 $\to$ 2009-05 $\to$ 2010-12 & 2.24 (1.67) & 2.23 (1.66)\\
+Tangency           & 1.68 & 1.31 & 0.37 & $-18.1\%$ & 1987-09 $\to$ 1987-12 $\to$ 1988-07 & 4.77 (4.45) & 1.97 (1.68)\\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{itemize}
+\item \textbf{How large was the out-of-sample degradation for your rule versus the
+benchmarks? Did the method you predicted would degrade most actually degrade most?} Our rule
+barely degraded, and tangency degraded most, as we predicted. Inverse volatility and equal
+weight only need volatilities, which are almost identical across the two halves, so their
+Sharpe ratios hardly move. Tangency loses about 0.37 of Sharpe ratio, and its weights are
+unstable: Carry has a weight of $+0.27$ when estimated on even months and $-0.10$ on odd
+months. Even after degrading, tangency still edges out inverse volatility out of sample, so
+estimation error shrank its advantage rather than reversing it. Our predicted gaps were close,
+but we underestimated the level of every Sharpe ratio.
+
+\item \textbf{Did your rule earn a significant alpha over the AMP 3-factor model, or does
+the everywhere combination already span it? What does this say about whether your added
+complexity was worth it?} No, the alpha of about 2.7\% a year is economically meaningful but
+not robustly significant ($t=1.83$ with Newey--West errors). The AMP model explains about
+half of its variance, and the remaining return comes from factors outside the model, mainly
+Quality, Carry and TSMOM. Tangency's large in-sample alpha disappears once its weights are
+estimated on the other half of the sample. Extra complexity therefore buys nothing out of
+sample: the simple volatility-based rules do as well as the optimizer, and none of them
+clearly beats the everywhere factors.
+
+\item \textbf{On your chosen non-Sharpe risk metric, did your rule look worse than its
+Sharpe ratio suggested? Connect this to the non-normality you documented in Part 1.} Yes,
+the drawdown is worse than a Sharpe ratio of 1.27 suggests. At 10\% volatility the
+portfolio lost 23\% from September 2018 to March 2020 and needed until May 2021 to recover,
+almost three years in all. This matches the non-normality from Part 1: the combination
+inherits the factors' negative skewness (about $-1.0$) and fat tails (excess kurtosis about
+7), and diversification across factors does not remove crash risk when the factors fall
+together in a liquidity event.
+
+\item \textbf{What is the single most important limitation of your backtest?} Data snooping
+in the choice of factor menu is the most important limitation. All ten factors are
+published, and they were published because they worked over a sample that overlaps ours,
+so even the out-of-sample Sharpe ratios are optimistic. The even/odd split also assumes the
+factor returns are stationary over 40 years and is not a real-time test, and we ignore
+transaction costs, which fall hardest on STR and the high-turnover momentum factors.
+\end{itemize}
+
+\end{document}
