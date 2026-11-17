@@ -1,0 +1,1055 @@
+% Compile with pdfLaTeX in Overleaf. All figure files are original notebook PNG bytes.
+\documentclass[11pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{amsmath,amssymb,graphicx,booktabs,array,adjustbox,caption,placeins,microtype,float}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{needspace}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Problem Set 9}
+\fancyhead[R]{\small Questions (h), (i), (k), and (l)}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\textfloatsep}{14pt plus 2pt minus 2pt}
+\setlength{\floatsep}{12pt plus 2pt minus 2pt}
+\captionsetup{font=small,labelfont=bf,skip=6pt}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.9}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{secnumdepth}{0}
+\setcounter{topnumber}{5}
+\setcounter{totalnumber}{6}
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
+\emergencystretch=2em
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries Problem Set 9}\par\vspace{3pt}
+{\large Questions (h), (i), (k), and (l)}
+\end{center}
+\vspace{2pt}
+
+\section*{Question (h)}
+
+Common sample: 1983-01--2025-01 \textbar{} 505 months \textbar{} 16 factors
+
+
+Monthly decimal returns: 0.01 = 1\%. Long-short factors: no RF subtraction.
+
+
+% Values copied as displayed from notebook cell 3, output 0.
+\begin{table}[H]
+\centering
+\caption{In-sample tangency portfolio weights. Weights are percentages of factor allocations.}\label{tab:h-weights}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\shortstack{Factor} & \shortstack{Market} & \shortstack{Type} & \shortstack{Tangency weight\\(\%)} \\
+\midrule
+VAL\textasciicircum{}US & U.S. equities & Value & -3.138\% \\
+MOM\textasciicircum{}US & U.S. equities & Momentum & -0.362\% \\
+VAL\textasciicircum{}UK & U.K. equities & Value & 6.374\% \\
+MOM\textasciicircum{}UK & U.K. equities & Momentum & 8.610\% \\
+VAL\textasciicircum{}EU & Europe equities & Value & 3.909\% \\
+MOM\textasciicircum{}EU & Europe equities & Momentum & 5.178\% \\
+VAL\textasciicircum{}JP & Japan equities & Value & 12.378\% \\
+MOM\textasciicircum{}JP & Japan equities & Momentum & 4.972\% \\
+VAL\textasciicircum{}EQ & Equity indices & Value & 11.859\% \\
+MOM\textasciicircum{}EQ & Equity indices & Momentum & 9.600\% \\
+VAL\textasciicircum{}FX & Currencies & Value & 11.956\% \\
+MOM\textasciicircum{}FX & Currencies & Momentum & 5.280\% \\
+VAL\textasciicircum{}FI & Fixed income & Value & 11.290\% \\
+MOM\textasciicircum{}FI & Fixed income & Momentum & 3.278\% \\
+VAL\textasciicircum{}CM & Commodities & Value & 5.507\% \\
+MOM\textasciicircum{}CM & Commodities & Momentum & 3.310\% \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Original notebook stream cell 3, output 2
+Net weight: 1.000000
+
+Sum of absolute factor weights: 1.070015
+
+Negative weights: 2
+
+Covariance condition number: 65.07
+
+Arithmetic annualization: mean \ensuremath{\times} 12; volatility \ensuremath{\times} \(\sqrt{12}\); Sharpe \ensuremath{\times} \(\sqrt{12}\).
+
+Factor weights sum to one; underlying long-short leg exposures are not shown.
+
+
+\FloatBarrier
+
+% Values copied as displayed from notebook cell 3, output 1.
+\begin{table}[H]
+\centering
+\caption{Summary statistics for individual factors, 50/50 combinations, and the tangency portfolio. Means and volatilities are reported in percent; Sharpe ratios are dimensionless.}\label{tab:h-summary}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+\shortstack{Portfolio} & \shortstack{Monthly\\mean} & \shortstack{Monthly\\volatility} & \shortstack{Annual\\mean} & \shortstack{Annual\\volatility} & \shortstack{Annual\\Sharpe} \\
+\midrule
+VAL\textasciicircum{}US & 0.128\% & 4.375\% & 1.535\% & 15.155\% & 0.101 \\
+MOM\textasciicircum{}US & 0.442\% & 4.590\% & 5.303\% & 15.899\% & 0.334 \\
+VAL\textasciicircum{}UK & 0.280\% & 4.116\% & 3.360\% & 14.259\% & 0.236 \\
+MOM\textasciicircum{}UK & 0.655\% & 4.493\% & 7.860\% & 15.564\% & 0.505 \\
+VAL\textasciicircum{}EU & 0.191\% & 3.119\% & 2.294\% & 10.805\% & 0.212 \\
+MOM\textasciicircum{}EU & 0.580\% & 3.770\% & 6.961\% & 13.060\% & 0.533 \\
+VAL\textasciicircum{}JP & 0.640\% & 4.007\% & 7.682\% & 13.879\% & 0.553 \\
+MOM\textasciicircum{}JP & 0.151\% & 4.554\% & 1.817\% & 15.775\% & 0.115 \\
+VAL\textasciicircum{}EQ & 0.201\% & 2.639\% & 2.418\% & 9.142\% & 0.264 \\
+MOM\textasciicircum{}EQ & 0.399\% & 3.052\% & 4.789\% & 10.573\% & 0.453 \\
+VAL\textasciicircum{}FX & 0.175\% & 2.152\% & 2.098\% & 7.456\% & 0.281 \\
+MOM\textasciicircum{}FX & 0.132\% & 2.327\% & 1.582\% & 8.062\% & 0.196 \\
+VAL\textasciicircum{}FI & 0.045\% & 1.472\% & 0.539\% & 5.099\% & 0.106 \\
+MOM\textasciicircum{}FI & 0.048\% & 1.288\% & 0.571\% & 4.460\% & 0.128 \\
+VAL\textasciicircum{}CM & 0.425\% & 5.719\% & 5.104\% & 19.811\% & 0.258 \\
+MOM\textasciicircum{}CM & 0.443\% & 5.530\% & 5.316\% & 19.155\% & 0.278 \\
+50/50 US & 0.285\% & 1.941\% & 3.419\% & 6.724\% & 0.508 \\
+50/50 UK & 0.468\% & 1.903\% & 5.610\% & 6.594\% & 0.851 \\
+50/50 EU & 0.386\% & 1.689\% & 4.627\% & 5.851\% & 0.791 \\
+50/50 JP & 0.396\% & 1.878\% & 4.749\% & 6.504\% & 0.730 \\
+50/50 EQ & 0.300\% & 1.464\% & 3.603\% & 5.073\% & 0.710 \\
+50/50 FX & 0.153\% & 1.186\% & 1.840\% & 4.108\% & 0.448 \\
+50/50 FI & 0.046\% & 0.849\% & 0.555\% & 2.942\% & 0.189 \\
+50/50 CM & 0.434\% & 2.841\% & 5.210\% & 9.843\% & 0.529 \\
+Tangency & 0.328\% & 0.868\% & 3.932\% & 3.005\% & 1.308 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Values copied as displayed from notebook cell 6, output 0.
+\begin{table}[H]
+\centering
+\caption{Within-market value--momentum correlations. Correlations are dimensionless.}\label{tab:h-correlations}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\shortstack{Market code} & \shortstack{Market} & \shortstack{Value--momentum\\correlation} \\
+\midrule
+US & U.S. equities & -0.626 \\
+UK & U.K. equities & -0.612 \\
+EU & Europe equities & -0.533 \\
+JP & Japan equities & -0.622 \\
+EQ & Equity indices & -0.478 \\
+FX & Currencies & -0.442 \\
+FI & Fixed income & -0.248 \\
+CM & Commodities & -0.490 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+\FloatBarrier
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth,height=0.76\textheight,keepaspectratio]{figures/question_h.png}
+\caption{Original notebook efficient frontier, including all 16 factors, eight 50/50 combinations, and the in-sample tangency portfolio. Axes show annualized percentages.}\label{fig:h}
+\end{figure}
+
+
+\FloatBarrier
+
+\subsection*{Interpretation}
+
+% Original notebook markdown cell 7
+The tangency portfolio includes all eight markets. Only U.S. value (\ensuremath{-}3.14\%) and U.S. momentum (\ensuremath{-}0.36\%) have negative weights. The absolute factor weights sum to 1.07.
+
+The largest weights go to Japan value (12.38\%), currency value (11.96\%), equity-index value (11.86\%), and fixed-income value (11.29\%). Fixed-income value has a low standalone Sharpe ratio of 0.11. It still receives a large weight because its low volatility and low correlations with other factors help reduce portfolio risk.
+
+Value receives more weight than momentum in five of the eight markets. Within each market, their correlations range from \ensuremath{-}0.63 to \ensuremath{-}0.25. Combining them therefore provides diversification benefits.
+
+The tangency portfolio has an annualized mean return of 3.93\%, volatility of 3.01\%, and Sharpe ratio of 1.31. The best individual factor, Japan value, has a Sharpe ratio of 0.55. The best 50/50 combination, U.K. value and momentum, reaches 0.85. These results use the same data to estimate and evaluate the weights. Part (i) checks how well the weights perform on held-out observations.
+
+The curved frontier requires weights to sum to one. If factor positions can be scaled freely without costs or funding limits, the efficient set becomes a straight line from the origin through the tangency portfolio. Its slope is 1.31. The curve touches this line at the tangency point.
+
+
+\clearpage
+\section*{Question (i)}
+
+% Original notebook stream cell 8, output 0
+Illustrative prediction (not preregistered): a 25\% lower held-out Sharpe.
+
+
+% Values copied as displayed from notebook cell 8, output 1.
+\begin{table}[H]
+\centering
+\caption{Even/odd-month estimation and evaluation folds.}\label{tab:i-folds}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\shortstack{Train $\rightarrow$ test} & \shortstack{Training\\months} & \shortstack{Held-out\\months} & \shortstack{Negative\\weights} \\
+\midrule
+Even \ensuremath{\rightarrow} odd & 252 & 253 & 3 \\
+Odd \ensuremath{\rightarrow} even & 253 & 252 & 5 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Values copied as displayed from notebook cell 8, output 2.
+\begin{table}[H]
+\centering
+\caption{Tangency weights estimated on the full sample and on each training fold. All entries are percentages.}\label{tab:i-weights}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\shortstack{Factor} & \shortstack{Full-sample} & \shortstack{Even $\rightarrow$ odd} & \shortstack{Odd $\rightarrow$ even} \\
+\midrule
+VAL\textasciicircum{}US & -3.14\% & -4.72\% & 5.00\% \\
+MOM\textasciicircum{}US & -0.36\% & 6.12\% & -5.44\% \\
+VAL\textasciicircum{}UK & 6.37\% & -1.82\% & 10.70\% \\
+MOM\textasciicircum{}UK & 8.61\% & -3.37\% & 14.90\% \\
+VAL\textasciicircum{}EU & 3.91\% & 6.01\% & -0.01\% \\
+MOM\textasciicircum{}EU & 5.18\% & 3.78\% & 9.06\% \\
+VAL\textasciicircum{}JP & 12.38\% & 20.86\% & -0.57\% \\
+MOM\textasciicircum{}JP & 4.97\% & 7.21\% & -1.41\% \\
+VAL\textasciicircum{}EQ & 11.86\% & 6.54\% & 14.68\% \\
+MOM\textasciicircum{}EQ & 9.60\% & 2.22\% & 15.30\% \\
+VAL\textasciicircum{}FX & 11.96\% & 11.40\% & 12.07\% \\
+MOM\textasciicircum{}FX & 5.28\% & 14.35\% & -3.14\% \\
+VAL\textasciicircum{}FI & 11.29\% & 3.21\% & 17.12\% \\
+MOM\textasciicircum{}FI & 3.28\% & 15.53\% & 5.35\% \\
+VAL\textasciicircum{}CM & 5.51\% & 4.52\% & 6.26\% \\
+MOM\textasciicircum{}CM & 3.31\% & 8.17\% & 0.12\% \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+\FloatBarrier
+
+% Values copied as displayed from notebook cell 10, output 0.
+\begin{table}[H]
+\centering
+\caption{In-sample versus cross-fitted OOS performance. Returns and volatilities are in percent; differences in these columns are percentage points. Sharpe ratios and their differences are dimensionless.}\label{tab:i-comparison}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+\shortstack{Portfolio} & \shortstack{Monthly\\mean} & \shortstack{Monthly\\volatility} & \shortstack{Annual\\mean} & \shortstack{Annual\\volatility} & \shortstack{Annual\\Sharpe} \\
+\midrule
+In-sample & 0.328\% & 0.868\% & 3.932\% & 3.005\% & 1.308 \\
+Cross-fitted OOS & 0.182\% & 1.025\% & 2.187\% & 3.552\% & 0.616 \\
+OOS \ensuremath{-} IS & -0.145\% & 0.158\% & -1.745\% & 0.547\% & -0.693 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Original notebook stream cell 10, output 1
+Annual mean decreases by 1.75 percentage points.
+
+Annual volatility increases by 0.55 percentage points.
+
+Sharpe decreases by 0.693, or 52.9\%.
+
+Observed versus illustrative predicted Sharpe decline: 52.9\% versus 25\%.
+
+
+% Values copied as displayed from notebook cell 10, output 2.
+\begin{table}[H]
+\centering
+\caption{Cross-fitted OOS return versus the ex post frontier at the same volatility. Entries are annualized percentages.}\label{tab:i-gap}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\shortstack{Portfolio} & \shortstack{Annual volatility} & \shortstack{Annual mean} \\
+\midrule
+Ex post frontier at OOS volatility & 3.552\% & 4.608\% \\
+Cross-fitted OOS & 3.552\% & 2.187\% \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Original notebook stream cell 10, output 3
+At the same volatility, OOS mean is 2.42 percentage points below the ex post frontier.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth,height=0.76\textheight,keepaspectratio]{figures/question_i.png}
+\caption{Original notebook frontier with the cross-fitted OOS tangency portfolio and the same-volatility return gap. Axes show annualized percentages.}\label{fig:i}
+\end{figure}
+
+
+\FloatBarrier
+
+% Original notebook markdown cell 12
+\subsubsection*{AI Integration}
+
+\textbf{My prediction:} I expect the out-of-sample tangency portfolio's Sharpe ratio to be around 20\% to 40\% lower than its in-sample Sharpe ratio. The in-sample portfolio maximizes the Sharpe ratio using estimated means and covariances, which contain sampling errors. With many value and momentum factors, the optimization can overfit historical noise and produce extreme portfolio weights. When these weights are applied to held-out months, performance is likely to deteriorate. The even/odd-month split should provide a more realistic estimate of performance, although it is not a real-time backtest.
+
+
+% Original notebook markdown cell 13
+\textbf{LLM Answer:}
+
+
+% Original notebook markdown cell 14
+The in-sample tangency portfolio tends to overstate the achievable Sharpe ratio because of estimation error and overfitting. The portfolio weights are optimized using historical sample means and covariances, which contain noise. The optimization process can exploit this noise, assigning large weights to factors that performed well by chance. As a result, the in-sample Sharpe ratio reflects both genuine return predictability and favorable random variation.
+
+Splitting the sample provides a more honest estimate because portfolio weights are estimated using one subset of months and evaluated on different, held-out months. The portfolio cannot directly exploit the random noise in the evaluation sample. This better approximates how the strategy would perform on unseen data.
+
+Therefore, we expect the out-of-sample Sharpe ratio to be lower than the in-sample Sharpe ratio, especially when many factors are optimized using limited historical data. However, even/odd-month testing is not fully equivalent to a real-time backtest because the training months may include observations from after the evaluation months.
+
+
+% Original notebook markdown cell 15
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\tightlist
+\item
+  Yes. The LLM correctly explains that in-sample tangency optimization uses estimated means and covariances that contain sampling error. The optimizer can fit noise rather than genuine return patterns, leading to an overstated Sharpe ratio. It also recognizes that overfitting becomes more severe when more factors are optimized using limited historical data.
+\end{enumerate}
+
+
+% Original notebook markdown cell 16
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  No.~The LLM explains the mechanism of estimation error but never connects it to the Roll critique or to PS3/PS4. It misses the key point: the in-sample tangency portfolio is mean-variance efficient by construction. Used as a single factor, it prices all 16 test assets exactly; we confirmed every alpha is zero up to rounding (max \textbar \ensuremath{\alpha}\textbar{} \ensuremath{\approx} \(10^{-17}\)). That means GRS = 0, and Fama-MacBeth betas on it fit average returns perfectly. As Roll argued, such a test has no power, so in-sample optimality says nothing about the economics or about achievable performance. Only held-out evaluation, as in part (i), is informative.
+\end{enumerate}
+
+
+% Original notebook markdown cell 17
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  The cross-fitted portfolio falls well inside the in-sample frontier. Its Sharpe ratio is 0.62 versus 1.31 (\ensuremath{-}53\%), and at the same 3.55\% volatility it earns 2.42 percentage points less than the frontier (2.19\% vs 4.61\%). Both folds degrade similarly (0.71 and 0.52 out of sample, versus 1.44 and 1.72 in sample). This matches the LLM's direction: 16 factors estimated on about 252 months per half leaves a lot of room to fit noise. But the LLM gave no magnitude, and our own 20--40\% prediction underestimated the actual 53\% decline. Most of the in-sample Sharpe advantage of the tangency portfolio does not survive held-out evaluation. The out-of-sample Sharpe of 0.62 is still above every single factor (best 0.55) but below the best 50/50 combination (0.85).
+\end{enumerate}
+
+
+% Original notebook markdown cell 18
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Yes. The LLM correctly notes that the even/odd split is not a real-time backtest, because the training half contains months that come after the evaluated months. It does not loosely call it a real-time test. However, it understates the implication. The method is a cross-fitted, held-out estimate: each month is scored with weights it did not help estimate, but those weights use future information an investor would not have had. It also assumes means and covariances are stable over 1983--2025, and adjacent months fall in opposite halves, so persistent regimes leak across the split. Our out-of-sample Sharpe of 0.62 should be interpreted as a cross-fitted estimate, since the training sample contains future observations.
+\end{enumerate}
+
+
+\clearpage
+\section*{Question (k)}
+
+% Original notebook stream cell 20, output 0
+Sample: 1983-01--2025-01; 505 months, 16 factors.
+
+Monthly decimal returns, as in (h): 0.01 = 1\%; no RF subtraction.
+
+
+% Original notebook stream cell 21, output 0
+Validated all eight exclusions: both target-market factors have zero weight.
+
+Each predictor averages seven same-style factors with positive weights summing to one.
+
+Weights use fixed full-sample standard deviations; this is an in-sample analysis.
+
+
+% Values copied as displayed from notebook cell 22, output 0.
+\begin{table}[H]
+\centering
+\caption{Leave-one-market-out regressions: alphas, conventional and HAC tests, and fit. Alpha is percent per month; t-statistics and p-values are dimensionless; $R^2$ is percent.}\label{tab:k-inference}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\shortstack{Portfolio} & \shortstack{Alpha\\(\%/month)} & \shortstack{$t(\alpha)$\\OLS} & \shortstack{$p(\alpha)$\\OLS} & \shortstack{$t(\alpha)$\\HAC} & \shortstack{$p(\alpha)$\\HAC} & \shortstack{$R^2$\\(\%)} \\
+\midrule
+VAL\textasciicircum{}US & -0.266\% & -1.572 & 0.1165 & -1.527 & 0.1273 & 32.5\% \\
+MOM\textasciicircum{}US & 0.205\% & 1.230 & 0.2192 & 1.073 & 0.2837 & 41.0\% \\
+VAL\textasciicircum{}UK & -0.081\% & -0.556 & 0.5787 & -0.526 & 0.5994 & 42.6\% \\
+MOM\textasciicircum{}UK & 0.382\% & 2.533 & 0.0116 & 2.646 & 0.0084 & 48.6\% \\
+VAL\textasciicircum{}EU & -0.081\% & -0.787 & 0.4315 & -0.699 & 0.4846 & 50.1\% \\
+MOM\textasciicircum{}EU & 0.242\% & 2.033 & 0.0426 & 1.890 & 0.0594 & 54.7\% \\
+VAL\textasciicircum{}JP & 0.385\% & 2.276 & 0.0233 & 1.926 & 0.0547 & 18.5\% \\
+MOM\textasciicircum{}JP & -0.043\% & -0.217 & 0.8287 & -0.222 & 0.8247 & 14.6\% \\
+VAL\textasciicircum{}EQ & 0.165\% & 1.432 & 0.1528 & 1.267 & 0.2058 & 12.4\% \\
+MOM\textasciicircum{}EQ & 0.202\% & 1.645 & 0.1007 & 1.882 & 0.0605 & 25.9\% \\
+VAL\textasciicircum{}FX & 0.230\% & 2.339 & 0.0197 & 2.276 & 0.0233 & 4.5\% \\
+MOM\textasciicircum{}FX & -0.017\% & -0.166 & 0.8678 & -0.188 & 0.8506 & 8.5\% \\
+VAL\textasciicircum{}FI & 0.083\% & 1.209 & 0.2272 & 1.349 & 0.1779 & 0.6\% \\
+MOM\textasciicircum{}FI & 0.004\% & 0.068 & 0.9462 & 0.078 & 0.9380 & 2.4\% \\
+VAL\textasciicircum{}CM & 0.584\% & 2.219 & 0.0270 & 2.317 & 0.0209 & 2.8\% \\
+MOM\textasciicircum{}CM & 0.115\% & 0.461 & 0.6449 & 0.453 & 0.6508 & 6.8\% \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Values copied as displayed from notebook cell 22, output 0.
+\begin{table}[H]
+\centering
+\caption{Leave-one-market-out regression loadings and mean-return predictions. Betas are dimensionless; actual and predicted means are percent per month.}\label{tab:k-predictions}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\shortstack{Portfolio} & \shortstack{Beta\\VAL} & \shortstack{Beta\\MOM} & \shortstack{Actual mean\\(\%/month)} & \shortstack{Predicted mean\\(\%/month)} \\
+\midrule
+VAL\textasciicircum{}US & 1.736 & 0.049 & 0.128\% & 0.394\% \\
+MOM\textasciicircum{}US & -0.574 & 1.382 & 0.442\% & 0.237\% \\
+VAL\textasciicircum{}UK & 1.821 & -0.052 & 0.280\% & 0.361\% \\
+MOM\textasciicircum{}UK & -0.517 & 1.559 & 0.655\% & 0.273\% \\
+VAL\textasciicircum{}EU & 1.408 & -0.122 & 0.191\% & 0.273\% \\
+MOM\textasciicircum{}EU & -0.182 & 1.544 & 0.580\% & 0.338\% \\
+VAL\textasciicircum{}JP & 1.236 & 0.160 & 0.640\% & 0.255\% \\
+MOM\textasciicircum{}JP & -0.256 & 0.820 & 0.151\% & 0.194\% \\
+VAL\textasciicircum{}EQ & 0.406 & -0.193 & 0.201\% & 0.036\% \\
+MOM\textasciicircum{}EQ & -0.067 & 0.812 & 0.399\% & 0.197\% \\
+VAL\textasciicircum{}FX & 0.037 & -0.207 & 0.175\% & -0.055\% \\
+MOM\textasciicircum{}FX & 0.127 & 0.396 & 0.132\% & 0.149\% \\
+VAL\textasciicircum{}FI & -0.068 & -0.054 & 0.045\% & -0.038\% \\
+MOM\textasciicircum{}FI & 0.030 & 0.095 & 0.048\% & 0.044\% \\
+VAL\textasciicircum{}CM & -0.056 & -0.555 & 0.425\% & -0.159\% \\
+MOM\textasciicircum{}CM & 0.376 & 0.955 & 0.443\% & 0.328\% \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Original notebook stream cell 22, output 1
+Alpha and means are monthly; predicted mean = beta\_VAL \ensuremath{\times} mean(VAL\_other) + beta\_MOM \ensuremath{\times} mean(MOM\_other), excluding the intercept.
+
+HAC uses six lags, Bartlett weights, and a finite-sample covariance adjustment.
+
+OLS p-values use t(502); HAC p-values use the same reference as an approximation.
+
+
+\subsection*{Interpretation}
+
+% Original notebook markdown cell 24
+The factors explain a substantial share of equity factor returns, with European momentum (R\textsuperscript{2} = 54.7\%), European value (50.1\%), and U.K. momentum (48.6\%). On the other hand, fixed-income and commodity factors generally have low R\textsuperscript{2}s, suggesting weaker cross-market commonality. Using HAC-adjusted tests, U.K. momentum (\ensuremath{\alpha} = 0.382\% per month), currency value (0.230\%), and commodity value (0.584\%) have statistically significant alphas at the 5\% level. Overall, cross-market factors capture important common return variation, particularly in equities, but do not fully explain all factor premia.
+
+
+\subsection*{GRS explanation}
+
+% Original notebook markdown cell 25
+No.~The standard GRS F-test requires all test portfolios to use the same factor returns. In question (k), each market uses different predictors because its own factors are excluded. This breaks the common-factor structure required by GRS.
+
+The plot's vertical gaps from the 45-degree line show estimated alphas. They do not establish joint statistical significance.
+
+
+\clearpage
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth,height=0.76\textheight,keepaspectratio]{figures/question_k.png}
+\caption{Original notebook actual-versus-predicted mean monthly returns. Predicted returns exclude alpha; vertical deviations from the 45-degree line equal alpha.}\label{fig:k}
+\end{figure}
+
+
+\FloatBarrier
+
+\clearpage
+\section*{Question (l)}
+
+\subsection*{Factor models}
+
+\begin{description}
+\item[Model 1)] CAPM using RMRF as the single factor
+\item[Model 2)] Fama-French 4-factor model: RMRF, SMB, HML, UMD
+\item[Model 3)] Asness-Moskowitz-Pedersen 3-factor model: RMRF, VALeverywhere, MOMeverywhere
+\item[Model 4)] Asness-Moskowitz-Pedersen 3-factor model + TSMOM
+\item[Model 5)] Asness-Moskowitz-Pedersen 3-factor model + TSMOM + LTREV + STR
+\end{description}
+
+% Original notebook stream cell 27, output 1
+Units: portfolio, AMP and TSMOM returns are stored as decimals.
+
+Fama-French returns are stored in percent and divided by 100.
+
+Aliases: Mkt-RF \ensuremath{\rightarrow} RMRF; STREV \ensuremath{\rightarrow} STR; AMP VAL/MOM \ensuremath{\rightarrow} everywhere.
+
+All returns are long-short or excess returns; no RF subtraction.
+
+Common sample: 1985-01--2025-01; T=481, N=16.
+
+Excluded 24 months from (h); identical dates in all models.
+
+
+% Original notebook stream cell 28, output 0
+Everywhere-factor replication error: 1.80e-16.
+
+Two exact spanning relations make Models 3--5 residual covariances singular.
+
+Their standard 16-portfolio GRS statistics are undefined.
+
+Also report GRS tests of 14 independent restrictions, omitting VAL\^{}FI, MOM\^{}FI. The omitted alpha restrictions are redundant.
+
+
+% Values copied as displayed from notebook cell 30, output 10.
+\begin{table}[H]
+\centering
+\caption{Model comparison and the full 16-portfolio GRS tests. Mean absolute alpha is percent per month; average $R^2$ is percent. GRS values and counts are dimensionless.}\label{tab:l-comparison}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\shortstack{Model} & \shortstack{$K$} & \shortstack{Average\\$R^2$} & \shortstack{Mean $|\alpha|$\\(\%/month)} & \shortstack{Significant alphas\\(5\%)} \\
+\midrule
+Model 1 & 1 & 1.09\% & 0.3349 & 5 \\
+Model 2 & 4 & 26.86\% & 0.2390 & 6 \\
+Model 3 & 3 & 37.89\% & 0.1543 & 3 \\
+Model 4 & 4 & 39.26\% & 0.2057 & 6 \\
+Model 5 & 6 & 40.21\% & 0.1953 & 7 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Values copied as displayed from notebook cell 30, output 10.
+\begin{table}[H]
+\centering
+\caption{Full 16-portfolio GRS statistics exactly as reported. Models 3--5 have singular residual covariance matrices.}\label{tab:l-full-grs}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\shortstack{Model} & \shortstack{$K$} & \shortstack{GRS $F$ (16)} & \shortstack{GRS $p$ (16)} \\
+\midrule
+Model 1 & 1 & 4.9242 & 2.09e-09 \\
+Model 2 & 4 & 3.8089 & 1.09e-06 \\
+Model 3 & 3 & Undefined: singular & Undefined: singular \\
+Model 4 & 4 & Undefined: singular & Undefined: singular \\
+Model 5 & 6 & Undefined: singular & Undefined: singular \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Values copied as displayed from notebook cell 30, output 11.
+\begin{table}[H]
+\centering
+\caption{Reported GRS joint tests. Models 1--2 use all 16 portfolios; Models 3--5 test 14 independent restrictions, omitting VAL\textasciicircum{}FI and MOM\textasciicircum{}FI. $F$ statistics, p-values, and degrees of freedom are dimensionless.}\label{tab:l-grs}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\shortstack{Model} & \shortstack{Test\\$N$} & \shortstack{GRS $F$} & \shortstack{GRS $p$} & \shortstack{df1} & \shortstack{df2} & \shortstack{Test} \\
+\midrule
+Model 1 & 16 & 4.9242 & 2.09e-09 & 16 & 464 & Standard 16 \\
+Model 2 & 16 & 3.8089 & 1.09e-06 & 16 & 461 & Standard 16 \\
+Model 3 & 14 & 1.3169 & 0.193 & 14 & 464 & 14 independent restrictions \\
+Model 4 & 14 & 1.9375 & 0.0211 & 14 & 463 & 14 independent restrictions \\
+Model 5 & 14 & 1.8512 & 0.0296 & 14 & 461 & 14 independent restrictions \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+\subsection*{Individual portfolio regressions}
+
+% Values copied as displayed from notebook cell 30, output 1.
+\begin{table}[H]
+\centering
+\caption{Model 1 individual portfolio results. Alphas are percent per month, $R^2$ is percent, and OLS t-statistics and p-values are dimensionless.}\label{tab:l-model1}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\shortstack{Portfolio} & \shortstack{Alpha\\(\%/month)} & \shortstack{Alpha $t$\\(OLS)} & \shortstack{Alpha $p$\\(OLS)} & \shortstack{$R^2$\\(\%)} \\
+\midrule
+VAL\textasciicircum{}US & 0.2107 & 1.048 & 0.2954 & 3.10\% \\
+MOM\textasciicircum{}US & 0.5530 & 2.580 & 0.01018 & 1.18\% \\
+VAL\textasciicircum{}UK & 0.2778 & 1.451 & 0.1475 & 0.12\% \\
+MOM\textasciicircum{}UK & 0.7784 & 3.737 & 0.0002085 & 2.39\% \\
+VAL\textasciicircum{}EU & 0.1239 & 0.850 & 0.3958 & 0.11\% \\
+MOM\textasciicircum{}EU & 0.7033 & 4.113 & 4.604e-05 & 6.13\% \\
+VAL\textasciicircum{}JP & 0.7762 & 4.180 & 3.464e-05 & 1.02\% \\
+MOM\textasciicircum{}JP & 0.1895 & 0.891 & 0.3736 & 0.46\% \\
+VAL\textasciicircum{}EQ & 0.1195 & 0.991 & 0.3221 & 0.86\% \\
+MOM\textasciicircum{}EQ & 0.4201 & 3.000 & 0.002841 & 0.50\% \\
+VAL\textasciicircum{}FX & 0.1851 & 1.860 & 0.06348 & 0.83\% \\
+MOM\textasciicircum{}FX & 0.1427 & 1.309 & 0.1912 & 0.45\% \\
+VAL\textasciicircum{}FI & 0.0444 & 0.790 & 0.4298 & 0.01\% \\
+MOM\textasciicircum{}FI & 0.0375 & 0.690 & 0.4906 & 0.01\% \\
+VAL\textasciicircum{}CM & 0.3139 & 1.198 & 0.2315 & 0.24\% \\
+MOM\textasciicircum{}CM & 0.4823 & 1.879 & 0.06091 & 0.01\% \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Values copied as displayed from notebook cell 30, output 3.
+\begin{table}[H]
+\centering
+\caption{Model 2 individual portfolio results. Alphas are percent per month, $R^2$ is percent, and OLS t-statistics and p-values are dimensionless.}\label{tab:l-model2}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\shortstack{Portfolio} & \shortstack{Alpha\\(\%/month)} & \shortstack{Alpha $t$\\(OLS)} & \shortstack{Alpha $p$\\(OLS)} & \shortstack{$R^2$\\(\%)} \\
+\midrule
+VAL\textasciicircum{}US & 0.2233 & 2.172 & 0.03035 & 75.70\% \\
+MOM\textasciicircum{}US & -0.0119 & -0.154 & 0.8776 & 87.70\% \\
+VAL\textasciicircum{}UK & 0.3038 & 1.999 & 0.04618 & 39.58\% \\
+MOM\textasciicircum{}UK & 0.4182 & 2.742 & 0.006343 & 49.74\% \\
+VAL\textasciicircum{}EU & 0.1575 & 1.438 & 0.1512 & 45.84\% \\
+MOM\textasciicircum{}EU & 0.3871 & 3.034 & 0.002547 & 49.82\% \\
+VAL\textasciicircum{}JP & 0.7933 & 4.622 & 4.891e-06 & 18.83\% \\
+MOM\textasciicircum{}JP & -0.0241 & -0.121 & 0.9041 & 15.79\% \\
+VAL\textasciicircum{}EQ & 0.1398 & 1.194 & 0.2332 & 10.27\% \\
+MOM\textasciicircum{}EQ & 0.2599 & 1.953 & 0.05135 & 13.78\% \\
+VAL\textasciicircum{}FX & 0.2237 & 2.229 & 0.02626 & 3.18\% \\
+MOM\textasciicircum{}FX & 0.0809 & 0.742 & 0.4587 & 4.43\% \\
+VAL\textasciicircum{}FI & 0.0624 & 1.094 & 0.2744 & 1.30\% \\
+MOM\textasciicircum{}FI & 0.0070 & 0.128 & 0.8986 & 2.68\% \\
+VAL\textasciicircum{}CM & 0.5096 & 1.946 & 0.05222 & 4.38\% \\
+MOM\textasciicircum{}CM & 0.2223 & 0.878 & 0.3803 & 6.69\% \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Values copied as displayed from notebook cell 30, output 5.
+\begin{table}[H]
+\centering
+\caption{Model 3 individual portfolio results. Alphas are percent per month, $R^2$ is percent, and OLS t-statistics and p-values are dimensionless.}\label{tab:l-model3}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\shortstack{Portfolio} & \shortstack{Alpha\\(\%/month)} & \shortstack{Alpha $t$\\(OLS)} & \shortstack{Alpha $p$\\(OLS)} & \shortstack{$R^2$\\(\%)} \\
+\midrule
+VAL\textasciicircum{}US & -0.2506 & -1.859 & 0.06361 & 61.49\% \\
+MOM\textasciicircum{}US & 0.1111 & 0.814 & 0.4162 & 64.50\% \\
+VAL\textasciicircum{}UK & -0.1411 & -1.101 & 0.2713 & 60.41\% \\
+MOM\textasciicircum{}UK & 0.2986 & 2.279 & 0.02308 & 65.82\% \\
+VAL\textasciicircum{}EU & -0.2115 & -2.319 & 0.02079 & 65.41\% \\
+MOM\textasciicircum{}EU & 0.1993 & 1.963 & 0.05026 & 70.71\% \\
+VAL\textasciicircum{}JP & 0.4400 & 2.795 & 0.005394 & 37.05\% \\
+MOM\textasciicircum{}JP & -0.2130 & -1.142 & 0.2539 & 32.30\% \\
+VAL\textasciicircum{}EQ & 0.0005 & 0.004 & 0.9968 & 21.72\% \\
+MOM\textasciicircum{}EQ & 0.0901 & 0.757 & 0.4494 & 36.35\% \\
+VAL\textasciicircum{}FX & 0.0946 & 0.971 & 0.3321 & 15.87\% \\
+MOM\textasciicircum{}FX & -0.1307 & -1.281 & 0.2007 & 22.90\% \\
+VAL\textasciicircum{}FI & 0.0132 & 0.225 & 0.8224 & 2.67\% \\
+MOM\textasciicircum{}FI & -0.0580 & -1.066 & 0.2871 & 11.26\% \\
+VAL\textasciicircum{}CM & 0.0769 & 0.300 & 0.7642 & 15.54\% \\
+MOM\textasciicircum{}CM & -0.1393 & -0.579 & 0.5629 & 22.23\% \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Values copied as displayed from notebook cell 30, output 7.
+\begin{table}[H]
+\centering
+\caption{Model 4 individual portfolio results. Alphas are percent per month, $R^2$ is percent, and OLS t-statistics and p-values are dimensionless.}\label{tab:l-model4}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\shortstack{Portfolio} & \shortstack{Alpha\\(\%/month)} & \shortstack{Alpha $t$\\(OLS)} & \shortstack{Alpha $p$\\(OLS)} & \shortstack{$R^2$\\(\%)} \\
+\midrule
+VAL\textasciicircum{}US & -0.3332 & -2.470 & 0.01386 & 62.56\% \\
+MOM\textasciicircum{}US & 0.2414 & 1.803 & 0.07204 & 66.88\% \\
+VAL\textasciicircum{}UK & -0.2002 & -1.552 & 0.1214 & 61.03\% \\
+MOM\textasciicircum{}UK & 0.3971 & 3.050 & 0.002419 & 67.24\% \\
+VAL\textasciicircum{}EU & -0.2633 & -2.879 & 0.004171 & 66.24\% \\
+MOM\textasciicircum{}EU & 0.2397 & 2.339 & 0.01975 & 71.05\% \\
+VAL\textasciicircum{}JP & 0.3851 & 2.421 & 0.01585 & 37.62\% \\
+MOM\textasciicircum{}JP & -0.1129 & -0.603 & 0.547 & 33.74\% \\
+VAL\textasciicircum{}EQ & 0.0288 & 0.250 & 0.8028 & 22.08\% \\
+MOM\textasciicircum{}EQ & 0.0891 & 0.737 & 0.4613 & 36.35\% \\
+VAL\textasciicircum{}FX & 0.1345 & 1.368 & 0.1719 & 16.91\% \\
+MOM\textasciicircum{}FX & -0.2304 & -2.307 & 0.02146 & 28.33\% \\
+VAL\textasciicircum{}FI & 0.0313 & 0.525 & 0.5997 & 3.34\% \\
+MOM\textasciicircum{}FI & -0.0808 & -1.472 & 0.1417 & 12.41\% \\
+VAL\textasciicircum{}CM & 0.2157 & 0.838 & 0.4024 & 17.37\% \\
+MOM\textasciicircum{}CM & -0.3074 & -1.281 & 0.2007 & 25.03\% \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Values copied as displayed from notebook cell 30, output 9.
+\begin{table}[H]
+\centering
+\caption{Model 5 individual portfolio results. Alphas are percent per month, $R^2$ is percent, and OLS t-statistics and p-values are dimensionless.}\label{tab:l-model5}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\shortstack{Portfolio} & \shortstack{Alpha\\(\%/month)} & \shortstack{Alpha $t$\\(OLS)} & \shortstack{Alpha $p$\\(OLS)} & \shortstack{$R^2$\\(\%)} \\
+\midrule
+VAL\textasciicircum{}US & -0.3236 & -2.398 & 0.01685 & 62.97\% \\
+MOM\textasciicircum{}US & 0.2932 & 2.247 & 0.02509 & 68.93\% \\
+VAL\textasciicircum{}UK & -0.1873 & -1.445 & 0.1491 & 61.15\% \\
+MOM\textasciicircum{}UK & 0.3939 & 3.020 & 0.002663 & 67.50\% \\
+VAL\textasciicircum{}EU & -0.2298 & -2.550 & 0.01108 & 67.61\% \\
+MOM\textasciicircum{}EU & 0.2030 & 2.007 & 0.0453 & 72.14\% \\
+VAL\textasciicircum{}JP & 0.3576 & 2.244 & 0.02528 & 38.13\% \\
+MOM\textasciicircum{}JP & -0.0976 & -0.518 & 0.6044 & 33.86\% \\
+VAL\textasciicircum{}EQ & 0.0503 & 0.437 & 0.6623 & 23.42\% \\
+MOM\textasciicircum{}EQ & 0.0779 & 0.644 & 0.5202 & 36.84\% \\
+VAL\textasciicircum{}FX & 0.1436 & 1.461 & 0.1448 & 17.89\% \\
+MOM\textasciicircum{}FX & -0.2507 & -2.518 & 0.01214 & 29.57\% \\
+VAL\textasciicircum{}FI & 0.0319 & 0.532 & 0.5948 & 3.43\% \\
+MOM\textasciicircum{}FI & -0.0934 & -1.708 & 0.08831 & 14.12\% \\
+VAL\textasciicircum{}CM & 0.1322 & 0.519 & 0.6043 & 19.88\% \\
+MOM\textasciicircum{}CM & -0.2590 & -1.080 & 0.2808 & 25.89\% \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+\FloatBarrier
+
+% Original notebook stream cell 30, output 13
+Individual significance: two-sided conventional OLS tests at 5\%, unadjusted.
+
+GRS uses E'E/T and centered factor covariance/T; F degrees of freedom shown.
+
+Validation passed: ranks, OLS equations, covariance scaling and Sharpe identity.
+
+
+% Values copied as displayed from notebook cell 30, output 12.
+\begin{table}[H]
+\centering
+\caption{Reported residual ranks, regression degrees of freedom, and numerical GRS checks. All entries are dimensionless.}\label{tab:l-checks}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\shortstack{Model} & \shortstack{Residual\\rank} & \shortstack{OLS residual\\df} & \shortstack{GRS check error} \\
+\midrule
+Model 1 & 16 & 479 & 8.88e-16 \\
+Model 2 & 16 & 476 & 9.77e-15 \\
+Model 3 & 14 & 477 & 4.88e-15 \\
+Model 4 & 14 & 476 & 4.44e-16 \\
+Model 5 & 14 & 474 & 3.82e-14 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+\FloatBarrier
+
+\subsection*{Model comparison and interpretation}
+
+% Original notebook stream cell 31, output 0
+Model 3 offers the best pricing balance: mean \textbar alpha\textbar{} 0.154\% per month, average R\textsuperscript{2} 37.9\%, and 3/16 significant alphas.
+
+Model 5 has the highest average R\textsuperscript{2} (40.2\%), but larger mean \textbar alpha\textbar{} (0.195\%) and 7/16 significant alphas.
+
+Model 1: F(16,464)=4.924, p=2.09e-09; reject zero alphas at 5\% (Standard 16).
+
+Model 2: F(16,461)=3.809, p=1.09e-06; reject zero alphas at 5\% (Standard 16).
+
+Model 3: F(14,464)=1.317, p=0.193; do not reject zero alphas at 5\% (14 independent restrictions).
+
+Model 4: F(14,463)=1.937, p=0.0211; reject zero alphas at 5\% (14 independent restrictions).
+
+Model 5: F(14,461)=1.851, p=0.0296; reject zero alphas at 5\% (14 independent restrictions).
+
+Unlike (k), all regressions within each model share the same factors and dates.
+
+This permits standard GRS when the residual covariance is nonsingular.
+
+Here the full 16-portfolio test is valid only for Models 1--2. In Models 3--5, the provided everywhere factors exactly span two test-portfolio combinations. The 14-restriction tests remove only redundant restrictions.
+
+Thus the assignment's premise of a standard F(16,T-16-K) test for all five models fails for this workbook. A pseudoinverse does not restore that test.
+
+The exact F reference assumes iid Gaussian, homoskedastic errors conditional on the common factors. Numerical checks do not establish those assumptions.
+
+
+% Original notebook markdown cell 32
+\subsubsection*{AI integration}
+
+
+% Original notebook markdown cell 33
+The standard GRS F-test requires all test-asset regressions to use the same set of explanatory factors, so their alphas can be tested jointly under one common factor model. In part (k), each portfolio uses different leave-one-out factors, violating this requirement. In part (l), all portfolios share the same factors within each model, so the standard GRS test can be applied.
+
+
+% Original notebook markdown cell 34
+LLM's answer: The standard GRS test requires all \(N\) test-asset regressions to use the same \(K\)-dimensional factor vector. This allows the test to combine all regression intercepts into one vector and jointly test whether they are zero under a common factor model. In part (k), each asset uses different leave-one-out factors that exclude its own market. As a result, the regressions have different explanatory variables and do not share a common factor structure. Therefore, we cannot apply the standard GRS test to their intercepts. The issue is not whether the factors are traded, but whether the regressions use the same factors. In part (l), all 16 portfolios use the same factor vector within each of the five models, such as RMRF, SMB, HML, and UMD in Model 2. This satisfies the common-factor requirement and allows us to use the standard GRS test to examine whether all alphas are jointly zero.
+
+
+% Original notebook markdown cell 35
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\tightlist
+\item
+  Yes. The LLM correctly identifies that the standard GRS test requires all \(N\) regressions to share the same \(K\)-dimensional factor vector. It explains that the leave-one-out factors in part (k) differ across portfolios, preventing a standard joint GRS test. In contrast, question (l) uses a common factor set within each model, so the test is valid. The LLM also correctly notes that factor tradability is not the main issue. However, it does not explain the mathematical reason: the standard GRS statistic and its F-distribution require a common regressor matrix and factor covariance structure.
+\end{enumerate}
+
+
+% Original notebook markdown cell 36
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  The LLM avoids the weaker claim. The LLM correctly identifies that the problem is not factor tradability but the different leave-one-out regressors used for each asset in question (k). However, it does not explicitly explain that inverse-volatility-weighted combinations of traded factors are themselves portfolio returns.
+\end{enumerate}
+
+
+\subsection*{LLM-generated code outputs}
+
+% Values copied as displayed from notebook cell 40, output 1.
+\begin{table}[H]
+\centering
+\caption{Original LLM-generated code output: GRS tests and model comparison. Model labels correspond to Models 1--5 above; alpha is percent per month and mean $R^2$ is percent. Reported p-value precision is preserved.}\label{tab:ai-l-comparison}
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\shortstack{Model} & \shortstack{$K$} & \shortstack{GRS\\$N$} & \shortstack{GRS $F$} & \shortstack{p-value} & \shortstack{Mean $|\alpha|$\\(\%/mo)} & \shortstack{Mean $R^2$\\(\%)} \\
+\midrule
+M1 CAPM & 1 & 16 & 4.9242 & 0.0000 & 0.3349 & 1.0884 \\
+M2 FF4 & 4 & 16 & 3.8089 & 0.0000 & 0.2390 & 26.8564 \\
+M3 AMP3 & 3 & 14 & 1.3169 & 0.1929 & 0.1543 & 37.8898 \\
+M4 AMP3+TSMOM & 4 & 14 & 1.9375 & 0.0211 & 0.2057 & 39.2612 \\
+M5 AMP3+TSMOM+LTREV+STR & 6 & 14 & 1.8512 & 0.0296 & 0.1953 & 40.2081 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Values copied as displayed from notebook cell 40, output 3.
+\begin{table}[H]
+\centering
+\caption{Original LLM-generated code output: individual monthly alphas (percent). Column labels M1--M5 correspond to the five model definitions.}\label{tab:ai-l-alpha}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+\shortstack{Portfolio} & \shortstack{M1 CAPM} & \shortstack{M2 FF4} & \shortstack{M3 AMP3} & \shortstack{M4 AMP3\\+TSMOM} & \shortstack{M5 AMP3+TSMOM\\+LTREV+STR} \\
+\midrule
+VAL\textasciicircum{}US & 0.211 & 0.223 & -0.251 & -0.333 & -0.324 \\
+MOM\textasciicircum{}US & 0.553 & -0.012 & 0.111 & 0.241 & 0.293 \\
+VAL\textasciicircum{}UK & 0.278 & 0.304 & -0.141 & -0.200 & -0.187 \\
+MOM\textasciicircum{}UK & 0.778 & 0.418 & 0.299 & 0.397 & 0.394 \\
+VAL\textasciicircum{}EU & 0.124 & 0.158 & -0.212 & -0.263 & -0.230 \\
+MOM\textasciicircum{}EU & 0.703 & 0.387 & 0.199 & 0.240 & 0.203 \\
+VAL\textasciicircum{}JP & 0.776 & 0.793 & 0.440 & 0.385 & 0.358 \\
+MOM\textasciicircum{}JP & 0.189 & -0.024 & -0.213 & -0.113 & -0.098 \\
+VAL\textasciicircum{}EQ & 0.120 & 0.140 & 0.000 & 0.029 & 0.050 \\
+MOM\textasciicircum{}EQ & 0.420 & 0.260 & 0.090 & 0.089 & 0.078 \\
+VAL\textasciicircum{}FX & 0.185 & 0.224 & 0.095 & 0.134 & 0.144 \\
+MOM\textasciicircum{}FX & 0.143 & 0.081 & -0.131 & -0.230 & -0.251 \\
+VAL\textasciicircum{}FI & 0.044 & 0.062 & 0.013 & 0.031 & 0.032 \\
+MOM\textasciicircum{}FI & 0.038 & 0.007 & -0.058 & -0.081 & -0.093 \\
+VAL\textasciicircum{}CM & 0.314 & 0.510 & 0.077 & 0.216 & 0.132 \\
+MOM\textasciicircum{}CM & 0.482 & 0.222 & -0.139 & -0.307 & -0.259 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+% Values copied as displayed from notebook cell 40, output 5.
+\begin{table}[H]
+\centering
+\caption{Original LLM-generated code output: individual $R^2$ (percent). Column labels M1--M5 correspond to the five model definitions.}\label{tab:ai-l-r2}
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.13}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+\shortstack{Portfolio} & \shortstack{M1 CAPM} & \shortstack{M2 FF4} & \shortstack{M3 AMP3} & \shortstack{M4 AMP3\\+TSMOM} & \shortstack{M5 AMP3+TSMOM\\+LTREV+STR} \\
+\midrule
+VAL\textasciicircum{}US & 3.10 & 75.70 & 61.49 & 62.56 & 62.97 \\
+MOM\textasciicircum{}US & 1.18 & 87.70 & 64.50 & 66.88 & 68.93 \\
+VAL\textasciicircum{}UK & 0.12 & 39.58 & 60.41 & 61.03 & 61.15 \\
+MOM\textasciicircum{}UK & 2.39 & 49.74 & 65.82 & 67.24 & 67.50 \\
+VAL\textasciicircum{}EU & 0.11 & 45.84 & 65.41 & 66.24 & 67.61 \\
+MOM\textasciicircum{}EU & 6.13 & 49.82 & 70.71 & 71.05 & 72.14 \\
+VAL\textasciicircum{}JP & 1.02 & 18.83 & 37.05 & 37.62 & 38.13 \\
+MOM\textasciicircum{}JP & 0.46 & 15.79 & 32.30 & 33.74 & 33.86 \\
+VAL\textasciicircum{}EQ & 0.86 & 10.27 & 21.72 & 22.08 & 23.42 \\
+MOM\textasciicircum{}EQ & 0.50 & 13.78 & 36.35 & 36.35 & 36.84 \\
+VAL\textasciicircum{}FX & 0.83 & 3.18 & 15.87 & 16.91 & 17.89 \\
+MOM\textasciicircum{}FX & 0.45 & 4.43 & 22.90 & 28.33 & 29.57 \\
+VAL\textasciicircum{}FI & 0.01 & 1.30 & 2.67 & 3.34 & 3.43 \\
+MOM\textasciicircum{}FI & 0.01 & 2.68 & 11.26 & 12.41 & 14.12 \\
+VAL\textasciicircum{}CM & 0.24 & 4.38 & 15.54 & 17.37 & 19.88 \\
+MOM\textasciicircum{}CM & 0.01 & 6.69 & 22.23 & 25.03 & 25.89 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\endgroup
+
+\end{table}
+
+
+\FloatBarrier
+
+% Original notebook stream cell 40, output 6
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Model comparison
+\end{enumerate}
+
+Smallest mean \textbar alpha\textbar: M3 AMP3
+
+Highest mean R\textsuperscript{2}: M5 AMP3+TSMOM+LTREV+STR
+
+GRS degrees of freedom: (GRS N, T - GRS N - K)
+
+Models 3--5 use 14 independent restrictions because
+
+the two provided everywhere factors are replicated by the test assets.
+
+
+% Original notebook markdown cell 41
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Yes, the LLM correctly reuses one GRS function across all five models and automatically updates (K) to 1, 4, 3, 4, and 6. It also reports the GRS F-statistics, p-values, individual alphas, and R\textsuperscript{2}s. The p-value uses F(n\_eff, T \ensuremath{-} n\_eff \ensuremath{-} K), which updates per model: F(16,464), F(16,461), F(14,464), F(14,463), F(14,461). The LLM's results match my own output.
+\end{enumerate}
+
+
+\end{document}
